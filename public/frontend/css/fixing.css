@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document for fixing */
+
+.swal2-styled.swal2-confirm {
+    background-color: #AF2330 !important;
+}
+.swal2-styled.swal2-confirm:focus {
+    box-shadow: none !important;
+}
+.swal2-html-container{
+    overflow: hidden !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -25,7 +25,7 @@
                 c. edit_product
                 d. delete_product
             -->
-            <form method="post" id="submitForm" action="{{ route('save_user') }}" enctype="multipart/form-data">
+            <form method="post" id="submitForm" action="{{ route('save_user') }}" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
@@ -42,6 +42,22 @@
                                     <label class="label">User Email</label>
                                     <input type="text" class="form-control user_email" placeholder="Ex: email@gmail.com" value="" name="user_email" required>
                                     <label class="input-error user_email_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="label">User Password</label>
+                                    <input type="password" class="form-control user_password" placeholder="Ex: password" value="" name="user_password" required>
+                                    <label class="input-error user_password_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="label"></label>
+                                    <div class="switch_box">
+                                        <label>Activate User</label>
+                                        <input type="checkbox" class="switch" name="is_active" checked>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -159,12 +175,20 @@ $(document).on("click",".save_user_btn",function() {
     var valid = true;
     var user_name = $('.user_name').val();
     var user_email = $('.user_email').val();
+    var user_password = $('.user_password').val();
 
     if(user_name == ""){
         valid = false;
         $('.user_name_err').show();
     }else{
         $('.user_name_err').hide();
+    }
+
+    if(user_password == ""){
+        valid = false;
+        $('.user_password_err').show();
+    }else{
+        $('.user_password_err').hide();
     }
 
     if(!isEmail(user_email)){

@@ -1,0 +1,421 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+.sticky {
+   top: 0 !important;
+   background-color: #fff;
+   -webkit-animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
+   animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
+   position: fixed;
+   box-shadow: 0px 5px 35px 0px rgb(211 221 241 / 75%);
+   z-index: 999;
+   width: 100%;
+}
+
+.menu-section {
+   display: flex;
+   align-items: center;
+}
+
+/* nav css start */
+/* desktop menu css start */
+.top-header {
+   background: #e11b23;
+   padding: 10px 0px;
+}
+
+.true-speedy-gmail-ph-number a {
+   margin-right: 10px;
+   color: #fff !important;
+   font-family: 'Josefin Sans', sans-serif !important;
+   font-size: 16px;
+}
+
+.login-wishlist {
+   display: flex;
+   justify-content: end;
+   align-items: center;
+}
+
+.login-wishlist a {
+   color: #fff !important;
+   margin-right: 10px;
+   font-family: 'Josefin Sans', sans-serif !important;
+   font-size: 15px;
+}
+
+.cart-icon {
+   margin-left: 10px;
+}
+
+.main-header {
+   position: relative;
+   background: #fff;
+   box-shadow: 0px 0px 25px rgb(0 0 0 / 10%);
+   padding: 13px 0px;
+}
+
+.logo-btn-anchor-tag {
+   display: flex;
+   align-items: center;
+}
+
+.main-heder-anchor-tag ul li {
+   display: inline-block;
+   margin: 0px 14px;
+}
+
+.main-heder-anchor-tag ul li a {
+   font-weight: 400;
+   font-size: 16px;
+   color: #222222;
+   font-family: 'Lato', sans-serif;
+   padding: 28px 0px;
+   transition: 0.6s ease all;
+}
+.active-header-btn{
+   color: #F83F86 !important;
+}
+.active-resposive-menu-header-link{
+   color: #F83F86 !important;
+}
+.main-heder-anchor-tag ul li a:hover {
+   color: #e11b23;
+}
+
+.main-heder-search-input input {
+   border: 2px solid #E7E6EF;
+   width: 100%;
+   padding: 10px 10px;
+}
+
+.main-heder-search-input a {
+   background: #e11b23;
+   padding: 10px 15px;
+}
+
+.header-search-btn-icon {
+   position: absolute;
+   right: 0px;
+   top: 12px;
+}
+
+.main-heder-search-input i {
+   color: #fff;
+}
+
+.dropdown {
+   position: relative !important;
+   display: inline-block !important;
+}
+
+.dropdown-content {
+   border-top: 2px solid #e11b23;
+   display: none;
+   position: absolute;
+   background-color: #fff;
+   width: 200px;
+   margin-top: 15px;
+   box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+   padding: 10px 0px;
+   z-index: 99;
+
+}
+
+.dropdown:hover .dropdown-content {
+   display: block;
+}
+
+.dropdown-content ul li a {
+   display: block;
+   margin: 0px 12px;
+
+   padding: 0px;
+}
+
+.dropdown-content ul li {
+   margin: 0px;
+   display: block;
+   padding: 8px 0px;
+
+}
+
+.dropdown-content ul li:hover {
+   background: #f7f7f7;
+   cursor: pointer;
+}
+
+.dropdown-content ul li:hover a {
+   color: #e11b23;
+}
+.product-number-text span {
+   color: #000;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   font-size: 9px;
+   color: #e11b23;
+   font-weight: 600;
+}
+.product-number-text {
+   width: 15px;
+   height: 15px;
+   background: #fff;
+   border-radius: 50px;
+   position: relative;
+}
+.product-cart-number {
+   position: absolute;
+   right: -6px;
+   top: -3px;
+}
+.product-cart-icon {
+   position: relative;
+}
+.logo-btn img{
+   width: 74px;
+}
+.main-heder-anchor-tag{
+   margin-left: 57px;
+}
+/* desktop menu css start end*/
+
+.nav {
+   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+   background: #fff;
+   position: relative;
+   z-index: 9999;
+   width: 100%;
+}
+
+.header {
+
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: auto;
+   z-index: 999;
+   margin: 0 auto;
+
+
+}
+
+.header .navbar {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 2rem;
+   max-width: 100%;
+   height: auto;
+   padding: 0.75rem 0;
+}
+
+.nav-btn {
+   background: #33B6EF;
+   color: #fff !important;
+   padding: 12px 25px !important;
+   border-radius: 10px;
+   transition: 0.6s ease all;
+   line-height: 34px !important;
+   text-align: center;
+   font-size: 18px !important;
+
+
+}
+
+.nav-btn:hover {
+   background: #000;
+}
+
+.header .burger {
+   position: relative;
+   display: block;
+   cursor: pointer;
+   width: 2rem;
+   height: auto;
+   border: none;
+   opacity: 1;
+   visibility: visible;
+   background: none;
+   outline: none;
+}
+
+.brand img {
+   width: 200px;
+}
+
+.header-phone-number-section i {
+   font-size: 18px;
+}
+
+.responsive-phone-icon {
+   display: none;
+}
+
+@media only screen and (min-width: 1200px) {
+   .header .burger {
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+   }
+}
+
+.header .burger-line {
+   display: block;
+   cursor: pointer;
+   width: 100%;
+   height: 2px;
+   margin: 6px auto;
+   background: #FF0034;
+   transform: rotate(0deg);
+   transition: all 0.3s ease-in-out;
+}
+
+.header .menu {
+   position: fixed;
+   top: 0;
+   left: -19rem;
+   width: 19rem;
+   height: 100%;
+   z-index: 999;
+   opacity: 0;
+   overflow-y: auto;
+   visibility: hidden;
+   background: #fff;
+   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+   transition: all 0.5s ease;
+}
+
+@media only screen and (min-width: 1200px) {
+   .header .menu {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: auto;
+      opacity: 1;
+      visibility: visible;
+      background: none;
+      box-shadow: none;
+   }
+}
+
+.header .menu.is-active {
+   left: 0rem;
+   opacity: 1;
+   visibility: visible;
+}
+
+.header .menu-block {
+   /* width: 100%; */
+   height: auto;
+   margin: 2rem 0;
+}
+
+@media only screen and (min-width: 991px) {
+   .header .menu-block {
+      margin: 16px auto;
+   }
+}
+
+.header .menu-item {
+   display: block;
+   margin: 0;
+}
+
+@media only screen and (min-width: 991px) {
+   .header .menu-item {
+      position: relative;
+      display: inline-block;
+      margin: 0px 9px;
+   }
+}
+
+.header .menu-link {
+   display: block;
+   font-family: inherit;
+   line-height: inherit;
+   padding: 0px 10px;
+   border: none;
+   text-rendering: optimizeLegibility;
+   transition: all 0.35s ease;
+   font-weight: 500;
+   font-size: 16px;
+   line-height: 30px;
+   color: #000;
+   font-family: 'Poppins', sans-serif;
+}
+
+.active-header-link {
+   color: #FF0034 !important;
+}
+
+.header .menu-link:hover {
+   color: #FF0034;
+}
+
+.header-phone-number-section a {
+   font-weight: 400;
+   font-size: 16px;
+   text-transform: capitalize;
+   color: #000000;
+}
+
+.header-phone-number-section a:hover {
+   color: #FF0034;
+}
+
+.header-phone-number-section {
+   margin: 0px 33px;
+}
+
+.header-get-call-section a {
+   background: #FF0034;
+   box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.35);
+   border-radius: 25px;
+   color: #fff;
+   padding: 12px 30px;
+   transition: 0.6s ease all;
+   font-size: 16px;
+}
+
+.header-get-call-section a:hover {
+   background: #000;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.35);
+   color: #fff;
+}
+
+@media only screen and (min-width: 991px) {
+   .header .menu-link {
+      padding: -0.5rem 19px;
+   }
+
+}
+
+@media only screen and (max-width: 991px) {
+   .header .menu-link {
+      color: var(--color-black);
+
+   }
+
+}
+
+.header .overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 999;
+   opacity: 0;
+   visibility: hidden;
+   background: rgba(0, 0, 0, 0.7);
+   transition: all 0.35s ease-in-out;
+}
+
+.header .overlay.is-active {
+   display: block;
+   opacity: 1;
+   visibility: visible;
+}
+
+
+/* nav css link end */

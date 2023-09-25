@@ -34,6 +34,7 @@ class AdminController extends Controller
         ])
         ->join('roles', 'roles.id', '=', 'users.role_id')
         ->where('users.email', $request->email)
+        ->where('users.is_active', 1)
         ->limit(1)
         ->first();
         
@@ -129,13 +130,20 @@ class AdminController extends Controller
 
         $input['email'] = $request->user_email;
         $input['name'] = $request->user_name;
-        $input['password'] = bcrypt('Customer123##'); 
+        $input['password'] = bcrypt($request->user_password); 
         $new_user = User::create($input); 
 
         $user_id = $new_user->id;
 
+        if($request->is_active == 'on'){
+            $is_active = 1;
+        }else{
+            $is_active = 0;
+        }
+
         User::where('id', $user_id)->update([
-            'role_id' => 2
+            'role_id' => 2,
+            'is_active' => $is_active
         ]);
 
         $userDetailsObject = new UserDetails();
@@ -158,10 +166,11 @@ class AdminController extends Controller
     
     public function user_details($id){
         $check_trash = User::onlyTrashed()->where('id', $id)->get()->count();
+        $user = User::where('id', $id)->get()->first();
         $user_details = UserDetails::where('user_id', $id)->get()->first();
         $permissions = Permission::where('user_id', $id)->pluck('permission')->toArray();
         //dd($permissions);
-        return view('pages.admin.user-details', ["user_details"=>$user_details, "check_trash"=>$check_trash, "permissions"=>$permissions]);
+        return view('pages.admin.user-details', ["user"=>$user, "user_details"=>$user_details, "check_trash"=>$check_trash, "permissions"=>$permissions]);
     }
 
     public function customer_details($id){
@@ -176,10 +185,24 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Email already registered.');
         }
 
+        if($request->is_active == 'on'){
+            $is_active = 1;
+        }else{
+            $is_active = 0;
+        }
+
         User::where('id', $request->user_id)->update([
             'name' => $request->user_name,
             'email' => $request->user_email,
+            'is_active' => $is_active
         ]);
+
+        if($request->user_password){
+            $password = bcrypt($request->user_password);
+            User::where('id', $request->user_id)->update([
+                'password' => $password
+            ]);
+        }
 
         UserDetails::where('user_id', $request->user_id)->update([
             'full_name' => $request->user_name,

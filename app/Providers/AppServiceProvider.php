@@ -5,6 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
+use App\Models\UserDetails;
+use App\Models\Permission;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -47,6 +47,22 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
+                                    <label class="label">User Password</label>
+                                    <input type="password" class="form-control user_password" placeholder="Ex: password" value="" name="user_password" required>
+                                    <label class="input-error user_password_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="label"></label>
+                                    <div class="switch_box">
+                                        <label>Activate User</label>
+                                        <input type="checkbox" class="switch" name="is_active"  @if($user->is_active == 1) checked  @endif>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
                                     <label class="label">User Phone</label>
                                     <input type="text" class="form-control user_phone" placeholder="Ex: 1234567890" value="{{$user_details->phone_number}}" name="user_phone" required>
                                     <label class="input-error user_phone_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
