@@ -26,7 +26,7 @@ $(document).ready(function (e) {
 		nav: false,
 		navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
 		loop: true,
-		autoplay: true,
+		// autoplay: true,
 		autoPlaySpeed: 1200,
 		autoplayTimeout: 3700,
 		// smartSpeed: 3000,
@@ -40,6 +40,29 @@ $(document).ready(function (e) {
 			},
 			1000: {
 				items: 1
+			}
+		}
+	});
+	var owl = $('.other-product-slider');
+	owl.owlCarousel({
+		margin: 10,
+		nav: false,
+		navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+		loop: true,
+		autoplay: true,
+		autoPlaySpeed: 1200,
+		autoplayTimeout: 3700,
+		// smartSpeed: 3000,
+		dots: true,
+		responsive: {
+			0: {
+				items: 2
+			},
+			600: {
+				items: 2
+			},
+			1000: {
+				items: 3
 			}
 		}
 	});
@@ -84,7 +107,7 @@ $(document).ready(function (e) {
 
 // number quantity js start
 
-var QtyInput = (function () {
+/*var QtyInput = (function () {
 	var $qtyInputs = $(".qty-input");
 
 	if (!$qtyInputs.length) {
@@ -147,18 +170,18 @@ var QtyInput = (function () {
 
 		$input.val(qty);
 	});
-})();
+})();*/
 
 // number quantity js end
 
 // for faq
-$(document).on('click', '.faq-tab li a', function(){
-	$(this).siblings('div.faq-content').stop().slideToggle(); 
-	$(this).closest('li').siblings('li').find('div.faq-content').stop().slideUp();	 
-	$(this).children('i').toggleClass("fa-angle-down fa-angle-up");
-	$(this).closest('li').siblings('li').find('i').removeClass("fa-angle-up");
-	$(this).closest('li').siblings('li').find('i').addClass("fa-angle-down");
-}); 
+$(document).on('click', '.faq-tab li a', function () {
+	$(this).siblings('div.faq-content').stop().slideToggle();
+	$(this).closest('li').siblings('li').find('div.faq-content').stop().slideUp();
+	$(this).children('.angel').toggleClass("fa-angle-down fa-angle-up");
+	$(this).closest('li').siblings('li').find('.angel').removeClass("fa-angle-up");
+	$(this).closest('li').siblings('li').find('.angel').addClass("fa-angle-down");
+});
 
 
 // responsive product list filter button js start
@@ -189,12 +212,62 @@ $(".filter-button").click(function () {
 // button active unactive js end
 
 // hide and show filter option section start
-$('#show-filter-option').click(()=>{
- $('#responsive-filter-option-section').show();
+$('#show-filter-option').click(() => {
+	$('#responsive-filter-option-section').show();
 });
-$('#hide-filter-option-section').click(()=>{
+$('#hide-filter-option-section').click(() => {
 	$('#responsive-filter-option-section').hide();
 });
 // hide and show filter option section end
 
 // responsive product list filter button js end
+
+// check unchake hide show btn js start
+$('.radioshow').on('change', function () {
+	var val = $(this).attr('data-class');
+	$('.allshow').hide();
+	$('.' + val).show();
+});
+// check unchake hide show btn js end
+
+// image zoom js start
+
+var isActiveMode = false;
+$(".zoom_image")
+	.on("click", function () {
+		(isActiveMode = !isActiveMode)
+			? ($(this).addClass("zoom_mode_active"),
+				$(window).width() > 767
+					? $(this).children("img").css({ transform: "scale(4)" })
+					: $(this).children("img").css({ transform: "scale(5)" }))
+			: ($(this).removeClass("zoom_mode_active"),
+				$(this).children("img").css({ transform: "scale(1)" }));
+	})
+	.on("mousemove", function (e) {
+		$(this)
+			.children("img")
+			.css({
+				"transform-origin":
+					((e.pageX - $(this).offset().left) / $(this).width()) * 100 +
+					"% " +
+					((e.pageY - $(this).offset().top) / $(this).height()) * 100 +
+					"%"
+			});
+	});
+
+// image zoom js end
+
+// login register form toogle js start
+function switchCard() {
+	const loginCard = document.querySelector('.container .logi-card');
+	const registerCard = document.querySelector('.container .register-card');
+  
+	if (loginCard.style.display === 'none') {
+	  loginCard.style.display = 'block';
+	  registerCard.style.display = 'none';
+	} else {
+	  loginCard.style.display = 'none';
+	  registerCard.style.display = 'block';
+	}
+}
+// login register form toogle js end

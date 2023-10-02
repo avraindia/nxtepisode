@@ -336,6 +336,97 @@ class ProductController extends Controller
         ]);
     }
 
+    public function add_to_cart(Request $request){
+        \Cart::add([
+            'id' => $request->variation_id,
+            'name' => $request->product_name,
+            'price' => $request->cart_price,
+            'quantity' => $request->quantity,
+            'attributes' => array(
+                'product_id' => $request->product_id,
+                'product_image' => $request->product_image,
+                'product_price' => $request->product_price,
+                'size_id' => $request->size_id,
+                'product_sku' => $request->product_sku
+            )
+        ]);
+
+        session()->flash('successmsg', 'Product is Added to Cart Successfully !');
+        return response()->json([
+            'status'=> true, 
+            'resp' => 'Product is added to cart successfully.'
+        ]);
+    }
+
+    public function cart(){
+        $cartItems = \Cart::getContent();
+        $cartItems = $cartItems->sort();
+
+        //\Cart::remove(6);
+        
+        $sizes = OptionValueModel::where('option_id', 2)->get();
+        return view('pages.frontend.cart', ['sizes'=>$sizes, 'cartItems'=>$cartItems]);
+    }
+
+    public function updateCart(Request $request)
+    {
+        $inventory_details = InventoryModel::where('product_id', $request->product_id)->where('option_value_id', $request->size_id)->get()->first();
+        $variation_details = VariationModel::where('id', $request->variation_id)->get()->first();
+        $product_details = ProductModel::where('id', $request->variation_id)->get()->first();
+
+        $product_price = $inventory_details->inventory_price;
+        if($product_price == '0.00'){
+            $product_price = $product_details->product_mrp;
+        }
+
+        $final_price = $product_price*$request->quantity;
+
+        $current_stock = $inventory_details->current_stock;
+        if($current_stock >= $request->quantity){
+
+            \Cart::update(
+                $request->variation_id,
+                [
+                    'quantity' => [
+                        'relative' => false,
+                        'value' => $request->quantity
+                    ],
+                    'price' => $final_price,
+                ]
+            );
+    
+            session()->flash('success', 'Cart is Updated Successfully !');
+        }else{
+            
+            $variation_name = $variation_details->fitting_title;
+            $msg = 'Cart of "'.$variation_name.'" can not be increased. It is crossed the stock.';
+            session()->flash('error', $msg);
+        }
+
+        $cartItems = \Cart::getContent();
+        $cartItems = $cartItems->sort();
+        $sizes = OptionValueModel::where('option_id', 2)->get();
+        return view('pages.frontend.cart-child', ['sizes'=>$sizes, 'cartItems'=>$cartItems]);
+    }
+
+    public function removeCart(Request $request){
+        \Cart::remove($request->id);
+        session()->flash('success', 'Product Removed from Cart Successfully !');
+
+        $cartItems = \Cart::getContent();
+        $cartItems = $cartItems->sort();
+        $sizes = OptionValueModel::where('option_id', 2)->get();
+        return view('pages.frontend.cart-child', ['sizes'=>$sizes, 'cartItems'=>$cartItems]);
+    }
+
+    public function countCart(){
+       $cart_quantity = \Cart::getTotalQuantity();
+       return response()->json([
+            'status'=> true, 
+            'cart_quantity' => $cart_quantity
+        ]);
+    }
+
     /**
      * Product frontend operarion end
     */

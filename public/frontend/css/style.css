@@ -65,6 +65,7 @@ body {
 	font-weight: normal;
 	font-style: normal;
 	overflow-x: hidden;
+	padding-right: 0px !important;
 }
 
 p {
@@ -947,6 +948,27 @@ textarea {
 	color: #5d5b5b !important;
 }
 
+.product-rating-section {
+	margin: 15px 0px;
+}
+
+.product-rating-section h6 {
+	font-size: 14px;
+	color: #282828;
+	margin-bottom: 10px;
+}
+
+.product-rating-section i {
+	color: #ff9529;
+	font-size: 16px;
+}
+
+.product-rating-section span {
+	font-size: 16px;
+	display: inline-block;
+	margin-right: 5px;
+}
+
 /* product details page css end*/
 /* footer section css start */
 .footer {
@@ -1293,6 +1315,7 @@ textarea {
 	color: #fff;
 	border: 1px solid rgb(0 0 0 / 0%);
 }
+
 /* add pagination css end*/
 
 /* custome checkbox btn css start*/
@@ -1327,7 +1350,788 @@ textarea {
 .size-select-btn input:checked+span {
 	border: 2px solid #117a7a;
 	background: #ebf5eb;
-	
+
 }
 
 /* custome checkbox btn css end*/
+/* section-top-select-text css start */
+.section-top-select-text {
+	margin-top: 30px;
+}
+
+.section-top-select-ul-selection ul {
+	text-align: center;
+}
+
+.section-top-select-ul-selection ul li {
+	display: inline-block;
+	margin: 0px 10px;
+	font-weight: 600;
+}
+
+.active-select-ul {
+	color: #117a7a;
+}
+
+.section-select-top-ul-section {
+	border-bottom: 1px solid #ddd;
+}
+
+.section-top-select-ul-selection {
+	padding-bottom: 30px;
+}
+
+/* section-top-select-text css end*/
+
+/* checkout page add address css start  */
+.address-details-section h6 {
+	font-size: 15px;
+}
+
+.address-details-section h6 {
+	color: #282828;
+	margin-bottom: 5px;
+	font-weight: 600;
+	position: relative;
+	display: inline-block;
+}
+
+.home-text-batch {
+	position: absolute;
+	right: -49px;
+	top: -4px;
+	display: none;
+
+}
+
+.home-text-batch p {
+	font-size: 10px !important;
+	padding: 0px 5px;
+	border-radius: 2px;
+	background-color: #e6e6e6;
+	margin-bottom: 0px;
+}
+
+.address-details-section p {
+	font-size: 14px;
+	color: #000;
+	margin-bottom: 5px;
+}
+
+.mobile-text-number {
+	color: #282828;
+	font-weight: 600;
+	display: inline !important;
+}
+
+/* coustome address checkbox css start */
+.checkout-address-details-total-section label span {
+	display: block;
+}
+
+.checkout-address-details-total-section label {
+	position: relative;
+	width: 100%;
+
+}
+
+.checkout-address-details-total-section label input {
+	position: absolute;
+	right: 8px;
+	top: 8px;
+}
+
+.checkout-address-details-total-section label input+span {
+	border: 1px solid #ddd;
+	border-radius: 7px;
+	background: transparent;
+	padding: 15px;
+	display: inline-block;
+	width: 100%;
+	color: #555454;
+	cursor: pointer;
+	margin-right: 2px;
+	margin-bottom: 5px;
+	height: 218px;
+}
+
+.checkout-address-details-total-section input:checked+span {
+	color: #e11b23;
+}
+
+.checkout-address-details-total-section input:checked+span {
+	border: 1px solid #117a7a;
+	background: #ebf5eb;
+
+}
+
+/* coustome address checkbox css end*/
+.edit-remove-btn button {
+	background: #fff;
+	padding: 8px 15px;
+	border-radius: 5px;
+	display: inline-block;
+	margin-top: 10px;
+	border: 1px solid #ddd;
+	transition: 0.6s ease all;
+}
+
+.edit-remove-btn button:hover {
+	background: #282828;
+	color: #fff;
+}
+
+.add-new-address-section button {
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+	padding: 22px 0px;
+	border-radius: 5px;
+	transition: 0.6s ease all;
+}
+
+.add-new-address-icon i {
+	color: #117a7a;
+	font-size: 40px;
+	transition: 0.6s ease all;
+}
+
+.add-new-address-text h6 {
+	color: #000;
+	font-size: 15px;
+	margin-top: 10px;
+	transition: 0.6s ease all;
+}
+
+.delivery-to-address-section {
+	margin: 30px 0px;
+}
+
+.delivery-to-address-section .billing-details-header-text h5 {
+	margin-bottom: 20px !important;
+	margin-top: 0px;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+
+.add-new-address-section button:hover {
+	background: #282828;
+}
+
+.add-new-address-section button:hover .add-new-address-icon i {
+	color: #fff;
+}
+
+.add-new-address-section button:hover .add-new-address-text h6 {
+	color: #fff;
+}
+
+.modal-title {
+	text-align: center;
+	width: 100%;
+}
+
+.use-current-location-btn {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.use-current-location-btn a {
+	color: #117a7a;
+	border: 1px solid #117a7a;
+	background: transparent;
+	padding: 10px 25px;
+	font-weight: 600;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+.new-address-form-input {
+	margin-bottom: 15px;
+}
+
+.new-address-form-input input {
+	border: 1px solid rgba(0, 0, 0, .15);
+	padding: 12px 15px;
+	color: #000;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.new-address-form-input select {
+	border: 1px solid rgba(0, 0, 0, .15);
+	padding: 10px 15px;
+	color: #000;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.new-address-form-section .save-an-additional-section {
+	background: none;
+	padding: 0px;
+}
+
+.add-new-address-btn-responsive {
+	display: none;
+}
+
+.address-section-header-text h5 {
+	margin-top: 0px;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+
+/* checkout page add address css end*/
+
+/* zoom image css start */
+.zoom_image {
+	overflow: hidden;
+	cursor: zoom-out;
+}
+
+.zoom_image.zoom_mode_active {
+	cursor: zoom-in;
+}
+
+.zoom_image img {
+	max-width: 100%;
+	width: 100%;
+	transition: transform 200ms ease-out;
+}
+
+/* zoom image css end*/
+/* confirm order payment css start */
+.delivery-text h5 {
+	font-size: 15px;
+	color: #117a7a;
+	font-weight: 600;
+}
+
+.delivery-text p {
+	margin: 0;
+	font-size: 11px;
+	font-weight: 400;
+	color: #58595b;
+}
+
+.confirm-order-delivery-address {
+	border: 1px solid #ddd;
+	padding: 8px 14px;
+	position: relative;
+}
+
+.confirm-order-delivery-address-change-btn {
+	position: absolute;
+	right: 17px;
+	top: 17px;
+}
+
+.confirm-order-delivery-address-change-btn a {
+	font-size: 15px;
+	color: #117a7a;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.confirm-order-payment-option-header-text h5 {
+	margin: 20px 0;
+	text-transform: capitalize;
+	font-size: 15px;
+	color: #58595b;
+	font-weight: 600;
+}
+
+.confirm-order-payment-option-section .checkout-address-details-total-section input:checked+span {
+	border: none;
+	background: none;
+}
+
+.confirm-order-payment-option-section .checkout-address-details-total-section label input+span {
+	border: none;
+	height: auto;
+	border-radius: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+.confirm-order-payment-option-section .billing-price-section ul li {
+	padding: 0px;
+}
+
+.confirm-order-payment-option-section .checkout-address-details-total-section label input {
+	top: 21px;
+}
+
+.confirm-order-payment-option-section .checkout-address-details-total-section {
+	margin-bottom: 0px !important;
+}
+
+/* confirm order payment css end*/
+
+/* my order page css start */
+.order-owner-name-email-text {
+	background: #f1f1f1;
+	padding: 15px;
+	margin-bottom: 15px;
+}
+
+.order-owner-name-email-text h5 {
+	color: #282828;
+	font-size: 15px;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.order-owner-name-email-text p {
+	font-size: 12px;
+	color: #58595b;
+	margin: 0px;
+}
+
+.track-order-btn {
+	display: inline-block;
+	width: 100%;
+	background: #fff;
+	color: #117a7a;
+	font-size: 15px;
+}
+
+.track-order-btn:hover {
+	color: #000;
+	font-size: 15px;
+}
+
+.track-order-text {
+	color: #a7a9ac;
+}
+
+.order-list-section {
+	margin-bottom: 15px;
+}
+
+.order-id-order-placed-text {
+	display: flex;
+	align-items: center;
+}
+
+.order-id-text-section {
+	background: #f3f3f3;
+	border-radius: 5px;
+	padding: 11px;
+}
+
+.order-id-text-section a {
+	font-size: 14px;
+	color: #000;
+	font-weight: 600;
+}
+
+.order-id-text-section h6 {
+	font-size: 14px;
+	color: #000;
+	font-weight: 600;
+}
+
+.order-id-order-placed-track-order-section {
+	padding: 0px 0px 8px 0px;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 12px;
+}
+
+.order-placed-text p {
+	margin-bottom: 0px;
+	margin-left: 10px;
+	font-size: 13px;
+}
+
+.order-id-number {
+	color: #117a7a;
+	font-weight: 500;
+	display: inline-block;
+	margin-left: 7px;
+}
+
+.track-location-order-btn {
+	text-align: right;
+}
+
+.track-location-order-btn a {
+	background: #117a7a;
+	color: #fff;
+	display: inline-block;
+	text-align: center;
+	padding: 10px 15px;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.track-location-order-btn a:hover {
+	background: #282828;
+}
+
+.order-product-image-text-section .cart-product-image img {
+	height: 116px;
+	border-radius: 5px;
+}
+
+.order-size-quantity-section {
+	display: flex;
+	align-items: center;
+}
+
+.order-size-quantity-section .order-quantity-text {
+	margin-left: 15px;
+}
+
+.order-product-image-text-section .cart-product-image-text-row-section {
+	margin-bottom: 11px;
+}
+
+.my-order-cancel-order-btn a {
+	color: #e11b23;
+	display: inline-block;
+	text-align: center;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.my-order-cancel-order-btn a:hover {
+	color: #282828;
+}
+
+.cancel-my-order-total-price-section {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.my-order-total-price-text h5 {
+	color: #282828;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.order-product-image-text-section {
+	margin-bottom: 15px;
+}
+
+.my-order-section .place-order-btn a {
+	background: #e11b23;
+}
+
+.my-order-section .place-order-btn a:hover {
+	background: #282828;
+}
+
+.my-order-section .confirm-order-payment-option-header-text h5 {
+	margin: 0px 0px 20px 0px;
+	text-transform: uppercase;
+}
+
+/* my order page css end*/
+
+/* my order details page css start */
+.oreder-status-btn {
+	background: #f3f3f3 !important;
+	color: #282828 !important;
+	margin-left: 5px;
+}
+
+/* my order details page css end*/
+/* product review page css start */
+.product-review-image img {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: top center;
+}
+
+.review-star h6 {
+	color: #219D2D;
+	background: #e9f5ea;
+	display: inline-block;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.review-star i {
+	font-size: 14px !important;
+	float: inherit !important;
+	color: #219D2D !important;
+}
+
+.review-head-name-text h6 {
+	font-weight: 600;
+	font-size: 14px;
+	color: #000000;
+	margin-bottom: 7px;
+}
+
+.review-pera p {
+	color: #737B7D;
+	font-size: 13px;
+	line-height: 24px;
+	margin-top: 7px;
+	margin-bottom: 0px;
+}
+
+.product-review-image-text-total-section {
+	display: flex;
+}
+
+.review-text {
+	margin-left: 15px;
+}
+
+.product-review-image-text-section ul li {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0px;
+}
+
+.product-review-image-text-section ul li:last-child {
+	border: none;
+	padding: 10px 0px 0px 0px;
+}
+
+.add-review-btn {
+	text-align: right;
+}
+
+.add-review-btn button {
+	background: #117a7a;
+	color: #fff;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	padding: 10px 15px;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.add-review-modal-popup-image img {
+	width: 100%;
+	height: 164px;
+	object-fit: contain;
+
+}
+
+.add-review-popup-text {
+	text-align: center;
+	margin: 15px 0px;
+}
+
+.add-review-popup-text h5 {
+	font-size: 15px;
+	line-height: 24px;
+	color: #000;
+}
+
+.add-review-popup-text p {
+	font-size: 12px;
+	line-height: 27px;
+}
+
+.add-rating-section {
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+.add-rating-text h5 {
+	color: #282828;
+	margin-bottom: 10px;
+	font-size: 15px;
+}
+
+.add-rating-section button {
+	background: none;
+	display: inline-block;
+	margin: 0px 2px;
+	font-size: 18px;
+	color: rgb(117, 120, 143);
+	;
+}
+
+.new-address-form-input textarea {
+	border: 1px solid rgba(0, 0, 0, .15);
+	padding: 12px 15px;
+	color: #000;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.review-details-show-more-btn {
+	text-align: center;
+}
+
+.review-details-show-more-btn button {
+	color: #117a7a;
+	background: none;
+}
+
+.review-list-content {
+	height: 442px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.review-list-content::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	background-color: #F5F5F5;
+}
+
+.review-list-content::-webkit-scrollbar {
+	width: 3px;
+}
+
+.review-list-content::-webkit-scrollbar-thumb {
+	background-color: #117a7a;
+}
+/* product review page css end*/
+
+/* order success page css start */
+.your-information-details{
+	border: 1px dashed #ddd;
+	padding: 15px;
+	height: 159px;
+	border-radius: 10px;
+}
+.information-head-text h5{
+	color: #282828;
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+.information-text h6{
+	color: #117a7a;
+	font-weight: 600;
+	font-size: 15px;
+	margin-bottom: 3px;
+}
+.information-text p{
+	margin-bottom: 3px;
+	font-size: 14px;
+	color: #000;
+}
+.order-succesful-text-image h4{
+	color: #282828;
+	font-size: 25px;    
+	margin-bottom: 6px;
+}
+.order-succesful-text-image h6{
+	color: #282828;
+	font-weight: 600;
+}
+.oreder-number-text{
+	font-weight: 500 !important;
+	color: #117a7a !important;
+}
+.order-succesful-text-image p{
+	color: #000;
+	font-size: 13px;
+	margin-bottom: 0px;
+}
+.order-succesful-image img{
+	width: 80px;
+    height: 80px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+.order-success-image-text-total-section{
+	display: flex;
+	align-items: center;
+}
+.order-succesful-text-image{
+	margin-left: 15px;
+}
+.order-success-section .billing-details-header-text h5 {
+    margin:0px 0px 20px 0px;
+}
+.continue-shopping-btn{
+	margin-top: 25px;
+	text-align: center;
+}
+.continue-shopping-btn a{
+	width: inherit !important;
+	background: #e11b23;
+}
+/* order success page css end*/
+
+/* login register form css start */
+.google-login-btn{
+	text-align: center;
+}
+.google-login-btn a{
+	background-color: #DF4B3B;
+    color: #fff;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+	border-radius: 4px;
+	transition: 0.6s ease all;
+}
+.google-login-btn a:hover{
+	background: #282828;
+	color: #fff;
+}
+.form-or-text h5{
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 15px;
+}
+.login-card-register-card-header-text h2{
+	font-size: 20px;
+	text-align: center;
+	text-transform: uppercase;
+	margin-bottom: 25px;
+	color: #117a7a;
+	font-weight: 600;
+}
+.form-submit-btn{
+    margin: 8px 0px 15px 0px;
+}
+.form-submit-btn input{
+	background: #117a7a;
+    color: #fff;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+	border-radius: 4px;
+	transition: 0.6s ease all;
+}
+.form-submit-btn input:hover{
+	background: #282828;
+	color: #fff;
+}
+#loginModal .modal-header {
+    border-bottom: none;
+    padding: 10px 10px;
+}
+.switch a{
+	color: #117a7a;
+}
+.switch a:hover{
+	color: #282828;
+}
+.new-address-form-input{
+	position: relative;
+}
+.login-form-input-icon{
+    position: absolute;
+    top: 11px;
+    right: 11px;
+}
+.login-form-input-icon i{
+    font-size: 20px;
+    color: #999797;
+}
+#loginModal .new-address-form-input input {
+    padding: 12px 33px 12px 12px;
+}

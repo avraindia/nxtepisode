@@ -8,13 +8,22 @@
             </div>
             <div class="col-md-6">
                 <div class="login-wishlist">
-                    <a data-bs-toggle="modal" data-bs-target="#loginModal" href="#">Login</a>
+                    @if (auth()->check())
+                    <a href="{{route('frontlogout')}}">Logout</a>
+                    @else
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                    @endif
                     <a href="#">Wishlist</a>
                     <a class="cart-icon" href="#">
                         <div class="product-cart-icon">
                             <div class="product-cart-number">
                                 <div class="product-number-text">
-                                    <span>1</span>
+                                @if (auth()->check())
+                                    <a href="{{route('cart')}}"><span class="cart_item_num">{{ Cart::getTotalQuantity()}}</span></a>
+                                    @else
+                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal"><span>0</span></a>
+                                    @endif
+                                    
                                 </div>
                             </div>
                             <img src="{{ asset('frontend/images/cart-icon.png') }}" alt="">

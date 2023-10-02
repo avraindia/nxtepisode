@@ -14,3 +14,4 @@
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/fixing.css?v=1') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/responsive.css?v=1') }}">
 <link type="image/ico" rel="icon" href="{{ asset('frontend/images/favicon.png') }}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.all.min.js"></script>

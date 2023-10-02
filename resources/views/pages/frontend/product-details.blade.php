@@ -71,6 +71,9 @@
                     <div class="product-image-price-section">
                         <span class="offer-price">₹ {{$product_details->product_mrp}}</span>
                         <input type="hidden" name="default_mrp" class="default_mrp" value="{{$product_details->product_mrp}}">
+                        <input type="hidden" name="current_mrp" class="current_mrp" value="{{$product_details->product_mrp}}">
+                        <input type="hidden" name="cart_price" class="cart_price" value="{{$product_details->product_mrp}}">
+                        
                         <!-- <span class="product-price">₹ 1048</span>
                         <span class="percentage-off">23% OFF</span> -->
                     </div>
@@ -98,16 +101,29 @@
                         <h6>Quantity :</h6>
                         <div class="qty-input">
                             <button class="qty-count qty-count--minus" data-action="minus" type="button">-</button>
-                            <input class="product-qty" type="number" name="product-qty" min="1" max="10" value="1">
+                            <input class="product-qty" type="number" name="product-qty" min="1" max="10" value="1" readonly>
                             <button class="qty-count qty-count--add" data-action="add" type="button">+</button>
                         </div>
                     </div>
-
                     <div class="add-to-cart-add-to-wishlist-btn">
                         <div class="row g-md-3">
                             <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
                                 <div class="add-to-cart-btn">
-                                    <a href="javascript:void(0);" class="add_to_cart">Add to cart</a>
+                                @if (auth()->check())
+                                    <?php
+                                    $cartItems = \Cart::getContent();
+                                    $state = isset($cartItems[$product_details->id]) ? $cartItems[$product_details->id] : false;
+                                    if (!$state){
+                                    ?>
+                                        <a href="javascript:void(0);" class="add_to_cart" status="logged_in">Add to cart</a>
+                                    <?php
+                                    }else{
+                                    ?>
+                                        <a href="{{route('cart')}}">Go to cart</a>
+                                    <?php } ?>
+                                @else
+                                    <a href="javascript:void(0);" class="add_to_cart" status="not_logged_in">Add to cart</a>
+                                @endif
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
@@ -115,13 +131,27 @@
                                     <a href="javascript:void(0);" class="add_to_wishlist"><i class="fa-sharp fa-light fa-heart"></i> &nbsp;Add to Wishlist</a>
                                 </div>
                             </div>
+                            <input type="hidden" name="product_name" class="product_name" value="{{$product_details->fitting_title}}">
                             <input type="hidden" name="product_id" class="product_id" value="{{$product_details->product_id}}">
                             <input type="hidden" name="cart_available" class="cart_available" value="no">
                             <input type="hidden" name="variation_id" class="variation_id" value="{{$product_details->id}}">
                             <input type="hidden" name="product_stock" class="product_stock" value="0">
+                            <input type="hidden" name="product_sku" class="product_sku" value="{{$product_details->sku}}">
+                            @foreach($product_details->gallery_images as $image)
+                                @php
+                                $product_thumbnail_image_link = $image->product_thumbnail_image_link;
+                                @endphp
+                                @break
+                            @endforeach
+                            <input type="hidden" name="product_image" class="product_image" value="{{$product_thumbnail_image_link}}">
                         </div>
                     </div>
-
+                    @if (\Session::has('successmsg'))
+                        <br/>
+                        <div class="alert alert-success">
+                            {!! \Session::get('successmsg') !!}
+                        </div>
+                    @endif
                     <div class="share-social-media-section">
                         <h6>Share :</h6>
                         <div class="social-media-link">
@@ -168,6 +198,7 @@ $(document).on('change', '.size_id', function(e) {
 
     var default_mrp = $('.default_mrp').val();
     $('.offer-price').html('₹ '+default_mrp);
+    $('.current_mrp').val(default_mrp);
 
     $('.size_resp').removeClass('alert-danger').html('');
     $('.size_resp').hide();
@@ -190,8 +221,10 @@ $(document).on('change', '.size_id', function(e) {
 
                         if(inventory_rec.inventory_price!='0.00'){
                             $('.offer-price').html('₹ '+inventory_rec.inventory_price);
+                            $('.current_mrp').val(inventory_rec.inventory_price);
                         }
                     }
+                    calculate_cart_price();
                 }
             }
         }); 
@@ -199,19 +232,85 @@ $(document).on('change', '.size_id', function(e) {
 });
 
 $(document).on('click', '.add_to_cart', function(e) {
-    var valid = true;
+    var status = $(this).attr('status');
+    if(status == 'not_logged_in'){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops! You are not logged in.',
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'Login',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#loginModal').modal('show');
+            } 
+        })
+        return false;
+    }
+    
     var size_id = $('input[name="size_id"]:checked').val();
 
     if (typeof size_id === "undefined") {
         $('.size_resp').addClass('alert-danger').html('Please select a size.');
         $('.size_resp').show();
-        valid = false;
+        return false;
     }else{
         $('.size_resp').removeClass('alert-danger').html('');
         $('.size_resp').hide();
     }
     
+    var _token = $('meta[name="csrf-token"]').attr('content');
+    var variation_id = $('.variation_id').val();
+    var product_id = $('.product_id').val();
+    var product_name = $('.product_name').val();
+    var product_image = $('.product_image').val();
+    var cart_price = $('.cart_price').val();
+    var product_price = $('.current_mrp').val();
+    var quantity = $('.product-qty').val();
+    var product_sku = $('.product_sku').val();
+    
+    $.ajax({
+      url: "{{ route('add_to_cart') }}",
+      method: 'POST',
+      data: {_token: _token, variation_id:variation_id, product_id:product_id, product_name:product_name, product_image:product_image, cart_price:cart_price, product_price:product_price, quantity:quantity, size_id:size_id, product_sku:product_sku},
+      success: function (data) { 
+        if(data.status == true){
+            location.reload();
+        }
+      }
+  }); 
 });
+
+$(document).on('click', '.qty-count', function(e) {
+    var action = $(this).attr('data-action');
+    var product_quantity = $('.product-qty').val();
+
+    if(action == 'add'){
+        $('.qty-count--minus').attr("disabled", false);
+        var new_quantity = parseInt(product_quantity)+1;
+    }
+
+    if(action == 'minus'){
+        var new_quantity = parseInt(product_quantity)-1;
+        if(new_quantity == '0'){
+            $('.qty-count--minus').attr("disabled", true);
+            return false;
+        }
+    }
+
+    $('.product-qty').val(new_quantity);
+    calculate_cart_price();
+});
+
+function calculate_cart_price(){
+    var product_quantity = $('.product-qty').val();
+    var current_mrp = $('.current_mrp').val();
+
+    var total_price = product_quantity*current_mrp;
+    total_price = parseFloat(total_price).toFixed(2);
+    $('.offer-price').html('₹ '+total_price);
+    $('.cart_price').val(total_price);
+}
 
 
 </script>

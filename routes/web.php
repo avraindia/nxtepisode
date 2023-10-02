@@ -93,9 +93,12 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
 });
 
 ////////// route of frontend start ////////////
+Route::get('/', [HomeController::class, 'home'])->name('home');
+
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/submit-register-form', [UserController::class, 'submit_register_form'])->name('submit_register_form');
 Route::get('/login', [UserController::class, 'frontlogin'])->name('frontlogin');
+Route::get('/logout', [UserController::class, 'frontlogout'])->name('frontlogout');
 Route::post('/submit-login-form', [UserController::class, 'submit_login_form'])->name('submit_login_form');
 
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
@@ -105,9 +108,13 @@ Route::get('/products', [ProductController::class, 'products'])->name('products'
 Route::post('/filtering_paginate_result', [ProductController::class, 'filtering_paginate_result'])->name('filtering_paginate_result');
 Route::get('/product-details/{id}', [ProductController::class, 'front_product_details'])->name('front_product_details');
 Route::post('/check-variation-exists', [ProductController::class, 'check_variation_exists'])->name('check_variation_exists');
+Route::post('/add-to-cart', [ProductController::class, 'add_to_cart'])->name('add_to_cart');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::get('/cart', [ProductController::class, 'cart'])->name('cart');
+    Route::post('/update-cart', [ProductController::class, 'updateCart'])->name('cart.update');
+    Route::post('/remove-cart', [ProductController::class, 'removeCart'])->name('cart.remove');
+    Route::get('/count-cart', [ProductController::class, 'countCart'])->name('cart.count');
 });
 
 Route::get('/linkstorage', function () {

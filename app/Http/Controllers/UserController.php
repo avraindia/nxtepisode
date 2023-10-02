@@ -1,8 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\UserDetails;
+use App\Models\CategoryModel;
+use App\Models\TypeModel;
+use App\Models\OptionModel;
+use App\Models\GenderModel;
+use App\Models\ThemeModel;
+use App\Models\VariationModel;
+use App\Models\ProductModel;
 
 use Illuminate\Http\Request;
 
@@ -14,16 +22,16 @@ class UserController extends Controller
     }
 
     public function submit_register_form(Request $request){
-        if (User::where('email', '=', $request->user_email)->count() > 0) {
+        if (User::where('email', '=', $request->reg_email)->count() > 0) {
             return response()->json([
                 'resp'=> 0, 
                 'msg' => 'Email already registered.',
             ]);
         }else{
-            $user_name = $request->first_name.' '.$request->last_name;
-            $input['email'] = $request->user_email;
+            $user_name = $request->full_name;
+            $input['email'] = $request->reg_email;
             $input['name'] = $user_name;
-            $input['password'] = bcrypt($request->psw); 
+            $input['password'] = bcrypt($request->new_password); 
             $new_user = User::create($input); 
 
             $user_id = $new_user->id;
@@ -35,13 +43,13 @@ class UserController extends Controller
             $userDetailsObject = new UserDetails();
             $userDetailsObject->user_id = $user_id;
             $userDetailsObject->full_name = $user_name;
-            $userDetailsObject->email = $request->user_email;
+            $userDetailsObject->email = $request->reg_email;
             $userDetailsObject->phone_number = $request->user_phone;
             $userDetailsObject->gender = $request->user_gender;
             $userDetailsObject->save();
 
             return response()->json([
-                'resp'=> 0, 
+                'resp'=> 1, 
                 'msg' => 'User registered successfully.',
             ]);
         }
@@ -49,6 +57,13 @@ class UserController extends Controller
 
     public function frontlogin(){
         return view('pages.frontend.login');
+    }
+
+    public function frontlogout(){
+        Auth::logout();
+
+        return redirect()
+            ->route('home');
     }
 
     public function submit_login_form(Request $request){

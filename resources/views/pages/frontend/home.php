@@ -1,3 +1,3 @@
 <?php
-echo "Login successfull. This is homepage.";
+echo "<h1>Welcome. This is homepage.</h1>";
 ?>
