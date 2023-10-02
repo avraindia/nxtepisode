@@ -115,6 +115,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-cart', [ProductController::class, 'updateCart'])->name('cart.update');
     Route::post('/remove-cart', [ProductController::class, 'removeCart'])->name('cart.remove');
     Route::get('/count-cart', [ProductController::class, 'countCart'])->name('cart.count');
+    Route::post('/check-promo-code', [ProductController::class, 'check_promo_code'])->name('check_promo_code');
+    Route::any('/checkout', [ProductController::class, 'checkout'])->name('checkout');
+    Route::post('/submit-checkout', [ProductController::class, 'submit_checkout'])->name('submit_checkout');
+    Route::post('/save-checkout-address', [ProductController::class, 'save_checkout_address'])->name('save_checkout_address');
+    Route::post('/fetch-saved-address', [ProductController::class, 'fetch_saved_address'])->name('fetch_saved_address');
+    Route::post('/fetch-address-for-edit', [ProductController::class, 'fetch_address_for_edit'])->name('fetch_address_for_edit');
+    Route::post('/edit-checkout-address', [ProductController::class, 'edit_checkout_address'])->name('edit_checkout_address');
+    Route::post('/delete-saved-address', [ProductController::class, 'delete_saved_address'])->name('delete_saved_address');
+    Route::any('/payment', [ProductController::class, 'payment'])->name('payment');
 });
 
 Route::get('/linkstorage', function () {

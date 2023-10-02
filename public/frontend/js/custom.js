@@ -223,11 +223,7 @@ $('#hide-filter-option-section').click(() => {
 // responsive product list filter button js end
 
 // check unchake hide show btn js start
-$('.radioshow').on('change', function () {
-	var val = $(this).attr('data-class');
-	$('.allshow').hide();
-	$('.' + val).show();
-});
+
 // check unchake hide show btn js end
 
 // image zoom js start

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\CategoryModel;
@@ -13,6 +15,9 @@ use App\Models\OptionModel;
 use App\Models\OptionValueModel;
 use App\Models\TypeModel;
 use App\Models\ThemeModel;
+use App\Models\PromoCodeModel;
+use App\Models\StateModel;
+use App\Models\CheckoutAddressModel;
 
 class ProductController extends Controller
 {
@@ -425,6 +430,140 @@ class ProductController extends Controller
             'status'=> true, 
             'cart_quantity' => $cart_quantity
         ]);
+    }
+
+    public function check_promo_code(Request $request){
+        $currentTime = Carbon::now();
+        $currentDate = $currentTime->toDateString();
+
+        $promocode_exists_obj = PromoCodeModel::
+        where([
+            ['code', '=', $request->promo_code],
+            ['valid_from', '<=', $currentDate],
+            ['valid_to', '>=', $currentDate]
+        ]);
+
+        $promocode_exists_num = $promocode_exists_obj->count();
+
+        if($promocode_exists_num == 0){
+            return response()->json([
+                'status'=> false,
+                'msg' => 'Promo code is either expired or not exists.'
+            ]);
+        }else{
+            $promocode_details = $promocode_exists_obj->get()->first();
+
+            return response()->json([
+                'status'=> true, 
+                'promocode_details' => $promocode_details
+            ]);
+        }
+    }
+
+    public function checkout(Request $request){
+        if($request->isMethod('POST')){
+            $states = StateModel::orderBy("name", "asc")->get();
+            $cartItems = \Cart::getContent();
+            $cartItems = $cartItems->sort();
+
+            return view('pages.frontend.checkout', ['states'=>$states, 'cartItems'=>$cartItems, 'order_price'=>$request->total_price, 'promo_code_id'=>$request->promocode_id, 'shipping_fee'=>$request->shipping_fee, 'discount'=>$request->discount, 'final_price'=>$request->final_amount]);
+        }else{
+            return redirect()->route('cart');
+        }
+    }
+
+    public function save_checkout_address(Request $request){
+        $user_id = Auth::id();
+
+        if($request->is_default == 1){
+            CheckoutAddressModel::where('user_id', $user_id)->update([
+                'default_address' => 0
+            ]);
+        }
+
+        $addressObject = new CheckoutAddressModel();
+        $addressObject->user_id = $user_id;
+        $addressObject->first_name = $request->first_name;
+        $addressObject->last_name = $request->last_name;
+        $addressObject->house_no = $request->house_no;
+        $addressObject->street_name = $request->street_name;
+        $addressObject->landmark = $request->landmark;
+        $addressObject->postal_code = $request->postal_code;
+        $addressObject->city_district = $request->city_district;
+        $addressObject->phone_no = $request->phone_no;
+        $addressObject->country = $request->country;
+        $addressObject->state = $request->state;
+        $addressObject->default_address = $request->is_default;
+
+        $addressObject->save();
+
+
+        return response()->json([
+            'status'=> true, 
+            'msg' => 'Address added successfully.'
+        ]);
+    }
+
+    public function fetch_saved_address(Request $request){
+        $user_id = Auth::id();
+        $addresses = CheckoutAddressModel::where('user_id', $user_id)->get();
+
+        return response()->json([
+            'status'=> true, 
+            'addresses' => $addresses
+        ]);
+    }
+
+    public function fetch_address_for_edit(Request $request){
+        $address_id = $request->address_id;
+        $address_details = CheckoutAddressModel::where('id', $address_id)->get()->first();
+
+        return response()->json([
+            'status'=> true, 
+            'address_details' => $address_details
+        ]);
+    }
+
+    public function edit_checkout_address(Request $request){
+        $user_id = Auth::id();
+
+        if($request->is_default == 1){
+            CheckoutAddressModel::where('user_id', $user_id)->update([
+                'default_address' => 0
+            ]);
+        }
+
+        CheckoutAddressModel::where('id', $request->address_id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'house_no' => $request->house_no,
+            'street_name' => $request->street_name,
+            'landmark' => $request->landmark,
+            'postal_code' => $request->postal_code,
+            'city_district' => $request->city_district,
+            'phone_no' => $request->phone_no,
+            'country' => $request->country,
+            'state' => $request->state,
+            'default_address' => $request->is_default,
+        ]);
+
+        return response()->json([
+            'status'=> true, 
+            'msg' => 'Address updated successfully.'
+        ]);
+
+    }
+
+    public function delete_saved_address(Request $request){
+        CheckoutAddressModel::where('id',$request->address_id)->delete();
+        return response()->json([
+            'status'=> true, 
+            'msg' => 'Address deleted successfully'
+        ]);
+    }
+
+    public function payment(Request $request){
+        return view('pages.frontend.payment');
     }
 
     /**

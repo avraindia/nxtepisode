@@ -23,6 +23,7 @@
     $name = $item->name;
     $quantity = $item->quantity;
     $total_price = $item->price;
+    $all_product_total_price = $all_product_total_price+$total_price;
     $total_price = number_format($total_price,"2");
     $attributes = $item->attributes;
     $product_image = $attributes->product_image;
@@ -100,12 +101,19 @@
     @endif
     </div>   
 </div>
+@php
+$all_product_total_price = number_format($all_product_total_price, 2, '.', '');
+$full_amount = $all_product_total_price+$shipping_fee;
+$full_amount = number_format($full_amount, 2, '.', '');
+@endphp
+
 <div class="col-lg-4 col-md-12">
     <div class="place-order-section">
         <!-- <div class="product-section-check-box save-an-additional-section">
             <input type="checkbox" id="combos">
             <label for="combos">Save an additional ₹ 50.48 on this order.</label>
         </div> -->
+        @if ($total_quantity != 0)
         <div class="product-details-faq-section">
             <div class="faq-blocks">
                 <ul class="faq-tab">
@@ -115,34 +123,53 @@
                                 <i class="fa-solid fa-tags"></i>
                             </div>
                         </a>
+                        
                         <div class="faq-content">
                             <div class="apply-coupon-input">
                                 <div class="apply-coupon-apply-btn">
-                                    <a href="#">APPLY</a>
+                                    <a href="javascript:void(0);" class="apply_promo_btn">APPLY</a>
                                 </div>
-                                <input type="text" placeholder="Enter Code Here">
+                                <input type="text" name="promo_code" class="promo_code" placeholder="Enter Code Here">
                             </div>
+                            <div class="alert promocode_resp" style="display:none;"></div>
                         </div>
+                        
                     </li>
                 </ul>
             </div>	
         </div>
+        @endif
         <div class="billing-details">
             <div class="billing-details-header-text">
                 <h5>BILLING DETAILS</h5>
             </div>
             <div class="billing-price-section">
                 <ul>
-                    <li>Cart Total <span class="price-text">₹ 999.05</span></li>
-                    <li>Discount <span class="discount-text">- ₹ 100.00</span></li>
-                    <!-- <li>GST <span class="gst-text">₹ 44.95</span></li> -->
-                    <li>Shipping Charges <span class="shipping-text">₹ 0</span></li>
-                    <li>Total Amount <span class="price-text">₹ 944.00</span></li>
+                    <li>Cart Total <span class="price-text">₹ {{$all_product_total_price}}</span></li>
+                    @if ($total_quantity != 0)
+                    <li>Discount <span class="discount-text">- ₹ 0.00</span></li>
+                    <li>Shipping Charges <span class="shipping-text">₹ {{$shipping_fee}}</span></li>
+                    <li>Total Amount <span class="price-text total-amount">₹ {{$full_amount}}</span></li>
+                    @else
+                    <li>Total Amount <span class="price-text total-amount">₹ 0.00</span></li>
+                    @endif
                 </ul>
             </div>
         </div>
         <div class="place-order-btn">
-            <a href="#">Place Order</a>
+        @if ($total_quantity != 0)
+        <form id="submitForm" action="{{ route('checkout') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <a href="javascript:void(0);" class="place_order">Place Order</a>
+            <input type="hidden" name="shipping_fee" class="shipping_fee" value="{{$shipping_fee}}">
+            <input type="hidden" name="total_price" class="total_price" value="{{$all_product_total_price}}">
+            <input type="hidden" name="full_amount" class="full_amount" value="{{$full_amount}}">
+            <input type="hidden" name="discount" class="discount" value="{{$discount}}">
+            <input type="hidden" name="is_promocode_applied" class="is_promocode_applied" value="0">
+            <input type="hidden" name="promocode_id" class="promocode_id" value="0">
+            <input type="hidden" name="final_amount" class="final_amount" value="{{$full_amount}}">
+        </form>
+        @endif
         </div>
     </div>
 </div>

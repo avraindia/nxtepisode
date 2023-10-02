@@ -5,11 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
+use App\Models\SettingsModel;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\User;
-use App\Models\UserDetails;
-use App\Models\Permission;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,5 +31,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         Schema::defaultStringLength(191);
+
+        $shipping_fee = SettingsModel::where('meta_title','shipping_fee')->first()->meta_value;
+
+        View::share('shipping_fee', $shipping_fee);
     }
 }

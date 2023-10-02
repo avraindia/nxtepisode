@@ -191,6 +191,70 @@ $(document).on('click', '.remove_from_cart', function(e) {
     }
 });
 
+$(document).on('click', '.apply_promo_btn', function(e) {
+    $('.promocode_resp').removeClass('alert-success').removeClass('alert-danger').html('').hide();
+    $('.is_promocode_applied').val('0');
+    $('.discount').val('0.00');
+    $('.promocode_id').val('0');
+    var full_amount = $('.full_amount').val();
+    $('.final_amount').val(full_amount);
+    var shipping_fee = $('.shipping_fee').val();
+    $('.total-amount').html('₹ '+full_amount);
+
+    var promo_code = $('.promo_code').val();
+    if(promo_code != ""){
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "{{ route('check_promo_code') }}",
+            method: 'POST',
+            data: {_token: _token, promo_code:promo_code},
+            success: function (data) { 
+                if(data.status == true){
+                    var promocode_details = data.promocode_details;
+                    var discount_in = promocode_details.discount_in;
+                    var discount = promocode_details.discount;
+                    var promocode_id = promocode_details.id;
+                    $('.promocode_id').val(promocode_id);
+                    $('.is_promocode_applied').val(1);
+
+                    var total_price = $('.total_price').val();
+
+                    if(discount_in == 'percentage'){
+                        var order_discount = (total_price*discount)/100;
+                        order_discount = Math.trunc( order_discount );
+                        order_discount = parseFloat(order_discount).toFixed(2);
+                        $('.discount').val(order_discount);
+                        $('.discount-text').html('- ₹ '+order_discount);
+                        var final_price = (total_price-order_discount)+parseFloat(shipping_fee);
+                        final_price = final_price.toFixed(2);
+                        $('.total-amount').html('₹ '+final_price);
+                        $('.final_amount').val(final_price);
+                    }
+
+                    if(discount_in == 'flat'){
+                        var order_discount = Math.trunc( discount );
+                        order_discount = parseFloat(order_discount).toFixed(2);
+                        $('.discount').val(order_discount);
+                        $('.discount-text').html('- ₹ '+order_discount);
+                        var final_price = (total_price-order_discount)+parseFloat(shipping_fee);
+                        final_price = final_price.toFixed(2);
+                        $('.total-amount').html('₹ '+final_price);
+                        $('.final_amount').val(final_price);
+                    }
+                }else{
+                    $('.promocode_resp').addClass('alert-danger').html(data.msg);
+                    $('.promocode_resp').show();
+                }
+            }
+        });
+    }
+});
+
+$(document).on('click', '.place_order', function(e) {
+    const theForm = $('#submitForm');
+    theForm.submit();
+});
+
 function update_cart_number_nav(){
     var _token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
