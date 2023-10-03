@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 02, 2023 at 09:26 PM
+-- Generation Time: Oct 03, 2023 at 09:31 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -204,6 +204,93 @@ INSERT INTO `option_values` (`id`, `option_id`, `option_value`, `created_at`, `u
 (6, 2, 'XL', '2023-09-09 07:57:23', '2023-09-09 07:57:23'),
 (7, 2, 'XXL', '2023-09-09 07:57:29', '2023-09-09 08:03:49'),
 (9, 2, 'XXXL', '2023-09-09 08:05:47', '2023-09-09 08:05:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE IF NOT EXISTS `order` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `order_price` decimal(8,2) NOT NULL DEFAULT '0.00',
+  `promo_code_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `discount` decimal(8,2) NOT NULL DEFAULT '0.00',
+  `shipping_fee` varchar(199) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `final_price` decimal(8,2) NOT NULL DEFAULT '0.00',
+  `payment_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_status` tinyint(4) NOT NULL DEFAULT '0',
+  `transaction_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`id`, `order_number`, `customer_id`, `order_price`, `promo_code_id`, `discount`, `shipping_fee`, `final_price`, `payment_type`, `payment_status`, `transaction_id`, `created_at`, `updated_at`) VALUES
+(3, 'NXTEP2310032007185614', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:37:18', '2023-10-03 14:37:18'),
+(4, 'NXTEP2310032028332212', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:58:33', '2023-10-03 14:58:33'),
+(5, 'NXTEP2310032029382234', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:59:38', '2023-10-03 14:59:38'),
+(6, 'NXTEP2310032030301339', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:00:30', '2023-10-03 15:00:30'),
+(7, 'NXTEP2310032031162181', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:01:16', '2023-10-03 15:01:16'),
+(8, 'NXTEP2310032032461047', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:02:46', '2023-10-03 15:02:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_item`
+--
+
+DROP TABLE IF EXISTS `order_item`;
+CREATE TABLE IF NOT EXISTS `order_item` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `product_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `size_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `product_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_price` decimal(8,2) NOT NULL DEFAULT '0.00',
+  `total_price` decimal(8,2) NOT NULL DEFAULT '0.00',
+  `quantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sku` varchar(199) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_items_order_id_foreign` (`order_id`),
+  KEY `order_items_product_id_foreign` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order_item`
+--
+
+INSERT INTO `order_item` (`id`, `order_id`, `product_id`, `size_id`, `product_name`, `product_price`, `total_price`, `quantity`, `sku`) VALUES
+(1, 3, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
+(2, 4, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
+(3, 5, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
+(4, 6, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
+(5, 7, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
+(6, 8, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_status`
+--
+
+DROP TABLE IF EXISTS `order_status`;
+CREATE TABLE IF NOT EXISTS `order_status` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `status_catalog_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `order_status_order_id_foreign` (`order_id`),
+  KEY `order_status_status_catalog_id_foreign` (`status_catalog_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -631,6 +718,35 @@ INSERT INTO `states` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `status_catalog`
+--
+
+DROP TABLE IF EXISTS `status_catalog`;
+CREATE TABLE IF NOT EXISTS `status_catalog` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `status_catalog`
+--
+
+INSERT INTO `status_catalog` (`id`, `status_name`) VALUES
+(1, 'Placed'),
+(2, 'Packed'),
+(3, 'Shipped'),
+(4, 'On the way'),
+(5, 'Delivered'),
+(6, 'Cancelled'),
+(7, 'Pending'),
+(8, 'Processing'),
+(9, 'Replaced'),
+(10, 'Rejected');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `themes`
 --
 
@@ -761,6 +877,13 @@ INSERT INTO `user_details` (`id`, `user_id`, `full_name`, `email`, `phone_number
 --
 ALTER TABLE `option_values`
   ADD CONSTRAINT `option_values_ibfk_1` FOREIGN KEY (`option_id`) REFERENCES `options` (`id`);
+
+--
+-- Constraints for table `order_status`
+--
+ALTER TABLE `order_status`
+  ADD CONSTRAINT `order_status_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
+  ADD CONSTRAINT `order_status_status_catalog_id_foreign` FOREIGN KEY (`status_catalog_id`) REFERENCES `status_catalog` (`id`);
 
 --
 -- Constraints for table `permission`
