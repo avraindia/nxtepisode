@@ -59,93 +59,97 @@
                 {!! \Session::get('successmsg') !!}
             </div>
             @endif
-            <div class="cart-body">
+            <div class="row cart-body">
             @include('pages.frontend.cart-child') 
             </div>
-            <div class="product-details-faq-section">
-                <div class="faq-blocks">
-                    <ul class="faq-tab">
-                        <li>
-                            <a href="javascript:void(0);">YOU MAY ALSO LIKE<i class="fa fa-angle-down angel" aria-hidden="true"></i></a>
-                            <div class="faq-content">
-                                <div class="owl-carousel other-product-slider owl-theme">
-                                    <div class="item">
-                                        <div class="product-details-section">
-                                            <a href="#">
-                                                <div class="product-filter-product-image">
-                                                    <img src="assets/images/product-image1.png" alt="">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="product-details-faq-section">
+                        <div class="faq-blocks">
+                            <ul class="faq-tab">
+                                <li>
+                                    <a href="javascript:void(0);">YOU MAY ALSO LIKE<i class="fa fa-angle-down angel" aria-hidden="true"></i></a>
+                                    <div class="faq-content">
+                                        <div class="owl-carousel other-product-slider owl-theme">
+                                            <div class="item">
+                                                <div class="product-details-section">
+                                                    <a href="#">
+                                                        <div class="product-filter-product-image">
+                                                            <img src="assets/images/product-image1.png" alt="">
+                                                        </div>
+                                                        <div class="product-filter-product-image-name-text">
+                                                            <h5>Spider-Man: Spidey Doodle Set</h5>
+                                                        </div>
+                                                        <div class="product-filter-product-image-details-text">
+                                                            <h6>Boys Cotton Co-ord Sets</h6>
+                                                        </div>
+                                                        <div class="product-image-price-section">
+                                                            <span class="offer-price">₹ 805</span>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="product-filter-product-image-name-text">
-                                                    <h5>Spider-Man: Spidey Doodle Set</h5>
+                                            </div>
+                                            <div class="item">
+                                                <div class="product-details-section">
+                                                    <a href="#">
+                                                        <div class="product-filter-product-image">
+                                                            <img src="assets/images/product-image2.png" alt="">
+                                                        </div>
+                                                        <div class="product-filter-product-image-name-text">
+                                                            <h5>Spider-Man: Spidey Doodle Set</h5>
+                                                        </div>
+                                                        <div class="product-filter-product-image-details-text">
+                                                            <h6>Boys Cotton Co-ord Sets</h6>
+                                                        </div>
+                                                        <div class="product-image-price-section">
+                                                            <span class="offer-price">₹ 805</span>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="product-filter-product-image-details-text">
-                                                    <h6>Boys Cotton Co-ord Sets</h6>
+                                            </div>
+                                            <div class="item">
+                                                <div class="product-details-section">
+                                                    <a href="#">
+                                                        <div class="product-filter-product-image">
+                                                            <img src="assets/images/product-image3.png" alt="">
+                                                        </div>
+                                                        <div class="product-filter-product-image-name-text">
+                                                            <h5>Spider-Man: Spidey Doodle Set</h5>
+                                                        </div>
+                                                        <div class="product-filter-product-image-details-text">
+                                                            <h6>Boys Cotton Co-ord Sets</h6>
+                                                        </div>
+                                                        <div class="product-image-price-section">
+                                                            <span class="offer-price">₹ 805</span>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="product-image-price-section">
-                                                    <span class="offer-price">₹ 805</span>
+                                            </div>
+                                            <div class="item">
+                                                <div class="product-details-section">
+                                                    <a href="#">
+                                                        <div class="product-filter-product-image">
+                                                            <img src="assets/images/product-image4.png" alt="">
+                                                        </div>
+                                                        <div class="product-filter-product-image-name-text">
+                                                            <h5>Spider-Man: Spidey Doodle Set</h5>
+                                                        </div>
+                                                        <div class="product-filter-product-image-details-text">
+                                                            <h6>Boys Cotton Co-ord Sets</h6>
+                                                        </div>
+                                                        <div class="product-image-price-section">
+                                                            <span class="offer-price">₹ 805</span>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="item">
-                                        <div class="product-details-section">
-                                            <a href="#">
-                                                <div class="product-filter-product-image">
-                                                    <img src="assets/images/product-image2.png" alt="">
-                                                </div>
-                                                <div class="product-filter-product-image-name-text">
-                                                    <h5>Spider-Man: Spidey Doodle Set</h5>
-                                                </div>
-                                                <div class="product-filter-product-image-details-text">
-                                                    <h6>Boys Cotton Co-ord Sets</h6>
-                                                </div>
-                                                <div class="product-image-price-section">
-                                                    <span class="offer-price">₹ 805</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="product-details-section">
-                                            <a href="#">
-                                                <div class="product-filter-product-image">
-                                                    <img src="assets/images/product-image3.png" alt="">
-                                                </div>
-                                                <div class="product-filter-product-image-name-text">
-                                                    <h5>Spider-Man: Spidey Doodle Set</h5>
-                                                </div>
-                                                <div class="product-filter-product-image-details-text">
-                                                    <h6>Boys Cotton Co-ord Sets</h6>
-                                                </div>
-                                                <div class="product-image-price-section">
-                                                    <span class="offer-price">₹ 805</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="product-details-section">
-                                            <a href="#">
-                                                <div class="product-filter-product-image">
-                                                    <img src="assets/images/product-image4.png" alt="">
-                                                </div>
-                                                <div class="product-filter-product-image-name-text">
-                                                    <h5>Spider-Man: Spidey Doodle Set</h5>
-                                                </div>
-                                                <div class="product-filter-product-image-details-text">
-                                                    <h6>Boys Cotton Co-ord Sets</h6>
-                                                </div>
-                                                <div class="product-image-price-section">
-                                                    <span class="offer-price">₹ 805</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>	
+                                </li>
+                            </ul>
+                        </div>	
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -175,7 +179,7 @@ $(document).on('change', '.cart_item_quantity', function(e) {
 });
 
 $(document).on('click', '.remove_from_cart', function(e) {
-    if (confirm("Do you want to remove book from cart?") == true) {
+    if (confirm("Do you want to remove product from cart?") == true) {
     var _token = $('meta[name="csrf-token"]').attr('content');
     var pr_id = $(this).attr('pr_id');
     $.ajax({

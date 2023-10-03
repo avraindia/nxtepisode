@@ -1,5 +1,8 @@
 @extends('layouts.front')
 @section('content')
+<style>
+
+</style>
 <!-- <-----------------Banner section start--------------->
 <section class="home-page-main-banner all-section-banner">
     <div class="main-banner-image">
@@ -48,11 +51,30 @@
             <div class="col-lg-8 col-md-12">
                 <div class="confirm-order-delivery-address">
                     <div class="confirm-order-delivery-address-change-btn">
-                        <a href="javascript:void(0);">CHANGE</a>
+                        <a href="javascript:void(0);" class="change_delivery_address_btn">CHANGE</a>
                     </div>
                     <div class="delivery-text">
-                        <h5>Deliver To: Saswata Roy Chowdhury, 743145</h5>
-                        <p>67 Rajani Babu Road, Kanchrapara,  Rajani Babu Road,  Kanchrapara,  Kanchrapara </p>
+                        <h5>Deliver To: {{$checked_address->first_name}} {{$checked_address->last_name}}, {{$checked_address->postal_code}}</h5>
+                        <p>{{$checked_address->house_no}} {{$checked_address->street_name}}, {{$checked_address->city_district}}, {{$checked_address->landmark}} </p>
+                    </div>
+                    <div class="saved_delivery_address" style="display:none;">
+                        <ul>
+                            @foreach ($addresses as $address)
+                            <li>                                
+                                <div class="checkout-suggest-address">
+                                    <label for="online-payment">
+                                        <input class="radioshow_address" type="radio" id="online-address" name="payment" data-class="div{{$address->id}}" value="{{$address->id}}" @if($address->id == $address_id) checked  @endif>
+                                        <span>
+                                        <div class="suggest-delivery-text">
+                                        <h5>Deliver To: {{$address->first_name}} {{$address->last_name}}, {{$address->postal_code}}</h5>
+                                        <p>{{$address->house_no}} {{$address->street_name}}, {{$address->city_district}}, {{$address->landmark}} </p>
+                                        </div>
+                                        </span>
+                                    </label>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
                 <div class="confirm-order-payment-option-section">
@@ -99,16 +121,24 @@
                         </div>
                         <div class="billing-price-section">
                             <ul>
-                                <li>Cart Total <span class="price-text">₹ 999.05</span></li>
-                                <li>Discount <span class="discount-text">- ₹ 100.00</span></li>
-                                <!-- <li>GST <span class="gst-text">₹ 44.95</span></li> -->
-                                <li>Shipping Charges <span class="shipping-text">₹ 0</span></li>
-                                <li>Total Amount <span class="price-text">₹ 944.00</span></li>
+                                <li>Cart Total <span class="price-text">₹ {{$total_price}}</span></li>
+                                <li>Discount <span class="discount-text">- ₹ {{$discount}}</span></li>
+                                <li>Shipping Charges <span class="shipping-text">₹ {{$shipping_fee}}</span></li>
+                                <li>Total Amount <span class="price-text">₹ {{$final_amount}}</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="place-order-btn">
-                        <a href="#">Confirm Order</a>
+                        <a href="javascript:void(0);" class="confirm_order">Confirm Order</a>
+                        <form id="submitForm" action="{{ route('order') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="shipping_fee" class="shipping_fee" value="{{$shipping_fee}}">
+                            <input type="hidden" name="total_price" class="total_price" value="{{$total_price}}">
+                            <input type="hidden" name="discount" class="discount" value="{{$discount}}">
+                            <input type="hidden" name="promocode_id" class="promocode_id" value="{{$promocode_id}}">
+                            <input type="hidden" name="final_amount" class="final_amount" value="{{$final_amount}}">
+                            <input type="hidden" name="address_id" class="address_id" value="{{$address_id}}">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -121,6 +151,24 @@
 
 @push('scripts')
 <script>
+$(document).on('click', '.change_delivery_address_btn', function(e) {
+    $('.saved_delivery_address').slideToggle();
+});
 
+$(document).on('click', '.radioshow_address', function(e) {
+    var address_id = $(this).val();
+    $('.address_id').val(address_id);
+    var inner_html = $(this).closest('.checkout-suggest-address').find(".suggest-delivery-text").html();
+    $('.delivery-text').html(inner_html);
+
+    setTimeout(function () {
+        $('.saved_delivery_address').slideToggle();
+    }, 200);
+});
+
+$(document).on('click', '.confirm_order', function(e) {
+    const theForm = $('#submitForm');
+    theForm.submit();
+});
 </script>
 @endpush

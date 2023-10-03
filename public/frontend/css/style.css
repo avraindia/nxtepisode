@@ -1465,6 +1465,47 @@ textarea {
 
 }
 
+/* coustome address checkbox css start */
+.checkout-suggest-address label span {
+	display: block;
+}
+
+.checkout-suggest-address label {
+	position: relative;
+	width: 100%;
+
+}
+
+.checkout-suggest-address label input {
+	position: absolute;
+	right: 8px;
+	top: 8px;
+}
+
+.checkout-suggest-address label input+span {
+	border: 1px solid #ddd;
+	border-radius: 7px;
+	background: transparent;
+	padding: 15px;
+	display: inline-block;
+	width: 100%;
+	color: #555454;
+	cursor: pointer;
+	margin-right: 2px;
+	margin-bottom: 5px;
+	height: 70px;
+}
+
+.checkout-suggest-address input:checked+span {
+	color: #e11b23;
+}
+
+.checkout-suggest-address input:checked+span {
+	border: 1px solid #117a7a;
+	background: #ebf5eb;
+
+}
+
 /* coustome address checkbox css end*/
 .edit-remove-btn button {
 	background: #fff;

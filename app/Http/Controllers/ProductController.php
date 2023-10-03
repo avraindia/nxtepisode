@@ -18,6 +18,10 @@ use App\Models\ThemeModel;
 use App\Models\PromoCodeModel;
 use App\Models\StateModel;
 use App\Models\CheckoutAddressModel;
+use App\Models\OrderModel;
+use App\Models\OrderItemModel;
+use App\Models\StausCatalogModel;
+use App\Models\OrderStatusModel;
 
 class ProductController extends Controller
 {
@@ -563,7 +567,65 @@ class ProductController extends Controller
     }
 
     public function payment(Request $request){
-        return view('pages.frontend.payment');
+        if($request->isMethod('POST')){
+            $user_id = Auth::id();
+            $addresses = CheckoutAddressModel::where('user_id', $user_id)->get();
+
+            $checked_address = CheckoutAddressModel::where('id', $request->address_id)->get()->first();
+
+            return view('pages.frontend.payment', ['shipping_fee'=>$request->shipping_fee, 'total_price'=>$request->total_price, 'discount'=>$request->discount, 'promocode_id'=>$request->promocode_id, 'final_amount'=>$request->final_amount, 'address_id'=>$request->address_id, 'addresses'=>$addresses, 'checked_address'=>$checked_address]);
+        }else{
+            return redirect()->route('cart');
+        }
+    }
+
+    public function order(Request $request){
+        $user_id = Auth::id();
+        $orderObject = new OrderModel();
+        $order_number = 'NXTEP'.date('ymdHis').rand(1000,9999);
+        $orderObject->order_number = $order_number;
+        $orderObject->customer_id = $user_id;
+        $orderObject->order_price = $request->total_price;
+        $orderObject->promo_code_id = $request->promocode_id;
+        $orderObject->discount = $request->discount;
+        $orderObject->shipping_fee = $request->shipping_fee;
+        $orderObject->payment_type = 'COD';
+        $orderObject->final_price = $request->final_amount;
+        $orderObject->payment_status = 1;
+        $orderObject->save();
+        $order_id = $orderObject->id;
+
+        $cartItems = \Cart::getContent();
+        foreach($cartItems as $item){
+            $attributes = $item->attributes;
+
+            $orderItemObject = new OrderItemModel();
+            $orderItemObject->order_id = $order_id;
+            $orderItemObject->product_id = $item->id;
+            $orderItemObject->size_id = $attributes->size_id;
+            $orderItemObject->product_name = $item->name;
+            $orderItemObject->product_price = $attributes->product_price;
+            $orderItemObject->total_price = $item->price;
+            $orderItemObject->quantity = $item->quantity;
+            $orderItemObject->sku = $attributes->product_sku;
+
+            $orderItemObject->save();
+        }
+
+        return redirect()->route('order_success', [base64_encode($order_id)]);
+    }
+
+    public function order_success($id){
+        $order_id = base64_decode($id);
+
+        return view('pages.frontend.order-success', ['order_id'=>$order_id]);
+    }
+
+    public function my_order(){
+        $user_id = Auth::id();
+        $orders = OrderModel::with('order_items')->where('customer_id', $user_id)->where('payment_status', 1)->orderBy("id", "desc")->get();
+        //dd($orders->all());
+        return view('pages.frontend.my-order', ['orders'=>$orders]);
     }
 
     /**

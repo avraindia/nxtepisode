@@ -124,6 +124,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/edit-checkout-address', [ProductController::class, 'edit_checkout_address'])->name('edit_checkout_address');
     Route::post('/delete-saved-address', [ProductController::class, 'delete_saved_address'])->name('delete_saved_address');
     Route::any('/payment', [ProductController::class, 'payment'])->name('payment');
+    Route::post('/order', [ProductController::class, 'order'])->name('order');
+    Route::get('/order-success/{id}', [ProductController::class, 'order_success'])->name('order_success');
+    Route::get('/my-order', [ProductController::class, 'my_order'])->name('my_order');
 });
 
 Route::get('/linkstorage', function () {

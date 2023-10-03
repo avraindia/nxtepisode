@@ -105,6 +105,7 @@
                             <input type="hidden" name="discount" class="discount" value="{{$discount}}">
                             <input type="hidden" name="promocode_id" class="promocode_id" value="{{$promo_code_id}}">
                             <input type="hidden" name="final_amount" class="final_amount" value="{{$final_price}}">
+                            <input type="hidden" name="address_id" class="address_id" value="">
                         </form>
                     </div>
                 </div>
@@ -334,6 +335,8 @@ $(document).on('click', '.update_address_btn', function(e) {
 
 $(document).on('change', '.radioshow', function(e) {
 	var val = $(this).attr('data-class');
+    var address_id = $(this).val();
+    $('.address_id').val(address_id);
 	$('.allshow').hide();
 	$('.' + val).show();
 });
@@ -371,6 +374,11 @@ $(document).on('click', '.remove_address_button', function(e) {
 });
 
 $(document).on('click', '.confirm_order', function(e) {
+    var address_id = $('.address_id').val();
+    if(address_id == ""){
+        alert('Please select delivery address.');
+        return false;
+    }
     const theForm = $('#submitForm');
     theForm.submit();
 });
@@ -478,6 +486,7 @@ function fetch_saved_address(){
                 if(single_address.default_address == '1'){
                     is_checked = " checked";
                     edit_btn_visible = '';
+                    $('.address_id').val(single_address.id);
                 }
                 var address_html = 
                 '<div class="col-md-6 address_item_'+single_address.id+'">'+
