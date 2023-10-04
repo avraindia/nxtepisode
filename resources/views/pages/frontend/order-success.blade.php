@@ -30,9 +30,10 @@
                                 <div class="order-succesful-image">
                                     <img src="{{ asset('frontend/images/successful.png') }}" alt="">
                                 </div>
+                                
                                 <div class="order-succesful-text-image">
                                     <h4>Order Succesful!</h4>
-                                    <h6>Order No. <span class="oreder-number-text">8347-2560-7546</span></h6>
+                                    <h6>Order No. <span class="oreder-number-text">{{$order_details->order_number}}</span></h6>
                                     <p>A confirmation email has been sent to you!</p>
                                 </div>
                             </div>
@@ -43,9 +44,11 @@
                                     <h5>Your Information</h5>
                                 </div>
                                 <div class="information-text">
-                                    <h6>Saswata Roy Chowdhury</h6>
-                                    <p>Email : lorem@gmail.com</p>
-                                    <p>Mobile : 9830225598</p>
+                                    <h6>{{$order_details->user_details->full_name}}</h6>
+                                    <p>Email : {{$order_details->user_details->email}}</p>
+                                    @if ($order_details->user_details->phone_number != "")
+                                        <p>Mobile : {{$order_details->user_details->phone_number}}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -55,7 +58,7 @@
                                     <h5>Payment Method</h5>
                                 </div>
                                 <div class="information-text">
-                                    <h6>Online Payment</h6>
+                                    <h6>{{$order_details->payment_type}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -65,8 +68,12 @@
                                     <h5>Shipping Address</h5>
                                 </div>
                                 <div class="information-text">
-                                    <p>67 Rajani Babu Road, Kanchrapara Rajani Babu Road Kanchrapara</p>
-                                    <p>Kanchrapara - 743145</p>
+                                    <h6>{{$order_details->shipping_address->first_name}} {{$order_details->shipping_address->last_name}}</h6>
+                                    <p>{{$order_details->shipping_address->house_no}} {{$order_details->shipping_address->street_name}},</p>
+                                    <p>{{$order_details->shipping_address->landmark}},</p> 
+                                    <p>{{$order_details->shipping_address->city_district}} - {{$order_details->shipping_address->postal_code}}     
+                                    </p>
+                                    <p>{{$order_details->shipping_address->state_name}}</p>
                                 </div>
                             </div>
                         </div>
@@ -81,22 +88,22 @@
                         </div>
                         <div class="billing-price-section">
                             <ul>
-                                <li>Cart Total <span class="price-text">₹ 999.05</span></li>
-                                <li>Discount <span class="discount-text">- ₹ 100.00</span></li>
+                                <li>Cart Total <span class="price-text">₹ {{$order_details->order_price}}</span></li>
+                                <li>Discount <span class="discount-text">- ₹ {{$order_details->discount}}</span></li>
                                 <!-- <li>GST <span class="gst-text">₹ 44.95</span></li> -->
-                                <li>Shipping Charges <span class="shipping-text">₹ 0</span></li>
-                                <li>Total Amount <span class="price-text">₹ 944.00</span></li>
+                                <li>Shipping Charges <span class="shipping-text">₹ {{$order_details->shipping_fee}}</span></li>
+                                <li>Total Amount <span class="price-text">₹ {{$order_details->final_price}}</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="place-order-btn">
-                        <a href="#">go to order details</a>
+                        <a href="javascript:void(0);">go to order details</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="place-order-btn continue-shopping-btn">
-                    <a href="#">continue shopping</a>
+                    <a href="{{route('products')}}">continue shopping</a>
                 </div>
             </div>
         </div>

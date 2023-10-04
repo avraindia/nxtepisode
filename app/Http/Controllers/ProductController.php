@@ -587,6 +587,7 @@ class ProductController extends Controller
         $orderObject->customer_id = $user_id;
         $orderObject->order_price = $request->total_price;
         $orderObject->promo_code_id = $request->promocode_id;
+        $orderObject->checkout_adress_id = $request->address_id;
         $orderObject->discount = $request->discount;
         $orderObject->shipping_fee = $request->shipping_fee;
         $orderObject->payment_type = 'COD';
@@ -617,8 +618,9 @@ class ProductController extends Controller
 
     public function order_success($id){
         $order_id = base64_decode($id);
+        $order_details = OrderModel::with('user_details')->with('shipping_address')->where('id', $order_id)->get()->first(); 
 
-        return view('pages.frontend.order-success', ['order_id'=>$order_id]);
+        return view('pages.frontend.order-success', ['order_id'=>$order_id, 'order_details'=>$order_details]);
     }
 
     public function my_order(){

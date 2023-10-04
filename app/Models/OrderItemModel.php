@@ -9,7 +9,25 @@ class OrderItemModel extends Model
     use HasFactory;
     protected $table = 'order_item';
     public $timestamps = false;
+    protected $appends = ['size_name', 'fitting_type'];
 
-    
+    public function getSizeNameAttribute(){
+        if($this->size_id !== NULL || $this->size_id !== ''){
+            $size = OptionValueModel::where('id', $this->size_id)->get()->first(); 
+            $size_name = $size->option_value;
+
+            return $size_name;
+        }
+    }
+
+    public function getFittingTypeAttribute(){
+        if($this->product_id !== NULL || $this->product_id !== ''){
+            $product = VariationModel::where('id', $this->product_id)->get()->first();
+            $fitting_type =  TypeModel::where('id', $product->fitting_type)->get()->first();
+
+            $fitting_type_name = $fitting_type->type_name;
+            return $fitting_type_name;
+        }
+    }
 }
 
