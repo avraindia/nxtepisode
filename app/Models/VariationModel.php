@@ -16,5 +16,9 @@ class VariationModel extends Model
     public function chart_images() {
         return $this->hasMany(SizegalleryModel::class, 'product_variation_id');
     }
+
+    public function fitting_name() {
+        return $this->belongsTo(TypeModel::class, 'fitting_type', 'id');
+    }
 }
 

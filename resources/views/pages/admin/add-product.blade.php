@@ -36,11 +36,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="label">Product MRP.</label>
                                     <input type="text" class="form-control product_mrp" placeholder="Ex: 100.00" value="" name="product_mrp" required>
                                     <label class="input-error product_mrp_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="label">Product GST.</label>
+                                    <input type="text" class="form-control product_gst" value="0" name="product_gst" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
@@ -91,25 +97,6 @@ $(function() {
         includeSelectAllOption: true,
     });
     $('.input-error').hide();
-    // $("#details").summernote({
-    //     height:300,
-    //     dialogsInBody: true
-    // });
-    // $("#description").summernote({
-    //     height:300,
-    //     dialogsInBody: true
-    // });
-
-    // $('#details, #description').on('summernote.paste', function(e, ne) {
-	// 	var bufferText = ((ne.originalEvent || ne).clipboardData || window.clipboardData).getData('text/html');
-	// 	ne.preventDefault();
-	// 	var div = $('<div />');
-	// 	div.append(bufferText);
-	// 	div.find('*').removeAttr('style');
-	// 	setTimeout(function () {
-	// 		document.execCommand('insertHtml', false, div.html());
-	// 	}, 10);
-	// });
 });
 
 $(document).on("click",".save_product_btn",function() {

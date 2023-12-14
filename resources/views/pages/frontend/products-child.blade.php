@@ -21,7 +21,7 @@
                         <h5>{{$product->fitting_title}}</h5>
                     </div>
                     <div class="product-filter-product-image-details-text">
-                        <h6>{{$product->cat_name}}</h6>
+                        <h6>{{$product->type_name}} for {{$product->gender}}</h6>
                     </div>
                     <div class="product-image-price-section">
                         <span class="offer-price">₹ {{$product->product_mrp}}</span>

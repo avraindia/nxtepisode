@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ProductContent;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,19 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/fetch-existing-fitting-type', [ProductContent::class, 'fetch_existing_fitting_type'])->name('fetch_existing_fitting_type');
     Route::get('/admin/fitting-list/{id}', [ProductContent::class, 'fitting_list'])->name('fitting_list');
     Route::post('/admin/filtering-fitting-paginate-result', [ProductContent::class, 'filtering_fitting_paginate_result'])->name('filtering_fitting_paginate_result');
+    Route::get('/admin/review/{id}', [ProductContent::class, 'fetch_review'])->name('fetch_review');
+    Route::post('/admin/change-review-status', [ProductContent::class, 'change_review_status'])->name('change_review_status');
+
+    /// Order details Route
+    Route::get('/admin/all-order', [AdminController::class, 'orders'])->name('all_order');
+    Route::get('/admin/order-details/{id}', [AdminController::class, 'view_order'])->name('view_order');
+    Route::post('/admin/submit-courier', [AdminController::class, 'submit_courier'])->name('submit_courier');
+    Route::get('/admin/get-status-id/{id}', [AdminController::class, 'get_status_id'])->name('get_status_id');
+    Route::post('/admin/order-pack', [AdminController::class, 'order_pack'])->name('order_pack');
+    Route::post('/admin/order-on-way', [AdminController::class, 'order_on_way'])->name('order_on_way');
+    Route::post('/admin/order-delivered', [AdminController::class, 'order_delivered'])->name('order_delivered');
+    Route::post('/admin/cancel-order', [AdminController::class, 'cancel_order'])->name('cancel_order');
+    Route::post('/admin/filtering-order-paginate-result', [AdminController::class, 'filtering_order_paginate_result'])->name('filtering_order_paginate_result');
 });
 
 ////////// route of frontend start ////////////
@@ -106,11 +120,16 @@ Route::get('/auth/google/call-back', [GoogleAuthController::class, 'callbackGoog
 
 Route::get('/products', [ProductController::class, 'products'])->name('products');
 Route::post('/filtering_paginate_result', [ProductController::class, 'filtering_paginate_result'])->name('filtering_paginate_result');
+Route::post('/search-product-list', [ProductController::class, 'search_product_list'])->name('search_product_list');
 Route::get('/product-details/{id}', [ProductController::class, 'front_product_details'])->name('front_product_details');
 Route::post('/check-variation-exists', [ProductController::class, 'check_variation_exists'])->name('check_variation_exists');
 Route::post('/add-to-cart', [ProductController::class, 'add_to_cart'])->name('add_to_cart');
+Route::post('/fetch-show-more-product-review', [ProductController::class, 'fetch_show_more_product_review'])->name('fetch_show_more_product_review');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::post('/check-email', [UserController::class, 'check_email'])->name('check_email');
+    Route::post('/update-profile', [UserController::class, 'update_profile'])->name('update_profile');
     Route::get('/cart', [ProductController::class, 'cart'])->name('cart');
     Route::post('/update-cart', [ProductController::class, 'updateCart'])->name('cart.update');
     Route::post('/remove-cart', [ProductController::class, 'removeCart'])->name('cart.remove');
@@ -124,9 +143,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/edit-checkout-address', [ProductController::class, 'edit_checkout_address'])->name('edit_checkout_address');
     Route::post('/delete-saved-address', [ProductController::class, 'delete_saved_address'])->name('delete_saved_address');
     Route::any('/payment', [ProductController::class, 'payment'])->name('payment');
+    Route::any('/payment-submit', [PaymentController::class, 'payment_submit'])->name('payment_submit');
+    Route::any('/cashfree/payments/success', [ProductController::class, 'cashfree_success'])->name('cashfree_success');
     Route::post('/order', [ProductController::class, 'order'])->name('order');
     Route::get('/order-success/{id}', [ProductController::class, 'order_success'])->name('order_success');
     Route::get('/my-order', [ProductController::class, 'my_order'])->name('my_order');
+    Route::get('/order-details/{id}', [ProductController::class, 'order_details'])->name('order_details');
+    Route::post('/submit-product-review', [ProductController::class, 'submit_product_review'])->name('submit_product_review');
+    Route::post('/fetch-product-review', [ProductController::class, 'fetch_product_review'])->name('fetch_product_review');
+    Route::post('/fetch-if_product-purchased', [ProductController::class, 'fetch_if_product_purchased'])->name('fetch_if_product_purchased');
 });
 
 Route::get('/linkstorage', function () {

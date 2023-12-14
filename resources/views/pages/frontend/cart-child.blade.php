@@ -14,6 +14,7 @@
     $total_quantity = 0;
     $all_product_total_price = 0;
     $discount = '0.00';
+    $total_mrp_price = 0;
 @endphp
 
     @foreach ($cartItems as $item)
@@ -24,12 +25,16 @@
     $quantity = $item->quantity;
     $total_price = $item->price;
     $all_product_total_price = $all_product_total_price+$total_price;
-    $total_price = number_format($total_price,"2");
+    $show_total_price = number_format($total_price,"2");
     $attributes = $item->attributes;
     $product_image = $attributes->product_image;
     $size_id = $attributes->size_id;
     $product_id = $attributes->product_id;
     $total_quantity = $total_quantity+$quantity;
+    $gst_amount = $attributes->gst_amount;
+    $net_price = $total_price-$gst_amount;
+    $total_mrp_price = $total_mrp_price + $net_price;
+
     @endphp
     <div class="cart-product-image-text-row-section">
         <div class="row">
@@ -44,7 +49,7 @@
                     <!-- <p>Oversized T-Shirts</p> -->
                 </div>
                 <div class="product-image-price-section">
-                    <span class="offer-price">₹ {{$total_price}}</span>
+                    <span class="offer-price">₹ {{$show_total_price}}</span>
                 </div>
                 <div class="size-quantity-section">
                     <div class="row g-2">
@@ -87,7 +92,7 @@
             </div>
         </div>
         <div class="remove-wishlist-btn for-responsive-remove-wishlist-btn">
-            <a class="remove-btn remove_from_cart" href="javascript:void(0);" pr_id="{{$item->id}}>Remove</a>
+            <a class="remove-btn remove_from_cart" href="javascript:void(0);" pr_id="{{$item->id}}">Remove</a>
             <a class="move-to-wishlist-btn" href="#">MOVE TO WISHLIST</a>
         </div>
     </div>
@@ -103,7 +108,7 @@
 </div>
 @php
 $all_product_total_price = number_format($all_product_total_price, 2, '.', '');
-$full_amount = $all_product_total_price+$shipping_fee;
+$full_amount = $all_product_total_price;
 $full_amount = number_format($full_amount, 2, '.', '');
 @endphp
 
@@ -148,7 +153,6 @@ $full_amount = number_format($full_amount, 2, '.', '');
                     <li>Cart Total <span class="price-text">₹ {{$all_product_total_price}}</span></li>
                     @if ($total_quantity != 0)
                     <li>Discount <span class="discount-text">- ₹ 0.00</span></li>
-                    <li>Shipping Charges <span class="shipping-text">₹ {{$shipping_fee}}</span></li>
                     <li>Total Amount <span class="price-text total-amount">₹ {{$full_amount}}</span></li>
                     @else
                     <li>Total Amount <span class="price-text total-amount">₹ 0.00</span></li>
@@ -161,12 +165,14 @@ $full_amount = number_format($full_amount, 2, '.', '');
         <form id="submitForm" action="{{ route('checkout') }}" method="post" enctype="multipart/form-data">
             @csrf
             <a href="javascript:void(0);" class="place_order">Place Order</a>
-            <input type="hidden" name="shipping_fee" class="shipping_fee" value="{{$shipping_fee}}">
+            <input type="hidden" name="shipping_fee_inside_west_bengal" class="shipping_fee_inside_west_bengal" value="{{$shipping_fee_inside_west_bengal}}">
+            <input type="hidden" name="shipping_fee_outside_west_bengal" class="shipping_fee_outside_west_bengal" value="{{$shipping_fee_outside_west_bengal}}">
             <input type="hidden" name="total_price" class="total_price" value="{{$all_product_total_price}}">
             <input type="hidden" name="full_amount" class="full_amount" value="{{$full_amount}}">
             <input type="hidden" name="discount" class="discount" value="{{$discount}}">
             <input type="hidden" name="is_promocode_applied" class="is_promocode_applied" value="0">
             <input type="hidden" name="promocode_id" class="promocode_id" value="0">
+            <input type="hidden" name="total_mrp_price" class="total_mrp_price" value="{{$total_mrp_price}}">
             <input type="hidden" name="final_amount" class="final_amount" value="{{$full_amount}}">
         </form>
         @endif

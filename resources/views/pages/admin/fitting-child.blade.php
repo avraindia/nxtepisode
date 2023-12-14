@@ -7,6 +7,7 @@
             <th><a href="javascript:void(0);">Fitting Type</a></th>
             <th><a href="javascript:void(0);">Gender</a></th>
             <th><a href="javascript:void(0);">Status</a></th>
+            <th><a href="javascript:void(0);">Reviews</a></th>
         </tr>
     </thead>
     <tbody>
@@ -45,6 +46,9 @@
                     Unavailable
                 @endif
                 </div>
+            </td>
+            <td>
+                <a href="{{route('fetch_review', $fitting->id)}}" class="btn btn-outline-success">Reviews</a>
             </td>
         </tr>
         @endforeach

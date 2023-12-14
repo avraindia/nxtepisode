@@ -9,7 +9,7 @@ class OrderItemModel extends Model
     use HasFactory;
     protected $table = 'order_item';
     public $timestamps = false;
-    protected $appends = ['size_name', 'fitting_type'];
+    protected $appends = ['size_name', 'fitting_type', 'product_image'];
 
     public function getSizeNameAttribute(){
         if($this->size_id !== NULL || $this->size_id !== ''){
@@ -27,6 +27,14 @@ class OrderItemModel extends Model
 
             $fitting_type_name = $fitting_type->type_name;
             return $fitting_type_name;
+        }
+    }
+
+    public function getProductImageAttribute() {
+        if($this->product_id !== NULL || $this->product_id !== ''){
+            $image_list = ProductgalleryModel::where('product_variation_id',$this->product_id)->get()->first();
+            $image_name = $image_list->product_image;
+            return url('storage/uploads/product_details/'.$image_name);
         }
     }
 }

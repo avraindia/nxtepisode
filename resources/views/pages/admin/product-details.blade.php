@@ -36,11 +36,17 @@
                                     <label class="input-error product_category_error"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> Please select category</label>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="label">Product MRP.</label>
                                     <input type="text" class="form-control product_mrp" placeholder="Ex: 100.00" value="{{$product_details->product_mrp}}" name="product_mrp" required>
                                     <label class="input-error product_mrp_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="label">Product GST.</label>
+                                    <input type="text" class="form-control product_gst" value="{{$product_details->gst}}" name="product_gst" required>
                                 </div>
                             </div>
                             @php
@@ -135,10 +141,7 @@ $(function() {
 $(document).on("click",".save_product_btn",function() {
     var valid = true;
     var product_name = $('.product_name').val();
-    var description = $($('#description').summernote('code')).text();
-    var details = $($('#details').summernote('code')).text();
     var product_main_catergory = $('.product_main_catergory').find(":selected").val();
-    var product_gender = $('.product_gender').find(":selected").val();
     var product_mrp = $('.product_mrp').val();
 
     if(product_name == ""){
@@ -148,32 +151,11 @@ $(document).on("click",".save_product_btn",function() {
         $('.product_name_err').hide();
     }
 
-    if(description == ""){
-        valid = false;
-        $('.product_description_err').show();
-    }else{
-        $('.product_description_err').hide();
-    } 
-
-    if(details == ""){
-        valid = false;
-        $('.product_details_err').show();
-    }else{
-        $('.product_details_err').hide();
-    } 
-
     if(product_main_catergory == "0"){
         valid = false;
         $('.product_category_error').show();
     }else{
         $('.product_category_error').hide();
-    }
-
-    if(product_gender == "0"){
-        valid = false;
-        $('.product_gender_error').show();
-    }else{
-        $('.product_gender_error').hide();
     }
 
     if(product_mrp == ""){

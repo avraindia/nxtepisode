@@ -14,7 +14,7 @@ class UserDetails extends Model
 
     public function getProfileImageLinkAttribute(){
         if($this->profile_image == NULL || $this->profile_image == ''){
-            return '';
+            return url('frontend/images/no_profile.jpg');
         }
         return url('storage/uploads/profile_image/'.$this->profile_image);
     }

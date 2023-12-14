@@ -91,8 +91,8 @@
                                 <li>Cart Total <span class="price-text">₹ {{$order_price}}</span></li>
                                 <li>Discount <span class="discount-text">- ₹ {{$discount}}</span></li>
                                 <!-- <li>GST <span class="gst-text">₹ 44.95</span></li> -->
-                                <li>Shipping Charges <span class="shipping-text">₹ {{$shipping_fee}}</span></li>
-                                <li>Total Amount <span class="price-text">₹ {{$final_price}}</span></li>
+                                <li>Shipping Charges <span class="shipping-text">₹ </span></li>
+                                <li>Total Amount <span class="price-text final_price_text">₹ {{$final_price}}</span></li>
                             </ul>
                         </div>
                     </div>
@@ -100,13 +100,14 @@
                         <a href="javascript:void(0);" class="confirm_order">Confirm Order</a>
                         <form id="submitForm" action="{{ route('payment') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="shipping_fee" class="shipping_fee" value="{{$shipping_fee}}">
+                            <input type="hidden" name="shipping_fee" class="shipping_fee" value="">
                             <input type="hidden" name="total_price" class="total_price" value="{{$order_price}}">
                             <input type="hidden" name="discount" class="discount" value="{{$discount}}">
                             <input type="hidden" name="promocode_id" class="promocode_id" value="{{$promo_code_id}}">
                             <input type="hidden" name="final_amount" class="final_amount" value="{{$final_price}}">
                             <input type="hidden" name="address_id" class="address_id" value="">
                         </form>
+                        <input type="hidden" name="item_num" class="item_num" value="">
                     </div>
                 </div>
             </div>
@@ -335,6 +336,23 @@ $(document).on('click', '.update_address_btn', function(e) {
 
 $(document).on('change', '.radioshow', function(e) {
 	var val = $(this).attr('data-class');
+	var state_id = $(this).attr('state_id');
+    var shipping_fee_inside_west_bengal = '<?=$shipping_fee_inside_west_bengal?>';
+    var shipping_fee_outside_west_bengal = '<?=$shipping_fee_outside_west_bengal?>';
+    var cart_item_count = $('.item_num').val();
+    if(cart_item_count >= 3){
+        $('.shipping_fee').val(0);
+        $('.shipping-text').html('Free Delivery');
+    }else{
+        if(state_id == '24'){
+            $('.shipping_fee').val(shipping_fee_inside_west_bengal);
+            $('.shipping-text').html('₹ '+shipping_fee_inside_west_bengal);
+        }else{
+            $('.shipping_fee').val(shipping_fee_outside_west_bengal);
+            $('.shipping-text').html('₹ '+shipping_fee_outside_west_bengal);
+        }
+    }
+    calculate_order_amount();
     var address_id = $(this).val();
     $('.address_id').val(address_id);
 	$('.allshow').hide();
@@ -376,7 +394,13 @@ $(document).on('click', '.remove_address_button', function(e) {
 $(document).on('click', '.confirm_order', function(e) {
     var address_id = $('.address_id').val();
     if(address_id == ""){
-        alert('Please select delivery address.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Please select delivery address.',
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+        });
         return false;
     }
     const theForm = $('#submitForm');
@@ -471,6 +495,8 @@ function validate_form(){
 }
 
 function fetch_saved_address(){
+    var shipping_fee_inside_west_bengal = '<?=$shipping_fee_inside_west_bengal?>';
+    var shipping_fee_outside_west_bengal = '<?=$shipping_fee_outside_west_bengal?>';
     var _token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url: "{{ route('fetch_saved_address') }}",
@@ -479,43 +505,78 @@ function fetch_saved_address(){
         success: function (data) {
             $('.saved_address').html('');
             var addresses = data.addresses;
-            for(var i=0; i<addresses.length; i++){
-                var single_address = addresses[i];
-                var is_checked = "";
-                var edit_btn_visible = ' style="display: none;"';
-                if(single_address.default_address == '1'){
-                    is_checked = " checked";
-                    edit_btn_visible = '';
-                    $('.address_id').val(single_address.id);
+            var cart_item_count = data.cart_item_count;
+            $('.item_num').val(cart_item_count);
+            if(addresses.length>0){
+                for(var i=0; i<addresses.length; i++){
+                    var single_address = addresses[i];
+                    var state_id = single_address.state;
+                    var is_checked = "";
+                    var edit_btn_visible = ' style="display: none;"';
+                    if(single_address.default_address == '1'){
+                        is_checked = " checked";
+                        edit_btn_visible = '';
+                        $('.address_id').val(single_address.id);
+
+                        if(cart_item_count >= 3){
+                            $('.shipping_fee').val(0);
+                            $('.shipping-text').html('Free Delivery');
+                        }else{
+                            if(state_id == '24'){
+                                $('.shipping_fee').val(shipping_fee_inside_west_bengal);
+                                $('.shipping-text').html('₹ '+shipping_fee_inside_west_bengal);
+                            }else{
+                                $('.shipping_fee').val(shipping_fee_outside_west_bengal);
+                                $('.shipping-text').html('₹ '+shipping_fee_outside_west_bengal);
+                            }
+                        }
+                    }else{
+                        $('.shipping_fee').val(0);
+                        $('.shipping-text').html('₹ 0.00');
+                    }
+                    var address_html = 
+                    '<div class="col-md-6 address_item_'+single_address.id+'">'+
+                        '<div class="checkout-address-details-total-section">'+
+                            '<label for="address'+i+'">'+
+                                '<input class="radioshow" type="radio" id="address'+i+'" name="address" data-class="div'+i+'" state_id="'+state_id+'" value="'+single_address.id+'" '+is_checked+'>'+
+                                '<span>'+
+                                    '<div class="address-details-section">'+
+                                        '<h6>'+
+                                            '<div class="home-text-batch">'+
+                                                '<p>Home</p>'+
+                                            '</div>'+single_address.first_name+' '+single_address.last_name+''+
+                                        '</h6>'+
+                                        '<p>'+single_address.house_no+' '+single_address.street_name+'</p>'+
+                                        '<p>'+single_address.city_district+' - '+single_address.postal_code+'</p>'+
+                                        '<p>Mobile : <span class="mobile-text-number">'+single_address.phone_no+'</span></p>'+
+                                    '</div>'+
+                                    '<div class="edit-remove-btn allshow div'+i+'" '+edit_btn_visible+'>'+
+                                        '<button class="update_address_button" address_id="'+single_address.id+'">Edit</button>'+
+                                        '<button class="remove_address_button" address_id="'+single_address.id+'">Remove</button>'+
+                                    '</div>'+
+                                '</span>'+
+                            '</label>'+
+                        '</div>'+
+                    '</div>';
+                    $('.saved_address').append(address_html);
                 }
-                var address_html = 
-                '<div class="col-md-6 address_item_'+single_address.id+'">'+
-                    '<div class="checkout-address-details-total-section">'+
-                        '<label for="address'+i+'">'+
-                            '<input class="radioshow" type="radio" id="address'+i+'" name="address" data-class="div'+i+'" value="'+single_address.id+'" '+is_checked+'>'+
-                            '<span>'+
-                                '<div class="address-details-section">'+
-                                    '<h6>'+
-                                        '<div class="home-text-batch">'+
-                                            '<p>Home</p>'+
-                                        '</div>'+single_address.first_name+' '+single_address.last_name+''+
-                                    '</h6>'+
-                                    '<p>'+single_address.house_no+' '+single_address.street_name+'</p>'+
-                                    '<p>'+single_address.city_district+' - '+single_address.postal_code+'</p>'+
-                                    '<p>Mobile : <span class="mobile-text-number">'+single_address.phone_no+'</span></p>'+
-                                '</div>'+
-                                '<div class="edit-remove-btn allshow div'+i+'" '+edit_btn_visible+'>'+
-                                    '<button class="update_address_button" address_id="'+single_address.id+'">Edit</button>'+
-                                    '<button class="remove_address_button" address_id="'+single_address.id+'">Remove</button>'+
-                                '</div>'+
-                            '</span>'+
-                        '</label>'+
-                    '</div>'+
-                '</div>';
-                $('.saved_address').append(address_html);
+            }else{
+                $('.shipping_fee').val(0);
+                $('.shipping-text').html('₹ 0.00');
             }
+            
+            calculate_order_amount();
         }
     });
+}
+
+function calculate_order_amount(){
+    var final_amount = $('.final_amount').val();
+    var shipping_fee = $('.shipping_fee').val();
+
+    var new_final_price = (parseFloat(final_amount)+parseFloat(shipping_fee)).toFixed(2);
+    $('.final_price_text').html('₹ '+new_final_price);
+    $('.final_amount').val(new_final_price);
 }
 </script>
 @endpush

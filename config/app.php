@@ -171,6 +171,7 @@ return [
         Darryldecode\Cart\CartServiceProvider::class,
         Jorenvh\Share\Providers\ShareServiceProvider::class,
         \Intervention\Image\ImageServiceProvider::class,
+        Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -189,6 +190,7 @@ return [
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
         'Image' => \Intervention\Image\Facades\Image::class,
+        'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
     ])->toArray(),
 
 ];

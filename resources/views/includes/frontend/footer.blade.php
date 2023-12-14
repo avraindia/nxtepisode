@@ -63,6 +63,55 @@ $(document).on("click",".registerbtn",function() {
     }
 });
 
+const fetchOption = (options) => {
+    var requestOptions = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: 'POST',
+        body : JSON.stringify(options),
+    };
+    return fetch("{{ route('search_product_list') }}", requestOptions)
+    .then(response => {
+        return response.json()
+    })
+    .catch(error => {
+        return error
+    });
+}
+
+function fetchSuggestion(event){
+    var search_key = event.value;
+    if(search_key != ""){
+        fetchOption({search_key:search_key}).then(res=>{
+            var data = res.data;
+            $('.suggestionList').html('');
+            for(var i=0; i<data.length; i++){
+                var single_rec = data[i];
+                var id = single_rec.id;
+                var fitting_title = single_rec.fitting_title;
+                var encoded_id = btoa(id);
+                
+                var html_body = '<li class="suggesion_item" value="'+encoded_id+'">'+fitting_title+'</li>';
+                $('.suggestionList').append(html_body);
+            }
+        });
+    }else{
+        $('.suggestionList').html('');
+    }
+    
+}
+
+$(document).on("click",".suggesion_item",function() {
+    var product_id = $(this).attr('value');
+    var url = '{{ route("front_product_details", ":id") }}';
+    url = url.replace(':id', product_id);
+
+    window.location.href = url;
+});
+
 function validate_login_form(){
     var valid = true;
     var user_email = $('#user_email').val();
@@ -124,5 +173,20 @@ function validate_register_form(){
 function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
+}
+
+function logoutFunction(){
+    Swal.fire({
+        icon: 'question',
+        title: 'Do you want to logout?',
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: 'Logout',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "{{route('frontlogout')}}";
+        } 
+    });
+    return false;
 }
 </script>

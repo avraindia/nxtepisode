@@ -22,6 +22,10 @@ use App\Models\OrderModel;
 use App\Models\OrderItemModel;
 use App\Models\StausCatalogModel;
 use App\Models\OrderStatusModel;
+use App\Models\RatingReviewModel;
+use App\Models\CashfreeModel;
+use App\Models\User;
+use App\Models\UserDetails;
 
 class ProductController extends Controller
 {
@@ -68,6 +72,7 @@ class ProductController extends Controller
         $productObject->product_title = $request->product_name;
         $productObject->main_cat_id = $request->product_main_catergory;
         $productObject->product_mrp = $request->product_mrp;
+        $productObject->gst = $request->product_gst;
         $productObject->theme_ids = $theme_ids;
         $productObject->status = $is_available;
         $productObject->save();
@@ -79,9 +84,8 @@ class ProductController extends Controller
         $parent_categories = CategoryModel::where('parent_id', 0)->orderByDesc('id')->get();
         $genders = GenderModel::orderBy("id", "asc")->get();
         $product_details = ProductModel::where('id', $id)->get()->first();
-        $product_images = ProductgalleryModel::where('product_id', $id)->get();
         $all_themes = ThemeModel::orderBy('id')->get();
-        return view('pages.admin.product-details', ['parent_categories'=>$parent_categories, 'genders'=>$genders, 'product_details'=>$product_details, 'product_images'=>$product_images, 'all_themes' => $all_themes]);
+        return view('pages.admin.product-details', ['parent_categories'=>$parent_categories, 'genders'=>$genders, 'product_details'=>$product_details, 'all_themes' => $all_themes]);
     }
 
     public function update_product(Request $request){
@@ -101,33 +105,11 @@ class ProductController extends Controller
         ProductModel::where('id', $product_id)->update([
             'product_title' => $request->product_name,
             'main_cat_id' => $request->product_main_catergory,
-            'gender_id' => $request->product_gender,
             'product_mrp' => $request->product_mrp,
+            'gst' => $request->product_gst,
             'theme_ids' => $theme_ids,
-            'status' => $is_available,
-            'details' => $this->clearEditorString($request->product_details),
-            'description' => $this->clearEditorString($request->product_description)
+            'status' => $is_available
         ]);
-
-        if($request->hasFile('product_image')){
-            $gallery_images = $request->file('product_image');
-            foreach($gallery_images as $gallery_image){
-                $galleryObject = new ProductgalleryModel();
-                $galleryObject->product_id = $product_id;
-                $filenameWithExt = $gallery_image->getClientOriginalName ();
-                // Get Filename
-                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                // Get just Extension
-                $extension = $gallery_image->getClientOriginalExtension();
-                // Filename To store
-                $fileNameToStore = $filename. '_'. time().'.'.$extension;
-                // Upload Image
-                $path = $gallery_image->storeAs('public/uploads/product_gallery', $fileNameToStore);
-
-                $galleryObject->product_image = $fileNameToStore;
-                $galleryObject->save();
-            }
-        }
 
         return redirect()->route('all_products')->with(['successmsg' => 'Product updated successfully.']);
     }
@@ -159,6 +141,8 @@ class ProductController extends Controller
             'product_variation.id',
             'product_variation.fitting_title',
             'category.name as cat_name',
+            'type.type_name',
+            'gender.gender',
             'products.product_mrp'
         ]);
         $product_query
@@ -183,6 +167,8 @@ class ProductController extends Controller
             'product_variation.id',
             'product_variation.fitting_title',
             'category.name as cat_name',
+            'type.type_name',
+            'gender.gender',
             'products.product_mrp'
         ]);
         $product_query
@@ -294,7 +280,10 @@ class ProductController extends Controller
             'product_variation.details',
             'product_variation.description',
             'category.name as cat_name',
-            'products.product_mrp'
+            'type.type_name',
+            'gender.gender',
+            'products.product_mrp',
+            'products.gst'
         ]);
         $product_query
         ->join('products', 'products.id', '=', 'product_variation.product_id')
@@ -307,6 +296,7 @@ class ProductController extends Controller
         $product_details = $product_query->get()->first();
 
         $product_id = $product_details->product_id;
+
         $size_ids = InventoryModel::where('product_id', $product_id)->pluck('option_value_id')->toArray();
         
         $sizes = OptionValueModel::where('option_id', 2)->get();
@@ -324,24 +314,56 @@ class ProductController extends Controller
         ->whatsapp()      
         ->reddit();
 
-        return view('pages.frontend.product-details', ["product_details"=>$product_details, "sizes"=>$sizes, "shareComponent"=>$shareComponent, 'size_ids'=>$size_ids]);
+        $product_review = RatingReviewModel::with('user_details')->where('product_id', $variation_id)->where('status', 1)->offset(0)->limit(4)->orderByDesc('id')->get();
+        $review_count = RatingReviewModel::with('user_details')->where('product_id', $variation_id)->where('status', 1)->count();
+        $total_rating = RatingReviewModel::where('product_id', $variation_id)->where('status', 1)->sum('rating');
+        if($total_rating == 0){
+            $avearge_rating = 0;
+        }else{
+            $avearge_rating = $total_rating/$review_count;
+            $avearge_rating = number_format($avearge_rating, 1);
+        }
+
+        $user_id = Auth::id();
+        $user_review = array();
+        if($user_id){
+            $user_review = RatingReviewModel::with('user_details')->where('user_id', $user_id)->where('product_id', $variation_id)->get();
+        }
+        
+        //dd($review_count);
+        return view('pages.frontend.product-details', ["product_details"=>$product_details, "sizes"=>$sizes, "shareComponent"=>$shareComponent, 'size_ids'=>$size_ids, 'review_count'=>$review_count, 'product_review'=>$product_review, 'user_review'=>$user_review, 'avearge_rating'=>$avearge_rating]);
     }
 
     public function check_variation_exists(Request $request){
         $product_id = $request->product_id;
         $size_id = $request->size_id;
-        $variation_rec = array();
+        $product_gst = $request->product_gst;
+        $inventory_price = '0.00';
+        $gst_amount = '0.00';
+        $sell_price = '0.00';
 
         $inventory_query = InventoryModel::where('product_id', $product_id)->where('option_value_id', $size_id);
         $check_num = $inventory_query->count();
         if($check_num>0){
             $inventory_rec = $inventory_query->get()->first();
+
+            $current_stock = $inventory_rec->current_stock;
+            $inventory_price = $inventory_rec->inventory_price;
+            if($inventory_price != '0.00'){
+                $gst_amount = ($inventory_price*$product_gst)/100;
+                $gst_amount = round($gst_amount);
+                $amount_after_gst = $inventory_price+$gst_amount;
+                $sell_price = $amount_after_gst.'.00';
+            }
         }
 
         return response()->json([
             'status'=> true, 
             'num' => $check_num,
-            'inventory_rec' => $inventory_rec
+            'current_stock' => $current_stock,
+            'inventory_price' => $inventory_price,
+            'gst_amount' => $gst_amount,
+            'sell_price' => $sell_price
         ]);
     }
 
@@ -356,7 +378,10 @@ class ProductController extends Controller
                 'product_image' => $request->product_image,
                 'product_price' => $request->product_price,
                 'size_id' => $request->size_id,
-                'product_sku' => $request->product_sku
+                'product_sku' => $request->product_sku,
+                'product_gst' => $request->product_gst,
+                'gst_amount' => $request->gst_amount * $request->quantity,
+                'sell_price' => $request->sell_price,
             )
         ]);
 
@@ -372,9 +397,41 @@ class ProductController extends Controller
         $cartItems = $cartItems->sort();
 
         //\Cart::remove(6);
-        
+        $product_id_arr = array();
+        foreach($cartItems as $item){
+            $product_id = $item->id;
+            array_push($product_id_arr, $product_id);
+        }
+        $product_ids = implode(',', $product_id_arr);
+        $product_query = VariationModel::select([
+            'product_variation.id',
+            'product_variation.fitting_title',
+            'product_variation.fitting_type',
+            'category.name as cat_name',
+            'products.product_mrp',
+            'products.gst'
+        ]);
+        $product_query
+        ->join('products', 'products.id', '=', 'product_variation.product_id')
+        ->join('type', 'type.id', '=', 'product_variation.fitting_type')
+        ->join('gender', 'gender.id', '=', 'product_variation.gender')
+        ->join('category', 'category.id', '=', 'products.main_cat_id')
+        ->with('gallery_images')
+        ->with('fitting_name')
+        ->where('product_variation.is_active', '=', 1)
+        ->where('products.status', '=', 1)
+        ->where('products.deleted', '=', 0)
+        ->groupBy('product_variation.id');
+
+        if($product_ids != ""){
+            $product_query->whereNotIn('product_variation.id', [$product_ids]);
+        }
+        $product_query->orderBy('product_variation.id','desc');
+
+        $similar_products = $product_query->skip(0)->take(6)->get();
+
         $sizes = OptionValueModel::where('option_id', 2)->get();
-        return view('pages.frontend.cart', ['sizes'=>$sizes, 'cartItems'=>$cartItems]);
+        return view('pages.frontend.cart', ['sizes'=>$sizes, 'cartItems'=>$cartItems, 'similar_products'=>$similar_products]);
     }
 
     public function updateCart(Request $request)
@@ -470,7 +527,7 @@ class ProductController extends Controller
             $cartItems = \Cart::getContent();
             $cartItems = $cartItems->sort();
 
-            return view('pages.frontend.checkout', ['states'=>$states, 'cartItems'=>$cartItems, 'order_price'=>$request->total_price, 'promo_code_id'=>$request->promocode_id, 'shipping_fee'=>$request->shipping_fee, 'discount'=>$request->discount, 'final_price'=>$request->final_amount]);
+            return view('pages.frontend.checkout', ['states'=>$states, 'cartItems'=>$cartItems, 'order_price'=>$request->total_price, 'promo_code_id'=>$request->promocode_id, 'discount'=>$request->discount, 'final_price'=>$request->final_amount]);
         }else{
             return redirect()->route('cart');
         }
@@ -511,10 +568,12 @@ class ProductController extends Controller
     public function fetch_saved_address(Request $request){
         $user_id = Auth::id();
         $addresses = CheckoutAddressModel::where('user_id', $user_id)->get();
-
+        $cart_item_count = \Cart::getTotalQuantity();
+        
         return response()->json([
             'status'=> true, 
-            'addresses' => $addresses
+            'addresses' => $addresses,
+            'cart_item_count' => $cart_item_count,
         ]);
     }
 
@@ -569,17 +628,27 @@ class ProductController extends Controller
     public function payment(Request $request){
         if($request->isMethod('POST')){
             $user_id = Auth::id();
+            $cart_item_count = \Cart::getTotalQuantity();
             $addresses = CheckoutAddressModel::where('user_id', $user_id)->get();
 
             $checked_address = CheckoutAddressModel::where('id', $request->address_id)->get()->first();
 
-            return view('pages.frontend.payment', ['shipping_fee'=>$request->shipping_fee, 'total_price'=>$request->total_price, 'discount'=>$request->discount, 'promocode_id'=>$request->promocode_id, 'final_amount'=>$request->final_amount, 'address_id'=>$request->address_id, 'addresses'=>$addresses, 'checked_address'=>$checked_address]);
+            return view('pages.frontend.payment', ['shipping_fee'=>$request->shipping_fee, 'total_price'=>$request->total_price, 'discount'=>$request->discount, 'promocode_id'=>$request->promocode_id, 'final_amount'=>$request->final_amount, 'address_id'=>$request->address_id, 'addresses'=>$addresses, 'cart_item_count' => $cart_item_count, 'checked_address'=>$checked_address]);
         }else{
             return redirect()->route('cart');
         }
     }
 
     public function order(Request $request){
+        /***** Place order start ****/
+        $payment_option = $request->payment_option;
+        if($payment_option == "online"){
+            $payment_type = "Cashfree";
+            $payment_status = 0;
+        }else{
+            $payment_status = 1;
+        }
+
         $user_id = Auth::id();
         $orderObject = new OrderModel();
         $order_number = 'NXTEP'.date('ymdHis').rand(1000,9999);
@@ -590,9 +659,9 @@ class ProductController extends Controller
         $orderObject->checkout_adress_id = $request->address_id;
         $orderObject->discount = $request->discount;
         $orderObject->shipping_fee = $request->shipping_fee;
-        $orderObject->payment_type = 'COD';
+        $orderObject->payment_type = $payment_type;
         $orderObject->final_price = $request->final_amount;
-        $orderObject->payment_status = 1;
+        $orderObject->payment_status = $payment_status;
         $orderObject->save();
         $order_id = $orderObject->id;
 
@@ -607,13 +676,161 @@ class ProductController extends Controller
             $orderItemObject->product_name = $item->name;
             $orderItemObject->product_price = $attributes->product_price;
             $orderItemObject->total_price = $item->price;
+            $orderItemObject->sell_price = $attributes->sell_price;
+            $orderItemObject->gst = $attributes->gst_amount;
             $orderItemObject->quantity = $item->quantity;
             $orderItemObject->sku = $attributes->product_sku;
 
             $orderItemObject->save();
         }
 
-        return redirect()->route('order_success', [base64_encode($order_id)]);
+        /***** Place order end ****/
+
+        /***** Payment process start ****/
+        if($payment_option == "online"){    
+            $address_details = CheckoutAddressModel::where('id', $request->address_id)->get()->first();
+            $user_name = $address_details->first_name.' '.$address_details->last_name;
+            $phone_no = $address_details->phone_no;
+            $amount = $request->final_amount;
+            $user_email = auth()->user()->email;
+            $customer_id = 'customer_'.$user_id.'_'.rand(111111111,999999999);
+            $url = "https://sandbox.cashfree.com/pg/orders"; // sandbox
+            //$url = "https://api.cashfree.com/pg/orders"; // production
+
+            $headers = array(
+                "Content-Type: application/json",
+                "x-api-version: 2022-01-01",
+                "x-client-id: ".env('CASHFREE_API_KEY'),
+                "x-client-secret: ".env('CASHFREE_API_SECRET')
+            );
+            
+            $data = json_encode([
+                'order_id' =>  $order_number,
+                'order_amount' => $amount,
+                "order_currency" => "INR",
+                "customer_details" => [
+                    "customer_id" => $customer_id,
+                    "customer_name" => $user_name,
+                    "customer_email" => $user_email,
+                    "customer_phone" => $phone_no,
+                ],
+                "order_meta" => [
+                    "return_url" => env('APP_URL').'cashfree/payments/success/?order_id={order_id}'
+                ]
+            ]);
+            
+            $curl = curl_init($url);
+
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+            $resp = curl_exec($curl);
+            return redirect()->to(json_decode($resp)->payment_link);
+        }else{
+            $this->cart_update_after_order_place($order_id);
+            return redirect()->route('order_success', [base64_encode($order_id)]);
+        }
+        /***** Payment process end ****/
+    }
+
+    public function cashfree_success(Request $request)
+    {
+        //dd($request->all()); // PAYMENT STATUS RESPONSE
+        $order_id = $request->order_id;
+        $order_details = OrderModel::where('order_number', $order_id)->get()->first(); 
+        $orderId = $order_details->id;
+
+        $url = "https://sandbox.cashfree.com/pg/orders/".$order_id."/settlements"; // sandbox
+        //$url = "https://api.cashfree.com/pg/orders/".$order_id."/settlements"; // production
+
+        $headers = array(
+            "Content-Type: application/json",
+            "x-api-version: 2022-01-01",
+            "x-client-id: ".env('CASHFREE_API_KEY'),
+            "x-client-secret: ".env('CASHFREE_API_SECRET')
+        );
+
+        $curl = curl_init($url);
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_ENCODING, "");
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        $settlement_data = json_decode($response);
+        $cf_payment_id = $settlement_data->cf_payment_id;
+        $cf_settlement_id = $settlement_data->cf_settlement_id;
+        $order_amount = $settlement_data->order_amount;
+        $payment_time = $settlement_data->payment_time;
+        $payment_time = date('Y-m-d H:i:s', strtotime($payment_time));
+        $service_charge = $settlement_data->service_charge;
+        $service_tax = $settlement_data->service_tax;
+        $settlement_amount = $settlement_data->settlement_amount;
+
+        OrderModel::where('id', $orderId)->update([
+            'payment_status' => 1,
+            'transaction_id' => $cf_payment_id
+        ]);
+
+        $paymentObject = new CashfreeModel();
+        $paymentObject->order_id = $orderId;
+        $paymentObject->cf_payment_id = $cf_payment_id;
+        $paymentObject->cf_settlement_id = $cf_settlement_id;
+        $paymentObject->order_amount = $order_amount;
+        $paymentObject->payment_time = $payment_time;
+        $paymentObject->service_charge = $service_charge;
+        $paymentObject->service_tax = $service_tax;
+        $paymentObject->settlement_amount = $settlement_amount;
+        $paymentObject->save();
+
+        $this->cart_update_after_order_place($orderId);
+        return redirect()->route('order_success', [base64_encode($orderId)]);
+
+    }
+
+    public function cart_update_after_order_place($id_order){
+        $orderStatusObject = new OrderStatusModel();
+        $orderStatusObject->order_id = $id_order;
+        $orderStatusObject->status_catalog_id = 1;
+        $orderStatusObject->save();
+
+        $all_items = OrderItemModel::where('order_id', $id_order)->orderBy('id', 'DESC')->get();
+        foreach($all_items as $key=>$item){
+            $variation_id = $item->product_id;
+            $size_id = $item->size_id;
+            $quantity = $item->quantity;
+
+            $variation_details = VariationModel::where('id', $variation_id)->get()->first();
+            $product_id = $variation_details->product_id;
+
+            $inventory_details = InventoryModel::where('product_id', $product_id)->where('option_id', 2)->where('option_value_id', $size_id)->get()->first();
+            $inventory_id = $inventory_details->id;
+            $current_stock = $inventory_details->current_stock;
+            $new_stock = $current_stock-$quantity;
+
+            InventoryModel::where('id', $inventory_id)->update([
+                'current_stock' => $new_stock
+            ]);
+        }
+
+        \Cart::clear();
+
+        return 'success';
     }
 
     public function order_success($id){
@@ -625,9 +842,121 @@ class ProductController extends Controller
 
     public function my_order(){
         $user_id = Auth::id();
+        $user = User::where('id', $user_id)->get()->first();
+        $user_details = UserDetails::where('user_id', $user_id)->get()->first();
         $orders = OrderModel::with('order_items')->where('customer_id', $user_id)->where('payment_status', 1)->orderBy("id", "desc")->get();
         //dd($orders->all());
-        return view('pages.frontend.my-order', ['orders'=>$orders]);
+        return view('pages.frontend.my-order', ['orders'=>$orders, 'user'=>$user, 'user_details'=>$user_details]);
+    }
+
+    public function order_details($id){
+        $order_id = base64_decode($id);
+        $user_id = Auth::id();
+        $user = User::where('id', $user_id)->get()->first();
+        $user_details = UserDetails::where('user_id', $user_id)->get()->first();
+        $order_details = OrderModel::with('order_items')->where('customer_id', $user_id)->where('id', $order_id)->where('payment_status', 1)->orderBy("id", "desc")->get();
+
+        return view('pages.frontend.order-details', ['orders'=>$order_details, 'user'=>$user, 'user_details'=>$user_details]);
+    }
+
+    public function submit_product_review(Request $request){
+        if($request->review_id == ""){
+            $user_id = Auth::id();
+            $ratingObject = new RatingReviewModel();
+            $ratingObject->user_id = $user_id;
+            $ratingObject->product_id = $request->product_id;
+            $ratingObject->rating = $request->rate;
+            $ratingObject->review = $request->product_feedback;
+            $ratingObject->save();
+
+            $msg = 'Review added successfully.';
+        }else{
+            RatingReviewModel::where('id', $request->review_id)->update([
+                'rating' => $request->rate,
+                'review' => $request->product_feedback,
+            ]);
+            $msg = 'Review updated successfully.';
+        }
+        
+        return response()->json([
+            'status'=> true, 
+            'msg' => $msg
+        ]);
+    }
+
+    public function fetch_product_review(Request $request){
+        $review_details = RatingReviewModel::where('id', $request->review_id)->get()->first();
+        return response()->json([
+            'status'=> true, 
+            'review_details' => $review_details
+        ]);
+    }
+
+    public function fetch_show_more_product_review(Request $request){
+        $product_id = $request->product_id;
+        $review_offset = $request->review_offset;
+
+        $review_list = RatingReviewModel::with('user_details')->where('product_id', $product_id)->where('status', 1)->skip($review_offset)->orderBy("id", "desc")->take(4)->get();
+        $next_offset = $review_offset+4;
+
+        return response()->json([
+            'status'=> true, 
+            'review_list' => $review_list,
+            'next_offset' => $next_offset
+        ]);
+    }
+
+    public function fetch_if_product_purchased(Request $request){
+        $user_id = Auth::id();
+        $product_id = $request->product_id;
+
+        $all_order_items_query = 
+        OrderItemModel::select([
+            'order_item.id',
+        ])
+        ->join('order', 'order.id', '=', 'order_item.order_id')
+        ->where('order.customer_id', $user_id)
+        ->where('order_item.product_id', $product_id);
+
+        $all_order_item_num = $all_order_items_query->count();
+
+        if($all_order_item_num > 0){
+            $review_proceed = 'yes';
+        }else{
+            $review_proceed = 'no';
+        }
+
+        return response()->json([
+            'review_proceed'=> $review_proceed
+        ]);
+    }
+
+    public function search_product_list(Request $request){
+        $search_key = $request->search_key;
+
+        $product_query = VariationModel::select([
+            'product_variation.id',
+            'product_variation.fitting_title'
+        ]);
+        $product_query
+        ->join('products', 'products.id', '=', 'product_variation.product_id')
+        ->join('type', 'type.id', '=', 'product_variation.fitting_type')
+        ->join('gender', 'gender.id', '=', 'product_variation.gender')
+        ->join('category', 'category.id', '=', 'products.main_cat_id')
+        ->where('product_variation.is_active', '=', 1)
+        ->where('products.status', '=', 1)
+        ->where('products.deleted', '=', 0)
+        ->groupBy('product_variation.id');
+
+        $product_query->where(function ($query) use ($search_key) {
+            $query->orWhere('category.name', 'like', "%$search_key%")
+            ->orWhere('products.product_title', 'like', "%$search_key%")
+            ->orWhere('product_variation.fitting_title', 'like', "%$search_key%");
+        });
+        
+        return response()->json([
+            'data'=> $product_query->get()
+        ]);
     }
 
     /**

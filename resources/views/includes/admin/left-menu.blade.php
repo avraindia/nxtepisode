@@ -64,5 +64,13 @@
                 <span class="menu-title">Inventory</span>
             </a>
         </li>
+        <li @if(in_array($route_name, ['all_order', 'view_order'])) ? class="hovered" : '' @endif>
+            <a href="{{route('all_order')}}">
+                <span class="menu-icon">
+                    <img src="{{ asset('backend/images/icon/icon-order.svg') }}" class="img-fluid " alt="">
+                </span>
+                <span class="menu-title">Order</span>
+            </a>
+        </li>
     </ul>
 </div>

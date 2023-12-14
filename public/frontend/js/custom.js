@@ -267,3 +267,21 @@ function switchCard() {
 	}
 }
 // login register form toogle js end
+
+// desktop search input js
+
+$('.header-search-icon a').click(function(){
+	$('.search-input').toggleClass('search-input-add-class');
+});
+
+$('.responsive-search-icon').click(function(){
+	$('.responsive-search-input').show();
+	$('.navbar').hide();
+	$('.responive-search-cancle-btn').show();
+});
+
+$('.cancel-responsive-search').click(function(){
+	$('.responsive-search-input').hide();
+	$('.navbar').show();
+	$('.responive-search-cancle-btn').hide();
+});

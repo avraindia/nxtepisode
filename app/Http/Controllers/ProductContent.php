@@ -14,6 +14,7 @@ use App\Models\GenderModel;
 use App\Models\InventoryModel;
 use App\Models\TypeModel;
 use App\Models\ThemeModel;
+use App\Models\RatingReviewModel;
 use Intervention\Image\Facades\Image as Image;
 
 class ProductContent extends Controller
@@ -417,6 +418,7 @@ class ProductContent extends Controller
     public function fitting_list($id){
         $product_fitting_query = 
         VariationModel::select([
+            'product_variation.id',
             'product_variation.fitting_title',
             'product_variation.fitting_type',
             'product_variation.gender AS gender_id',
@@ -626,5 +628,36 @@ class ProductContent extends Controller
         }
     
         return $string;
+    }
+
+    public function fetch_review($id){
+        $rating_review = 
+        RatingReviewModel::select([
+            'review_rating.id',
+            'review_rating.rating',
+            'review_rating.review',
+            'review_rating.status',
+            'users.name',
+            'users.email',
+        ])
+        ->join('users', 'users.id', '=', 'review_rating.user_id')
+        ->where('review_rating.product_id', $id)
+        ->orderBy("review_rating.id", 'DESC')
+        ->get();
+
+        return view('pages.admin.review-rating', ['rating_review'=>$rating_review]);
+    }
+
+    public function change_review_status(Request $request){
+        $review_id = $request->review_id;
+        $status = $request->status;
+
+        RatingReviewModel::where('id', $review_id)->update([
+            'status' => $status
+        ]);
+
+        return response()->json([
+            'resp'=> true
+        ]);
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 03, 2023 at 09:31 PM
+-- Generation Time: Oct 04, 2023 at 05:54 AM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -218,6 +218,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   `customer_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `order_price` decimal(8,2) NOT NULL DEFAULT '0.00',
   `promo_code_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `checkout_adress_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `discount` decimal(8,2) NOT NULL DEFAULT '0.00',
   `shipping_fee` varchar(199) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `final_price` decimal(8,2) NOT NULL DEFAULT '0.00',
@@ -227,19 +228,20 @@ CREATE TABLE IF NOT EXISTS `order` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`id`, `order_number`, `customer_id`, `order_price`, `promo_code_id`, `discount`, `shipping_fee`, `final_price`, `payment_type`, `payment_status`, `transaction_id`, `created_at`, `updated_at`) VALUES
-(3, 'NXTEP2310032007185614', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:37:18', '2023-10-03 14:37:18'),
-(4, 'NXTEP2310032028332212', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:58:33', '2023-10-03 14:58:33'),
-(5, 'NXTEP2310032029382234', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:59:38', '2023-10-03 14:59:38'),
-(6, 'NXTEP2310032030301339', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:00:30', '2023-10-03 15:00:30'),
-(7, 'NXTEP2310032031162181', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:01:16', '2023-10-03 15:01:16'),
-(8, 'NXTEP2310032032461047', 8, '890.00', 0, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:02:46', '2023-10-03 15:02:46');
+INSERT INTO `order` (`id`, `order_number`, `customer_id`, `order_price`, `promo_code_id`, `checkout_adress_id`, `discount`, `shipping_fee`, `final_price`, `payment_type`, `payment_status`, `transaction_id`, `created_at`, `updated_at`) VALUES
+(3, 'NXTEP2310032007185614', 8, '890.00', 0, 1, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:37:18', '2023-10-03 14:37:18'),
+(4, 'NXTEP2310032028332212', 8, '890.00', 0, 3, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:58:33', '2023-10-03 14:58:33'),
+(5, 'NXTEP2310032029382234', 8, '890.00', 0, 1, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 14:59:38', '2023-10-03 14:59:38'),
+(6, 'NXTEP2310032030301339', 8, '890.00', 0, 3, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:00:30', '2023-10-03 15:00:30'),
+(7, 'NXTEP2310032031162181', 8, '890.00', 0, 1, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:01:16', '2023-10-03 15:01:16'),
+(8, 'NXTEP2310032032461047', 8, '890.00', 0, 1, '0.00', '20.00', '910.00', 'COD', 1, NULL, '2023-10-03 15:02:46', '2023-10-03 15:02:46'),
+(9, 'NXTEP2310040434228141', 8, '7165.00', 0, 1, '0.00', '20.00', '7185.00', 'COD', 1, NULL, '2023-10-03 23:04:22', '2023-10-03 23:04:22');
 
 -- --------------------------------------------------------
 
@@ -261,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `order_item` (
   PRIMARY KEY (`id`),
   KEY `order_items_order_id_foreign` (`order_id`),
   KEY `order_items_product_id_foreign` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `order_item`
@@ -273,7 +275,10 @@ INSERT INTO `order_item` (`id`, `order_id`, `product_id`, `size_id`, `product_na
 (3, 5, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
 (4, 6, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
 (5, 7, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
-(6, 8, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL);
+(6, 8, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '890.00', '1', NULL),
+(7, 9, 7, 1, 'BLACK PANTHER Oversized fit for male', '890.00', '2670.00', '3', NULL),
+(8, 9, 5, 5, 'BLACK PANTHER Regular fit for male', '899.00', '2697.00', '3', NULL),
+(9, 9, 6, 2, 'BLACK PANTHER Regular fit for female', '899.00', '1798.00', '2', NULL);
 
 -- --------------------------------------------------------
 

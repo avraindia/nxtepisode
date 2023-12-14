@@ -10,8 +10,15 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\Permission;
+use App\Models\OrderModel;
+use App\Models\OrderItemModel;
+use App\Models\OrderStatusModel;
+use App\Models\StatusCatalogModel;
+use App\Models\OrderDispatchModel;
 
 use App\Mail\ForgetPasswordEmail;
+use App\Models\InventoryModel;
+use App\Models\VariationModel;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 
@@ -231,4 +238,237 @@ class AdminController extends Controller
             'msg' => 'Permission changed.',
         ]);
     }
+
+    public function orders(){
+        $order_query = 
+        OrderModel::select([
+            'order.id',
+            'order.order_number',
+            'order.customer_id',
+            'order.final_price',
+            'order.payment_type',
+            'checkout_address.first_name',
+            'checkout_address.last_name',
+            'checkout_address.phone_no',
+            'users.email',
+        ])
+        
+        ->join('users', 'order.customer_id', '=', 'users.id')
+        ->join('checkout_address', 'order.checkout_adress_id', '=', 'checkout_address.id')
+        ->join('order_status', 'order_status.order_id', '=', 'order.id')
+        ->where('order.payment_status', 1)
+        ->orderByDesc("order.id")
+        ->groupBy('order.id');
+        $order_list = $order_query->paginate(10);
+        //dd($order_list);
+        
+        $status_catalog = StatusCatalogModel::where('is_active', 1)->orderBy('order','asc')->get();
+
+        return view('pages.admin.all-order', ['order_list'=>$order_list, 'status_catalog'=>$status_catalog]);
+
+    }
+
+    public function filtering_order_paginate_result(Request $request){
+        $order_query = 
+        OrderModel::select([
+            'order.id',
+            'order.order_number',
+            'order.customer_id',
+            'order.final_price',
+            'order.payment_type',
+            'order.created_at',
+            'checkout_address.first_name',
+            'checkout_address.last_name',
+            'checkout_address.phone_no',
+            'users.email',
+            'order_status.status_catalog_id'
+        ])
+        ->join('users', 'order.customer_id', '=', 'users.id')
+        ->join('checkout_address', 'order.checkout_adress_id', '=', 'checkout_address.id')
+        ->join('order_status', 'order_status.order_id', '=', 'order.id')
+        ->where('order.payment_status', 1)
+        ->orderByDesc("order.id")
+        ->groupBy('order.id');
+
+        if(request('search_key')){
+            $search_key = request('search_key');
+            $order_query->where(function($order_query) use($search_key) {
+                $order_query->orWhere('order.order_number', 'like', "%$search_key%");
+                $order_query->orWhere('checkout_address.first_name', 'like', "%$search_key%");
+                $order_query->orWhere('checkout_address.last_name', 'like', "%$search_key%");
+                $order_query->orWhere('checkout_address.phone_no', 'like', "%$search_key%");
+                $order_query->orWhere('users.email', 'like', "%$search_key%");
+            });
+        }
+
+        if(request('from_date') && request('to_date')){
+            $from_date = date('Y-m-d H:i:s', strtotime(request('from_date')));
+            $to_date = date('Y-m-d H:i:s', strtotime(request('to_date')));
+
+            $order_query->where('order.created_at', '>=', $from_date);
+            $order_query->where('order.created_at', '<=', $to_date);
+        }
+
+        if(request('status')){
+            $order_query->where(DB::raw("(SELECT `status_catalog_id` FROM `order_status` WHERE `order_id`=`order`.`id` order by `id` desc limit 1)"), '=', request('status') );
+        }
+
+        $order_list = $order_query->paginate(10);
+
+        return view('pages.admin.order-child', ['order_list' => $order_list]);
+    }
+
+    public static function last_status_of_order($id){
+        $status_name = 
+        OrderStatusModel::select([
+            'status_catalog.status_name'
+        ])
+        ->join('status_catalog', 'status_catalog.id', '=', 'order_status.status_catalog_id')
+        ->where('order_status.order_id', $id)
+        ->orderByDesc("order_status.id")
+        ->limit(1)
+        ->first();
+        return $status_name;
+    }
+
+    public function view_order($id){
+        $order_details = 
+        OrderModel::select([
+            'order.id',
+            'order.order_number',
+            'order.customer_id',
+            'order.final_price',
+            'order.payment_type',
+            'order.shipping_fee',
+            'order.discount',
+            'checkout_address.first_name',
+            'checkout_address.last_name',
+            'checkout_address.phone_no',
+            'checkout_address.house_no',
+            'checkout_address.street_name',
+            'checkout_address.landmark',
+            'checkout_address.postal_code',
+            'checkout_address.city_district',
+            'checkout_address.country',
+            'states.name AS state_name',
+            'users.email',
+        ])
+        ->join('users', 'order.customer_id', '=', 'users.id')
+        ->join('checkout_address', 'order.checkout_adress_id', '=', 'checkout_address.id')
+        ->join('states', 'checkout_address.state', '=', 'states.id')
+        //->join('order_status', 'order_status.order_id', '=', 'order.id')
+        ->where('order.id', $id)
+        ->get()
+        ->first();
+
+        $all_order_items_query = 
+        OrderItemModel::select([
+            'order_item.id',
+            'order_item.order_id',
+            'order_item.product_id',
+            'order_item.product_name',
+            'order_item.product_price',
+            'order_item.total_price',
+            'order_item.quantity',
+            'option_values.option_value AS size_name',
+        ])
+        ->join('option_values', 'option_values.id', '=', 'order_item.size_id')
+        ->where('order_item.order_id', $id);
+
+        $all_order_item_num = $all_order_items_query->count();
+        $all_order_items = $all_order_items_query->get();
+
+        $status_details = 
+        OrderStatusModel::select([
+            'order_status.status_catalog_id',
+            'status_catalog.status_name',
+            'order_status.time AS order_status_time' 
+        ])
+        ->join('status_catalog', 'status_catalog.id', '=', 'order_status.status_catalog_id')
+        ->where('order_status.order_id', $id)
+        ->orderBy("order_status.id", 'ASC')
+        ->get();
+
+        $dispatch_details = OrderDispatchModel::where('order_id', $id)->get() ->first();
+
+        return view('pages.admin.order-details', ['order_details'=>$order_details, 'item_num'=>$all_order_item_num, 'all_order_items'=>$all_order_items, 'status_details'=>$status_details, 'dispatch_details'=>$dispatch_details]);
+    }
+
+    public function order_pack(Request $request){
+        $status_id = $this->get_status_id('Packed');
+
+        $statusObject = new OrderStatusModel;
+        $statusObject->order_id = $request->order_id;
+        $statusObject->status_catalog_id = $status_id;
+        $statusObject->save();
+
+        return response()->json([
+            'resp'=> 1
+        ]);
+    }
+
+    public function submit_courier(Request $request){
+        $dispatchObject = new OrderDispatchModel();
+        $dispatchObject->order_id = $request->order_id;
+        $dispatchObject->courier_name = $request->courier_name;
+        $dispatchObject->tracking_number = $request->tracking_number;
+        $dispatchObject->save();
+
+        $status_id = $this->get_status_id('Shipped');
+
+        $statusObject = new OrderStatusModel;
+        $statusObject->order_id = $request->order_id;
+        $statusObject->status_catalog_id = $status_id;
+        $statusObject->save();
+
+        return response()->json([
+            'resp'=> 1
+        ]);
+    }
+
+    public function order_on_way(Request $request){
+        $status_id = $this->get_status_id('On the way');
+
+        $statusObject = new OrderStatusModel;
+        $statusObject->order_id = $request->order_id;
+        $statusObject->status_catalog_id = $status_id;
+        $statusObject->save();
+
+        return response()->json([
+            'resp'=> 1
+        ]);
+    }
+
+    public function order_delivered(Request $request){
+        $status_id = $this->get_status_id('Delivered');
+
+        $statusObject = new OrderStatusModel;
+        $statusObject->order_id = $request->order_id;
+        $statusObject->status_catalog_id = $status_id;
+        $statusObject->save();
+
+        return response()->json([
+            'resp'=> 1
+        ]);
+    }
+
+    public function cancel_order(Request $request){
+        $status_id = $this->get_status_id('Cancelled');
+
+        $statusObject = new OrderStatusModel;
+        $statusObject->order_id = $request->order_id;
+        $statusObject->status_catalog_id = $status_id;
+        $statusObject->save();
+
+        return response()->json([
+            'resp'=> 1
+        ]);
+    }
+
+    public static function get_status_id($status_name){
+        $status_obj = StatusCatalogModel::where('status_name', $status_name)->get()->first();
+        $status_id = $status_obj->id;
+        return $status_id;
+    }
+
 }

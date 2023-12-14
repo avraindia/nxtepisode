@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="place-order-btn">
-                        <a href="javascript:void(0);">go to order details</a>
+                        <a href="{{route('order_details',base64_encode($order_details->id))}}">go to order details</a>
                     </div>
                 </div>
             </div>

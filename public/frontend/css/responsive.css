@@ -54,6 +54,8 @@
     /* for mobile menu responsive section responsive css end */
     .product-filter-product-image img {
         height: 283px;
+        object-position: top center;
+
     }
     .product-filter-product-right-side-header-text h5 {
         font-size: 20px;
@@ -102,12 +104,86 @@
         font-size: 12px;
     }
 
+    .main-banner-image img {
+        height: 400px;
+    }
+    .main-banner-logo-image img {
+        width: 190px !important;
+    }
+    .main-banner-text h1 {
+        font-size: 40px;
+    }
+    .main-banner-text p {
+        font-size: 16px;
+    }
+    .home-page-banner-inner-section {
+        left: 53%;
+    }
+    .unmissable-collection-header-text h4 {
+        font-size: 22px;
+    }
+    .trending-near-section-header-text h4 {
+        font-size: 22px;
+    }
+    .top-ten-week-section-header-text h4 {
+        font-size: 22px;
+    }
+    .shop-by-theme-section-header-text h4 {
+        font-size: 22px;
+    }
+    .women-in-charge-section-header-text h4 {
+        font-size: 22px;
+    }
+    .most-watched-bengali-section-header-text h4 {
+        font-size: 22px;
+    }
+    .straight-form-hollywood-section-header-text h4 {
+        font-size: 22px;
+    }
+    .trending-categories-section-header-text h4 {
+        font-size: 22px;
+    }
+    .best-of-nxt-episode-section-header-text h4 {
+        font-size: 22px;
+    }
+    .unmissable-collection-image img {
+        height: 346px;
+    }
+    .shop-by-theme-image img {
+        height: 350px;
+    }
+    .trending-categories-image img {
+        width: 100%;
+        height: 470px;
+        object-position: top center;
+    }
+    .trending-categories-image-text h5 {
+        font-size: 20px;
+    }
+    .best-of-nxt-episode-slider-image img {
+        height: 400px;
+    }
+    .upload-image-text h6 {
+        font-size: 20px;
+    }
+    .header-selected-icon a {
+        font-size: 18px;
+    }
 }
 
 /* X-Large devices (large desktops, less than 1400px) */
 @media (max-width: 1399.98px) {
     .header .menu-item {
         margin: 0px 4px;
+    }
+    .home-page-banner-inner-section {
+        left: 50%;
+    }
+    .main-heder-anchor-tag ul li a {
+        font-size: 14px;
+    }
+    .main-heder-anchor-tag {
+        margin-left: 13px;
     }
 
 }
@@ -135,14 +211,16 @@
     .header .menu-link {
         display: block;
         padding: 9px 15px;
-        font-size: 18px;
+        font-size: 15px;
+    }
+    .responsive-account-btn ul li a {
+        font-size: 15px;
     }
 
     .header .menu-item {
         margin: 0px 0px;
         border-bottom: 1px solid #eee;
     }
-
     .header-get-call-section {
         text-align: center;
         margin-top: 30px;
@@ -266,6 +344,59 @@
     .my-order-section .place-order-btn a {
         font-size: 13px;
     }
+    .unmissable-collection-image img {
+        height: 260px;
+    }
+    .shop-by-theme-image img {
+        height: 260px;
+    }
+    .main-banner-logo-image img {
+        width: 130px !important;
+    }
+    .main-banner-text h1 {
+        font-size: 30px;
+    }
+    .main-banner-image img {
+        height: 344px;
+    }
+    .trending-categories-image img {
+        height: 365px;
+    }
+    .profile-image img {
+        height: 134px;
+    }
+    .upload-image-delete-btn-section {
+        padding: 9px;
+    }
+    .upload-image-text h6 {
+        font-size: 18px;
+    }
+    .general-information-profile-top-text h5 {
+        font-size: 16px;
+    }
+    .desktop-header{
+        display: none;
+    }
+    .responsive-header{
+        display: block;
+     }
+     .responsive-dropdown-content {
+        display: block !important;
+    }
+    .down-angle-btn {
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+    .header-selected-icon {
+        margin-right: 18px;
+    }
+    .brand img {
+        width: 67px;
+    }
+    .men-women-select-section-btn{
+        display:  block;
+     }
 }
 
 
@@ -342,6 +473,106 @@
     }
     .continue-shopping-btn a {
         width: 100% !important;
+    }
+    .unmissable-collection-image img {
+        height: 185px;
+    }
+    .main-banner-logo-image img {
+        width: 115px !important;
+    }
+    .main-banner-text h1 {
+        font-size: 25px;
+        margin-bottom: 5px;
+    }
+    .main-banner-text p {
+        font-size: 15px;
+        line-height: 27px;
+    }
+    .main-banner-image img {
+        height: 268px;
+    }
+    .main-banner-slider .owl-dots button {
+        width: 17px;
+        height: 17px;
+        margin: 0px 3px;
+    }
+    .main-banner-slider .owl-dots .owl-dot span {
+        margin: 4px;
+    }
+    .main-banner-slider .owl-dots .owl-dot span {
+        width: 7px;
+        height: 7px;
+    }
+    .shop-by-theme-image img {
+        height: 180px;
+    }
+    .straight-form-hollywood-image-section img {
+        height: 120px;
+    }
+    .unmissable-collection-header-text{
+        margin-bottom: 16px;
+    }
+
+    .unmissable-collection-header-text h4 {
+        font-size: 20px;
+    }
+
+
+    .trending-near-section-header-text h4 {
+        font-size: 20px;
+    }
+
+
+    .top-ten-week-section-header-text h4 {
+        font-size: 20px;
+    }
+
+    .shop-by-theme-section-header-text{
+        margin-bottom: 16px;
+    }
+    .shop-by-theme-section-header-text h4 {
+        font-size: 20px;
+    }
+
+
+    .women-in-charge-section-header-text h4 {
+        font-size: 20px;
+    }
+    
+
+    .most-watched-bengali-section-header-text h4 {
+        font-size: 20px;
+    }
+
+    .straight-form-hollywood-section-header-text{
+        margin-bottom: 16px;
+    }
+    .straight-form-hollywood-section-header-text h4 {
+        font-size: 20px;
+    }
+
+    .trending-categories-section-header-text{
+        margin-bottom: 16px;
+    }
+    .trending-categories-section-header-text h4 {
+        font-size: 20px;
+    }
+
+    .best-of-nxt-episode-section-header-text{
+        margin-bottom: 16px;
+    }
+    .best-of-nxt-episode-section-header-text h4 {
+        font-size: 20px;
+    }
+
+    .straight-form-hollywood-image-section {
+        border-radius: 7px;
+    }
+    .straight-form-hollywood-image-section img {
+        border-radius: 7px;
+    }
+    .trending-categories-image img {
+        height: 309px;
     }
 }
 
@@ -489,7 +720,120 @@
     .order-succesful-image{
         margin-bottom: 15px;
     }
+    .unmissable-collection-image img {
+        height: 147px;
+    }
+    .unmissable-collection-header-text h4 {
+        font-size: 17px;
+    }
 
+
+    .trending-near-section-header-text h4 {
+        font-size: 17px;
+    }
+
+
+    .top-ten-week-section-header-text h4 {
+        font-size: 17px;
+    }
+
+    .shop-by-theme-section-header-text{
+        margin-bottom: 16px;
+    }
+    .shop-by-theme-section-header-text h4 {
+        font-size: 17px;
+    }
+
+
+    .women-in-charge-section-header-text h4 {
+        font-size: 17px;
+    }
+    
+
+    .most-watched-bengali-section-header-text h4 {
+        font-size: 17px;
+    }
+
+    .straight-form-hollywood-section-header-text{
+        margin-bottom: 16px;
+    }
+    .straight-form-hollywood-section-header-text h4 {
+        font-size: 17px;
+    }
+
+    .trending-categories-section-header-text{
+        margin-bottom: 16px;
+    }
+    .trending-categories-section-header-text h4 {
+        font-size: 17px;
+    }
+
+    .best-of-nxt-episode-section-header-text{
+        margin-bottom: 16px;
+    }
+    .best-of-nxt-episode-section-header-text h4 {
+        font-size: 17px;
+    }
+    .trending-near-section-more-product-btn a {
+        margin-bottom: 5px;
+        font-size: 13px;
+    }
+    .top-ten-week-section-more-product-btn a {
+        margin-bottom: 5px;
+        font-size: 13px;
+    }
+    .women-in-charge-section-more-product-btn a {
+        margin-bottom: 5px;
+        font-size: 13px;
+    }
+    .most-watched-bengali-section-more-product-btn a {
+        margin-bottom: 5px;
+        font-size: 13px;
+    }
+    .shop-by-theme-image img {
+        height: 149px;
+        border-radius: 10px;
+    }
+    .straight-form-hollywood-image-section img {
+        height: 88px;
+    }
+    .trending-categories-image img {
+        height: 240px;
+        border-radius: 10px;
+    }
+    .trending-categories-image {
+        border-radius: 10px;
+    }
+    .trending-categories-image-text h5 {
+        font-size: 14px;
+    }
+    .best-of-nxt-episode-slider-image img {
+        height: 280px;
+    }
+    .best-of-nxt-episode-image-slider .owl-dots button {
+        width: 17px;
+        height: 17px;
+        margin: 0px 3px;
+    }
+    .best-of-nxt-episode-image-slider .owl-dots .owl-dot span {
+        margin: 4px;
+    }
+    .best-of-nxt-episode-image-slider .owl-dots .owl-dot span {
+        width: 7px;
+        height: 7px;
+    }
+    .profile-image img {
+        height: 398px;
+    }
+    .header .menu-link {
+        font-size: 14px;
+    }
+    .responsive-header .dropdown-item {
+        font-size: 13px;
+    }
+    .responsive-account-btn ul li a {
+        font-size: 14px;
+    }
 }
 
 /* X-Small devices (portrait phones, less than 576px) */
@@ -653,5 +997,147 @@
     }
     .order-owner-name-email-text h5 {
         margin-bottom: 2px;
+    }
+    .main-banner-logo-image img {
+        width: 66px !important;
+    }
+    .main-banner-text h1 {
+        font-size: 17px;    
+        margin-bottom: 6px;
+    }
+    .main-banner-text p {
+        font-size: 12px;
+        line-height: 16px;
+    }
+    .main-banner-image img {
+        height: 190px;
+    }
+    .unmissable-collection-image img {
+        height: 88px;
+    }
+    .trending-near-product-list-slider .owl-dots {
+        bottom: -7%;
+    }
+    .top-ten-week-section-product-list-slider .owl-dots {
+        bottom: -7%;
+    }
+    .women-in-charge-section-product-list-slider .owl-dots {
+        bottom: -7%;
+    }
+    .most-watched-bengali-section-product-list-slider .owl-dots {
+        bottom: -7%;
+    }
+    .shop-by-theme-image img {
+        height: 90px;
+        border-radius: 8px;
+    }
+    .straight-form-hollywood-image-section img {
+        height: 91px;
+    }
+    .trending-categories-image img {
+        height: 160px;
+    }
+    .trending-categories-image-text h5 {
+        font-size: 11px;
+    }
+    .best-of-nxt-episode-slider-image img {
+        height: 209px;
+    }
+    .trending-near-section-more-product-btn a {
+        margin-bottom: 3px;
+        font-size: 11px;
+    }
+    .top-ten-week-section-more-product-btn a {
+        margin-bottom: 3px;
+        font-size: 11px;
+    }
+    .women-in-charge-section-more-product-btn a {
+        margin-bottom: 3px;
+        font-size: 11px;
+    }
+    .most-watched-bengali-section-more-product-btn a {
+        margin-bottom: 3px;
+        font-size: 11px;
+    }
+    .most-watched-bengali-section-header-text{
+        margin-bottom: 10px;
+    }
+    .unmissable-collection-header-text h4 {
+        font-size: 16px;
+    }
+    .trending-near-section-header-text h4 {
+        font-size: 16px;
+    }
+    .top-ten-week-section-header-text h4 {
+        font-size: 16px;
+    }
+    .shop-by-theme-section-header-text h4 {
+        font-size: 16px;
+    }
+    .women-in-charge-section-header-text h4 {
+        font-size: 16px;
+    }
+    .most-watched-bengali-section-header-text h4 {
+        font-size: 16px;
+    }
+    .straight-form-hollywood-section-header-text h4 {
+        font-size: 16px;
+    }
+    .trending-categories-section-header-text h4 {
+        font-size: 16px;
+    }
+    .best-of-nxt-episode-section-header-text h4 {
+        font-size: 16px;
+    }
+    .trending-near-section {
+        margin: 30px 0px 42px 0px;
+    }
+    .top-ten-week-section {
+        margin: 30px 0px 42px 0px;
+    }
+    .women-in-charge-section {
+        margin: 30px 0px 42px 0px;
+    }
+    .most-watched-bengali-section {
+        margin: 30px 0px 42px 0px;
+    }
+    .profile-page-email-section {
+        padding: 10px;
+    }
+    .general-information-profile-form-section {
+        padding: 10px;
+    }
+    .edit-profile-picture {
+        padding: 10px;
+    }
+    .profile-image img {
+        height: 250px;
+    }
+    .profile-save-btn {
+        margin: 10px 0px;
+    }
+    .upload-image-text h6 {
+        font-size: 17px;
+    }
+    .upload-image-text p{
+        font-size: 14px;
+    }
+    .general-information-profile-top-text h5 {
+        font-size: 15px;
+    }
+    .header-selected-icon a {
+        font-size: 15px;
+        margin: 0px 7px;
+    }
+    .brand img {
+        width: 50px;
+    }
+    .responive-search-cancle-btn {
+        right: -7px;
+    }
+    .responive-search-cancle-btn button {
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
     }
 }

@@ -62,8 +62,8 @@
                             @foreach ($addresses as $address)
                             <li>                                
                                 <div class="checkout-suggest-address">
-                                    <label for="online-payment">
-                                        <input class="radioshow_address" type="radio" id="online-address" name="payment" data-class="div{{$address->id}}" value="{{$address->id}}" @if($address->id == $address_id) checked  @endif>
+                                    <label for="online-address">
+                                        <input class="radioshow_address" type="radio" id="online-address{{$address->id}}" name="address" data-class="div{{$address->id}}0" value="{{$address->id}}" state_id="{{$address->state}}" @if($address->id == $address_id) checked  @endif>
                                         <span>
                                         <div class="suggest-delivery-text">
                                         <h5>Deliver To: {{$address->first_name}} {{$address->last_name}}, {{$address->postal_code}}</h5>
@@ -87,7 +87,7 @@
                                 <div class="checkout-address-details-total-section">
                                     <label for="online-payment">
                                         <input class="radioshow" type="radio" id="online-payment" name="payment"
-                                            data-class="div1">
+                                            data-class="div1" checked>
                                         <span>
                                             <div class="address-details-section">
                                                 <h6>Online Payment</h6>
@@ -121,10 +121,17 @@
                         </div>
                         <div class="billing-price-section">
                             <ul>
+                                <?php 
+                                if($shipping_fee == 0){
+                                    $shipping_fee_text = 'Free Delivery';
+                                }else{
+                                    $shipping_fee_text = '₹ '.$shipping_fee;
+                                }
+                                ?>
                                 <li>Cart Total <span class="price-text">₹ {{$total_price}}</span></li>
                                 <li>Discount <span class="discount-text">- ₹ {{$discount}}</span></li>
-                                <li>Shipping Charges <span class="shipping-text">₹ {{$shipping_fee}}</span></li>
-                                <li>Total Amount <span class="price-text">₹ {{$final_amount}}</span></li>
+                                <li>Shipping Charges <span class="shipping-text">{{$shipping_fee_text}}</span></li>
+                                <li>Total Amount <span class="price-text final_price_text">₹ {{$final_amount}}</span></li>
                             </ul>
                         </div>
                     </div>
@@ -138,7 +145,9 @@
                             <input type="hidden" name="promocode_id" class="promocode_id" value="{{$promocode_id}}">
                             <input type="hidden" name="final_amount" class="final_amount" value="{{$final_amount}}">
                             <input type="hidden" name="address_id" class="address_id" value="{{$address_id}}">
+                            <input type="hidden" name="payment_option" class="payment_option" value="online">
                         </form>
+                        <input type="hidden" name="item_num" class="item_num" value="{{$cart_item_count}}">
                     </div>
                 </div>
             </div>
@@ -158,6 +167,23 @@ $(document).on('click', '.change_delivery_address_btn', function(e) {
 $(document).on('click', '.radioshow_address', function(e) {
     var address_id = $(this).val();
     $('.address_id').val(address_id);
+    var state_id = $(this).attr('state_id');
+    var cart_item_count = $('.item_num').val();
+    var shipping_fee_inside_west_bengal = '<?=$shipping_fee_inside_west_bengal?>';
+    var shipping_fee_outside_west_bengal = '<?=$shipping_fee_outside_west_bengal?>';
+    if(cart_item_count >= 3){
+        $('.shipping_fee').val(0);
+        $('.shipping-text').html('Free Delivery');
+    }else{
+        if(state_id == '24'){
+            $('.shipping_fee').val(shipping_fee_inside_west_bengal);
+            $('.shipping-text').html('₹ '+shipping_fee_inside_west_bengal);
+        }else{
+            $('.shipping_fee').val(shipping_fee_outside_west_bengal);
+            $('.shipping-text').html('₹ '+shipping_fee_outside_west_bengal);
+        }
+    }
+    calculate_order_amount();
     var inner_html = $(this).closest('.checkout-suggest-address').find(".suggest-delivery-text").html();
     $('.delivery-text').html(inner_html);
 
@@ -170,5 +196,14 @@ $(document).on('click', '.confirm_order', function(e) {
     const theForm = $('#submitForm');
     theForm.submit();
 });
+
+function calculate_order_amount(){
+    var final_amount = $('.final_amount').val();
+    var shipping_fee = $('.shipping_fee').val();
+
+    var new_final_price = (parseFloat(final_amount)+parseFloat(shipping_fee)).toFixed(2);
+    $('.final_price_text').html('₹ '+new_final_price);
+    $('.final_amount').val(new_final_price);
+}
 </script>
 @endpush

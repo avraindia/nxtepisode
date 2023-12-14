@@ -1,136 +1,168 @@
-<div class="top-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="true-speedy-gmail-ph-number">
-                    <a href="tel:(12345)67890"><i class="fa-sharp fa-solid fa-phone"></i> &nbsp;(12345)67890</a>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="login-wishlist">
-                    @if (auth()->check())
-                    <a href="{{route('frontlogout')}}">Logout</a>
-                    @else
-                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
-                    @endif
-                    <a href="#">Wishlist</a>
-                    <a class="cart-icon" href="#">
-                        <div class="product-cart-icon">
-                            <div class="product-cart-number">
-                                <div class="product-number-text">
-                                @if (auth()->check())
-                                    <a href="{{route('cart')}}"><span class="cart_item_num">{{ Cart::getTotalQuantity()}}</span></a>
-                                    @else
-                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal"><span>0</span></a>
-                                    @endif
-                                    
-                                </div>
-                            </div>
-                            <img src="{{ asset('frontend/images/cart-icon.png') }}" alt="">
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="main-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="logo-btn-anchor-tag">
-                    <div class="logo-btn">
-                        <a href="#"><img class="img-fluid" src="{{ asset('frontend/images/next-logo.png') }}" alt=""></a>
+<section class="desktop-header">
+    <div class="top-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="man-women-btn">
+                        <!-- <ul>
+                            <li><a href="#">WOMEN</a></li>
+                            <li><a href="#" class="active-man-women-btn">MEN</a></li>
+                        </ul> -->
                     </div>
-                    <div class="main-heder-anchor-tag">
+                </div>
+                <div class="col-md-6">
+                    <div class="track-order-contact-us-btn">
                         <ul>
-                            <li class="dropdown">
-                                <a class="active-header-btn" href="#">Topwear &nbsp;<i class="fa fa-angle-down"
-                                        aria-hidden="true"></i></a>
-                                <div class="dropdown-content">
-                                    <ul>
-                                        <li><a href="#">category 1</a></li>
-                                        <li><a href="#">category 2</a></li>
-                                        <li><a href="#">category 3</a></li>
-                                        <li><a href="#">category 4</a></li>
-                                        <li><a href="#">category 5</a></li>
-                                        <li><a href="#">category 6</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#">Bottomwear &nbsp;<i class="fa fa-angle-down"
-                                        aria-hidden="true"></i></a>
-                                <div class="dropdown-content">
-                                    <ul>
-                                        <li><a href="#">category 1</a></li>
-                                        <li><a href="#">category 2</a></li>
-                                        <li><a href="#">category 3</a></li>
-                                        <li><a href="#">category 4</a></li>
-                                        <li><a href="#">category 5</a></li>
-                                        <li><a href="#">category 6</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#">Shoes & Accessories &nbsp;<i class="fa fa-angle-down"
-                                        aria-hidden="true"></i></a>
-                                <div class="dropdown-content">
-                                    <ul>
-                                        <li><a href="#">category 1</a></li>
-                                        <li><a href="#">category 2</a></li>
-                                        <li><a href="#">category 3</a></li>
-                                        <li><a href="#">category 4</a></li>
-                                        <li><a href="#">category 5</a></li>
-                                        <li><a href="#">category 6</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#">Shop by Themes &nbsp;<i class="fa fa-angle-down"
-                                        aria-hidden="true"></i></a>
-                                <div class="dropdown-content">
-                                    <ul>
-                                        <li><a href="#">category 1</a></li>
-                                        <li><a href="#">category 2</a></li>
-                                        <li><a href="#">category 3</a></li>
-                                        <li><a href="#">category 4</a></li>
-                                        <li><a href="#">category 5</a></li>
-                                        <li><a href="#">category 6</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#">Shop by Themes &nbsp;<i class="fa fa-angle-down"
-                                        aria-hidden="true"></i></a>
-                                <div class="dropdown-content">
-                                    <ul>
-                                        <li><a href="#">category 1</a></li>
-                                        <li><a href="#">category 2</a></li>
-                                        <li><a href="#">category 3</a></li>
-                                        <li><a href="#">category 4</a></li>
-                                        <li><a href="#">category 5</a></li>
-                                        <li><a href="#">category 6</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#">Membership</a>
-                            </li>
+                            <!-- <li><a href="#">Track Order</a></li> -->
+                            <li><a href="javascript:void(0);">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="main-heder-search-input position-relative">
-
-                    <input type="text">
-                    <div class="header-search-btn-icon">
-                        <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <div class="main-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-9">
+                    <div class="logo-btn-anchor-tag">
+                        <div class="logo-btn">
+                            <a href="#"><img class="img-fluid" src="{{ asset('frontend/images/next-logo.png') }}" alt=""></a>
+                        </div>
+                        <div class="main-heder-anchor-tag">
+                            <ul>
+                                @foreach($global_categories as $category)
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);">{{$category->name}}</a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
-
+                </div>
+                <div class="col-md-3">
+                    <div class="header-selected-icon">
+                        <div class="header-search-input">
+                            <div class="header-search-icon">
+                                <a href="javascript:void(0);"><i class="fa-solid fa-magnifying-glass"></i></a>
+                            </div>
+                            <input class="search-input" type="text" placeholder="What are you looking for?" onkeyup="fetchSuggestion(this);">
+                            <ul class="suggestionList"></ul>
+                        </div>
+                        @if (auth()->check())
+                            <a href="javascript:void(0);"><i class="fa-regular fa-user"></i></a>
+                        @else
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-regular fa-user"></i></a>
+                        @endif
+                        <a href="javascript:void(0);"><i class="fa-regular fa-heart"></i></a>
+                        @if (auth()->check())
+                            <a href="{{route('cart')}}" class="cart-btn">
+                                <div class="product-cart-number">
+                                    <div class="product-number-text">
+                                        <span>{{ Cart::getTotalQuantity()}}</span>
+                                    </div>
+                                </div>
+                                <i class="fa-regular fa-cart-shopping"></i>
+                            </a>
+                        @else
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal" class="cart-btn">
+                                <div class="product-cart-number">
+                                    <div class="product-number-text">
+                                        <span>0</span>
+                                    </div>
+                                </div>
+                                <i class="fa-regular fa-cart-shopping"></i>
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+<section class="responsive-header">
+    <div class="nav">
+        <header class="header">
+            <div class="container">
+                <nav class="navbar">
+                    <a href="index.html" class="brand"><img class="img-fluid" src="{{ asset('frontend/images/next-logo.png') }}"
+                            alt=""></a>
+                    <div class="burger-phone-icon-section">
+                        <div class="header-selected-icon">
+                            <a class="responsive-search-icon" href="javascript:void(0);"><i class="fa-solid fa-magnifying-glass"></i></a>
+                            @if (auth()->check())
+                                <a href="javascript:void(0);"><i class="fa-regular fa-user"></i></a>
+                            @else
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-regular fa-user"></i></a>
+                            @endif
+                            <a href="javascript:void(0);"><i class="fa-regular fa-heart"></i></a>
+                            @if (auth()->check())
+                                <a href="{{route('cart')}}" class="cart-btn">
+                                    <div class="product-cart-number">
+                                        <div class="product-number-text">
+                                            <span>{{ Cart::getTotalQuantity()}}</span>
+                                        </div>
+                                    </div>
+                                    <i class="fa-regular fa-cart-shopping"></i>
+                                </a>
+                            @else
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal" class="cart-btn">
+                                    <div class="product-cart-number">
+                                        <div class="product-number-text">
+                                            <span>0</span>
+                                        </div>
+                                    </div>
+                                    <i class="fa-regular fa-cart-shopping"></i>
+                                </a>
+                            @endif
+                        </div>
+                        <button type="button" class="burger" id="burger">
+                            <span class="burger-line"></span>
+                            <span class="burger-line"></span>
+                            <span class="burger-line"></span>
+                        </button>
+                    </div>
+                    <span class="overlay" id="overlay"></span>
+                    <div class="menu menu-section" id="menu">
+                        <div class="responsive-logo-user-name-section">
+                            <div class="responsive-logo-menu-image">
+                                <img src="{{ asset('frontend/images/next-logo.png') }}" alt="">
+                            </div>
+                            <!-- <div class="user-name">
+                                <h5>Saswata Roy Chowdhury</h5>
+                            </div> -->
+                        </div>
+                        <div class="responsive-filter-menu-section">
+                            <div class="filter-menu-ul filter men">
+                                <ul class="menu-block">
+                                    @foreach($global_categories as $category)
+                                    <li class="menu-item">
+                                        <a class="menu-link" href="javascript:void(0);">{{$category->name}}</a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="responsive-account-btn">
+                            <ul>
+                                <!-- <li><a href="#">My Account</a></li>
+                                <li><a href="#">My Orders</a></li> -->
+                                <li><a href="javascript:void(0);">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div class="responsive-search-input" style="display: none;">
+                    <div class="responive-search-cancle-btn">
+                        <button class="cancel-responsive-search"><i class="fa-regular fa-xmark"></i></button>
+                    </div>
+                    <div class="header-search-icon">
+                        <a href="javascript:void(0);"><i class="fa-solid fa-magnifying-glass"></i></a>
+                    </div>
+                    <input onkeyup="fetchSuggestion(this);" type="text" placeholder="What are you looking for?">
+                    <ul class="suggestionList"></ul>
+                </div>
+            </div>
+        </header>
+    </div>
+</section>

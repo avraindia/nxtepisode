@@ -25,7 +25,7 @@
             @include('pages.frontend.user-sidebar-child') 
             <div class="col-lg-9 col-md-12">
                 <div class="confirm-order-payment-option-header-text">
-                    <h5>MY ORDERS</h5>
+                    <h5>ORDER DETAILS</h5>
                 </div>
                 @foreach ($orders as $order)
                 <div class="cart-image-text-total-section order-product-image-text-section">
@@ -34,16 +34,21 @@
                             <div class="col-md-8">
                                 <div class="order-id-order-placed-text">
                                     <div class="order-id-text-section">
-                                        <a href="{{route('order_details',base64_encode($order->id))}}">Order   <span class="order-id-number">#{{$order->order_number}}</span></a>
+                                        <a href="javascript:void(0);">Order   <span class="order-id-number">#{{$order->order_number}}</span></a>
                                     </div>
                                     <div class="order-placed-text">
                                         <p>Order Placed {{date('D jS M y',strtotime($order->created_at))}}</p>
                                     </div>
                                 </div>
                             </div>
+                            @php
+                                $order_status = App\Http\Controllers\AdminController::last_status_of_order($order->id);
+                                $status_name = $order_status->status_name;
+                            @endphp
                             <div class="col-md-4">
                                 <div class="track-location-order-btn">
-                                    <a href="javascript:void(0);"><i class="fa-solid fa-location-crosshairs"></i> &nbsp;Track Order</a>
+                                    <a href="#"><i class="fa-solid fa-location-crosshairs"></i> &nbsp;Track Order</a>
+                                    <a class="oreder-status-btn" href="javascript:void(0);">{{$status_name}}</a>
                                 </div>
                             </div>
                         </div>
@@ -84,25 +89,9 @@
                             @endforeach
                         </div>
                     </div>
-                    @php
-                        $order_status = App\Http\Controllers\AdminController::last_status_of_order($order->id);
-                        $status_name = $order_status->status_name;
-                        $check_status_arr = ['Cancelled','Delivered']
-                    @endphp
-                    
                     <div class="cancel-my-order-total-price-section">
                         <div class="my-order-cancel-order-btn">
-                            @if (!in_array($status_name, $check_status_arr))
-                                <a href="javascript:void(0);" class="cancel_order" order_id="{{$order->id}}"><i class="fa-light fa-xmark"></i> &nbsp;Cancel Order</a>
-                            @endif
-
-                            @if ($status_name == 'Delivered')
-                                <a href="javascript:void(0);">Order Delivered</a>
-                            @endif
-
-                            @if ($status_name == 'Cancelled')
-                                <a href="javascript:void(0);">Order Cancelled</a>
-                            @endif
+                            <!-- <a href="#"><i class="fa-light fa-xmark"></i> &nbsp;Cancel Order</a> -->
                         </div>
                         <div class="my-order-total-price-text">
                             <h5>Rs. {{$order->final_price}}</h5>
@@ -120,31 +109,6 @@
 
 @push('scripts')
 <script>
-$(document).on('click', '.cancel_order', function(e) {
-    var order_id = $(this).attr('order_id');
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#23af41',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Proceed!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            var _token = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({
-                url: "{{ route('cancel_order') }}",
-                method: 'POST',
-                data: {_token: _token, order_id:order_id},
-                success: function (data) { 
-                    if(data.resp == true){
-                        location.reload();
-                    }
-                }
-            });
-        } 
-    });
-});
+
 </script>
 @endpush
