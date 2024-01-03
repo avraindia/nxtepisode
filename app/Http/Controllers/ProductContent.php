@@ -350,11 +350,13 @@ class ProductContent extends Controller
         $existing_stock_value = $request->existing_stock_value;
 
         if($inventory_id == 0){
+            $sku = $this->randomSku();
             $inventoryObject = new InventoryModel();
             $inventoryObject->product_id = $product_id;
             $inventoryObject->option_id = $option_id;
             $inventoryObject->option_value_id = $option_value_id;
             $inventoryObject->inventory_price = $inventory_price;
+            $inventoryObject->sku = $sku;
             $inventoryObject->current_stock = $inventory_stock;
 
             $inventoryObject->save();
@@ -375,6 +377,16 @@ class ProductContent extends Controller
             'inventory_id' => $inventory_id,
             'msg' => $msg
         ]);
+    }
+
+    public function randomSku($length = 15){
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
     /**

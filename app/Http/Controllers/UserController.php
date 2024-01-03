@@ -133,7 +133,8 @@ class UserController extends Controller
 
         UserDetails::where('user_id', $request->user_id)->update([
             'full_name' => $request->full_name,
-            'email' => $request->email_address
+            'email' => $request->email_address,
+            'phone_number' => $request->phone_number
         ]);
 
         if(request()->hasFile('user_image')) { 

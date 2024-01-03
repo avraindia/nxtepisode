@@ -26,10 +26,17 @@
                     <input type="text" placeholder="Search for Categories">
                 </div>-->
                 <div class="product-section-check-box">
-                    @foreach($categories as $category)
-                    <input type="checkbox" class="product_cat" name="product_cat" id="{{$category->name}}" value="{{$category->id}}">
-                    <label for="{{$category->name}}">{{$category->name}}</label>
-                    @endforeach
+                    @if (isset($_GET['cid']))
+                        @foreach($categories as $category)
+                        <input type="checkbox" class="product_cat" name="product_cat" id="{{$category->name}}" value="{{$category->id}}" @if($category->id == $_GET['cid']) checked  @endif>
+                        <label for="{{$category->name}}">{{$category->name}}</label>
+                        @endforeach
+                    @else
+                        @foreach($categories as $category)
+                        <input type="checkbox" class="product_cat" name="product_cat" id="{{$category->name}}" value="{{$category->id}}">
+                        <label for="{{$category->name}}">{{$category->name}}</label>
+                        @endforeach
+                    @endif
                 </div>
                 <!--<div class="more-product-chekbox-btn">
                     <a href="javascript:void(0)">+ 8 more</a>

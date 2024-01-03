@@ -27,9 +27,48 @@
             <label class="alert alert-success">Order Packed at {{$status->order_status_time}} </label>
             @if (!in_array('Shipped', $all_status))
                 @if (!in_array('Cancelled', $all_status))
-                <input type="text" name="courier_name" placeholder="Enter courier" class="flex-form-control courier_name">
+                <!-- <input type="text" name="courier_name" placeholder="Enter courier" class="flex-form-control courier_name">
                 <input type="text" name="tracking_number" placeholder="Enter tracking number" class="flex-form-control tracking_number" style="width: 50%;">
-                <button type="button" class="btn-blue dispatched_button">Mark as Dispatched</button>
+                <button type="button" class="btn-blue dispatched_button">Mark as Dispatched</button> -->
+
+                <form>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="label">Item Length</label>
+                                        <input type="text" class="form-control length" placeholder="Ex: 0.5" value="" name="length" required>
+                                        <label class="input-info"><img src="{{ asset('backend/images/icon/icon-eye.svg') }}" alt=""> The length of the item in cms. Must be more than 0.5.</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="label">Item Breadth</label>
+                                        <input type="text" class="form-control beadth" placeholder="Ex: 0.5" value="" name="beadth" required>
+                                        <label class="input-info"><img src="{{ asset('backend/images/icon/icon-eye.svg') }}" alt=""> The breadth of the item in cms. Must be more than 0.5.</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="label">Item Height</label>
+                                        <input type="text" class="form-control height" placeholder="Ex: 0.5" value="" name="height" required>
+                                        <label class="input-info"><img src="{{ asset('backend/images/icon/icon-eye.svg') }}" alt=""> The height of the item in cms. Must be more than 0.5.</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="label">Item Weight</label>
+                                        <input type="text" class="form-control weight" placeholder="Ex: 0.5" value="" name="weight" required>
+                                        <label class="input-info"><img src="{{ asset('backend/images/icon/icon-eye.svg') }}" alt=""> The weight of the item in kgs. Must be more than 0.</label>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-blue dispatched_button">Order Mark as Dispatched</button>
+                                <div class="alert ship_resp"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 @endif
             @endif
         </div>
@@ -40,7 +79,6 @@
     <div class="ors-list">
         <div class="align-items-center d-lg-flex justify-content-between">
             <label class="alert alert-success">Order dispatched at {{$status->order_status_time}} </label>
-            <label class="alert alert-info"> Courier name : {{$dispatch_details->courier_name}} || Tracking Number : {{$dispatch_details->tracking_number}} </label>
             @if (!in_array('On the way', $all_status))
                 @if (!in_array('Cancelled', $all_status))
                 <button type="button" class="btn-blue on_the_way_button">Mark order as Out for delivery</button>

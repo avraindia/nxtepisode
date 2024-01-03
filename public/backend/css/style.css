@@ -2584,6 +2584,40 @@ margin-bottom: 25px;
 
 }
 
+.input-info {
+
+    display: flex;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    padding: 3px;
+
+    color: #C48C09;
+
+    background: rgba(252, 61, 61, 0.1);
+
+    border-radius: 2px;
+
+    font-family: 'Poppins';
+
+    font-weight: 400;
+
+    font-size: 11px;
+
+    margin-top: 5px;
+
+}
+
+.input-info img{
+
+    width: 15px;
+
+    padding: 2px;
+
+}
+
 .range-slider span{
 
     font-family: 'Questrial';

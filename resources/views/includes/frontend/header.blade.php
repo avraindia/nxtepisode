@@ -33,7 +33,7 @@
                             <ul>
                                 @foreach($global_categories as $category)
                                 <li class="dropdown">
-                                    <a href="javascript:void(0);">{{$category->name}}</a>
+                                    <a href="{{route('products',['cid' => $category->id])}}">{{$category->name}}</a>
                                 </li>
                                 @endforeach
                             </ul>
@@ -50,7 +50,15 @@
                             <ul class="suggestionList"></ul>
                         </div>
                         @if (auth()->check())
-                            <a href="javascript:void(0);"><i class="fa-regular fa-user"></i></a>
+                            <a href="javascript:void(0);" id="desktop-dropdown-btn"><i class="fa-regular fa-user"></i>
+                            </a>
+                                <div class="user-logout-dropdown" id="desktop-dropdown-list">
+                                    <ul>
+                                        <li><a href="{{route('profile')}}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a></li>
+                                        <li><a href="{{route('my_order')}}">My Order</a></li>
+                                        <li><a href="javascript:void(0);" onclick="javascript:logoutFunction();">Logout</a></li>
+                                    </ul>
+                                </div>
                         @else
                             <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-regular fa-user"></i></a>
                         @endif

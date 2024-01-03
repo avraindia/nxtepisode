@@ -130,7 +130,6 @@ class ProductController extends Controller
      * Product frontend operarion start
     */
     public function products(){
-
         $categories = CategoryModel::all();
         $types = TypeModel::all();
         $options = OptionModel::with('option_values')->get();
@@ -155,6 +154,10 @@ class ProductController extends Controller
         ->where('products.status', '=', 1)
         ->where('products.deleted', '=', 0)
         ->orderBy('product_variation.id' ,'desc');
+
+        if(request('cid')){
+            $product_query->where('products.main_cat_id', '=', request('cid'));
+        }
 
         $product_count = $product_query->get()->count();
         $all_products = $product_query->paginate(4);
@@ -341,6 +344,7 @@ class ProductController extends Controller
         $inventory_price = '0.00';
         $gst_amount = '0.00';
         $sell_price = '0.00';
+        $sku = '';
 
         $inventory_query = InventoryModel::where('product_id', $product_id)->where('option_value_id', $size_id);
         $check_num = $inventory_query->count();
@@ -349,6 +353,7 @@ class ProductController extends Controller
 
             $current_stock = $inventory_rec->current_stock;
             $inventory_price = $inventory_rec->inventory_price;
+            $sku = $inventory_rec->sku;
             if($inventory_price != '0.00'){
                 $gst_amount = ($inventory_price*$product_gst)/100;
                 $gst_amount = round($gst_amount);
@@ -360,6 +365,7 @@ class ProductController extends Controller
         return response()->json([
             'status'=> true, 
             'num' => $check_num,
+            'sku' => $sku,
             'current_stock' => $current_stock,
             'inventory_price' => $inventory_price,
             'gst_amount' => $gst_amount,

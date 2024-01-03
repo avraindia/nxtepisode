@@ -90,20 +90,37 @@
 $(document).on('click', '.dispatched_button', function(e) {
     e.preventDefault();
     var valid = true;
-    var courier_name = $('.courier_name').val();
-    var tracking_number = $('.tracking_number').val();
-    if(courier_name == ""){
-        $('.courier_name').css({"border-color":"red", "border-width":"2px", "border-style":"solid"});
+    var length = $('.length').val();
+    var beadth = $('.beadth').val();
+    var height = $('.height').val();
+    var weight = $('.weight').val();
+
+    if(length == ""){
+        $('.length').css({"border-color":"red", "border-width":"2px", "border-style":"solid"});
         valid = false;
     }else{
-        $('.courier_name').css({'border-color':'', 'border':''});
+        $('.length').css({'border-color':'', 'border':''});
     }
 
-    if(tracking_number == ""){
-        $('.tracking_number').css({"border-color":"red", "border-width":"2px", "border-style":"solid"});
+    if(beadth == ""){
+        $('.beadth').css({"border-color":"red", "border-width":"2px", "border-style":"solid"});
         valid = false;
     }else{
-        $('.tracking_number').css({'border-color':'', 'border':''});
+        $('.beadth').css({'border-color':'', 'border':''});
+    }
+
+    if(height == ""){
+        $('.height').css({"border-color":"red", "border-width":"2px", "border-style":"solid"});
+        valid = false;
+    }else{
+        $('.height').css({'border-color':'', 'border':''});
+    }
+
+    if(weight == ""){
+        $('.weight').css({"border-color":"red", "border-width":"2px", "border-style":"solid"});
+        valid = false;
+    }else{
+        $('.weight').css({'border-color':'', 'border':''});
     }
 
     if(valid == true){
@@ -113,10 +130,12 @@ $(document).on('click', '.dispatched_button', function(e) {
             $.ajax({
                 url: "{{ route('submit_courier') }}",
                 method: 'POST',
-                data: {_token: _token, order_id:order_id, courier_name:courier_name , tracking_number:tracking_number},
+                data: {_token: _token, order_id:order_id, length:length, breadth:beadth, height:height, weight:weight},
                 success: function (data) { 
-                    if(data.resp == true){
+                    if(data.resp == '1'){
                         location.reload();
+                    }else{
+                        $('.ship_resp').addClass('alert-danger').html(data.status);
                     }
                 }
             });

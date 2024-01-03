@@ -81,7 +81,7 @@ const fetchOption = (options) => {
         return error
     });
 }
-
+$('.suggestionList').hide();
 function fetchSuggestion(event){
     var search_key = event.value;
     if(search_key != ""){
@@ -96,6 +96,7 @@ function fetchSuggestion(event){
                 
                 var html_body = '<li class="suggesion_item" value="'+encoded_id+'">'+fitting_title+'</li>';
                 $('.suggestionList').append(html_body);
+                $('.suggestionList').show();
             }
         });
     }else{

@@ -85,6 +85,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <a href="" class="alert alert-info ">Exchange</a>
                             </div>
                             @endforeach
                         </div>

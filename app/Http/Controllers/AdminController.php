@@ -408,10 +408,22 @@ class AdminController extends Controller
     }
 
     public function submit_courier(Request $request){
+        $orderResp = $this->push_order_to_shiprocket($request->order_id, $request->length, $request->breadth, $request->height, $request->weight);
+        if($orderResp->status_code != 1){
+            return response()->json([
+                'resp'=> 0,
+                'status' => 'Order '.$orderResp->status.' at shipment site.'
+            ]);
+        }
+        
         $dispatchObject = new OrderDispatchModel();
         $dispatchObject->order_id = $request->order_id;
-        $dispatchObject->courier_name = $request->courier_name;
-        $dispatchObject->tracking_number = $request->tracking_number;
+        $dispatchObject->length = $request->length;
+        $dispatchObject->breadth = $request->breadth;
+        $dispatchObject->height = $request->height;
+        $dispatchObject->weight = $request->weight;
+        $dispatchObject->shipment_orderId = $orderResp->order_id;
+        $dispatchObject->shipment_id = $orderResp->shipment_id;
         $dispatchObject->save();
 
         $status_id = $this->get_status_id('Shipped');
@@ -424,6 +436,149 @@ class AdminController extends Controller
         return response()->json([
             'resp'=> 1
         ]);
+    }
+
+    public function generate_shiprocket_tokenID_and_channelId(){
+        $login_url = "https://apiv2.shiprocket.in/v1/external/auth/login"; 
+        $login_header = array(
+            "Content-Type: application/json"
+        );
+        $login_data = json_encode([
+            "email" => env('SHIPROCKET_EMAIL_ID'),
+            "password" => env('SHIPROCKET_PASSWORD')
+        ]);
+
+        $loginCurl = curl_init();
+
+        curl_setopt($loginCurl, CURLOPT_URL, $login_url);
+        curl_setopt($loginCurl, CURLOPT_POST, true);
+        curl_setopt($loginCurl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($loginCurl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($loginCurl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($loginCurl, CURLOPT_HTTPHEADER, $login_header);
+        curl_setopt($loginCurl, CURLOPT_POSTFIELDS, $login_data);
+
+        $loginResp = curl_exec($loginCurl);
+        curl_close($loginCurl);
+
+        $loginResult = json_decode($loginResp);
+        $token = $loginResult->token;
+        
+        $channel_url = "https://apiv2.shiprocket.in/v1/external/channels"; 
+        $channel_header = array(
+            "Content-Type: application/json",
+            "Authorization: Bearer ".$token.""
+        );
+
+        $channelCurl = curl_init();
+
+        curl_setopt($channelCurl, CURLOPT_URL, $channel_url);
+        curl_setopt($channelCurl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($channelCurl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($channelCurl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($channelCurl, CURLOPT_HTTPHEADER, $channel_header);
+        curl_setopt($channelCurl, CURLOPT_CUSTOMREQUEST, "GET");
+
+        $channelResp = curl_exec($channelCurl);
+        curl_close($channelCurl);
+
+        $channelResult = json_decode($channelResp);
+        $channelobj = $channelResult->data[0];
+
+        $channelId = $channelobj->id;
+
+        return response()->json([
+            'tokenId' => $token,
+            'channelId' => $channelId
+        ]);
+    }
+
+    public function push_order_to_shiprocket($orderId, $length, $breadth, $height, $weight){
+        $shiprocketData = $this->generate_shiprocket_tokenID_and_channelId();
+        $tokenId = $shiprocketData->getData()->tokenId;
+        $channelId = $shiprocketData->getData()->channelId;
+
+        $order_details = OrderModel::where('id', $orderId)->with('user_details')->with('shipping_address')->with('order_items')->get()->first(); 
+        $user_details = $order_details->user_details;
+        $shipping_address = $order_details->shipping_address;
+        $order_items = $order_details->order_items;
+
+        $order_item_arr = array();
+        foreach($order_items as $key=>$item){
+            $item = array(
+                "name" => $item->product_name, 
+                "sku" => $item->sku, 
+                "units" => $item->quantity, 
+                "selling_price" => $item->total_price, 
+                "discount" => "", 
+                "tax" => $item->gst, 
+                "hsn" => "" 
+            );
+            
+            array_push($order_item_arr, $item);
+        }
+
+        $order_url = "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc"; 
+        $order_header = array(
+            "Content-Type: application/json",
+            "Authorization: Bearer ".$tokenId.""
+        );
+
+        $order_data = json_encode([
+            "order_id" => $order_details->order_number, 
+            "order_date" => date('Y-m-d H:i:s', strtotime($order_details->created_at)), 
+            "pickup_location" => "Primary", 
+            "channel_id" => $channelId, 
+            "comment" => "NextEpisode Product Order", 
+            "billing_customer_name" => $shipping_address->first_name, 
+            "billing_last_name" => $shipping_address->last_name, 
+            "billing_address" => $shipping_address->house_no.' '.$shipping_address->street_name, 
+            "billing_address_2" => $shipping_address->landmark, 
+            "billing_city" => $shipping_address->city_district, 
+            "billing_pincode" => $shipping_address->postal_code, 
+            "billing_state" => $shipping_address->state_name, 
+            "billing_country" => $shipping_address->country, 
+            "billing_email" => $user_details->email, 
+            "billing_phone" => $user_details->phone_number, 
+            "shipping_is_billing" => true, 
+            "shipping_customer_name" => "", 
+            "shipping_last_name" => "", 
+            "shipping_address" => "", 
+            "shipping_address_2" => "", 
+            "shipping_city" => "", 
+            "shipping_pincode" => "", 
+            "shipping_country" => "", 
+            "shipping_state" => "", 
+            "shipping_email" => "", 
+            "shipping_phone" => "", 
+            "order_items" => $order_item_arr, 
+            "payment_method" => "Prepaid", 
+            "shipping_charges" => $order_details->shipping_fee, 
+            "giftwrap_charges" => 0, 
+            "transaction_charges" => 0, 
+            "total_discount" => $order_details->discount, 
+            "sub_total" => $order_details->final_price, 
+            "length" => $length, 
+            "breadth" => $breadth, 
+            "height" => $height, 
+            "weight" => $weight 
+        ]);
+
+        $orderCurl = curl_init();
+
+        curl_setopt($orderCurl, CURLOPT_URL, $order_url);
+        curl_setopt($orderCurl, CURLOPT_POST, true);
+        curl_setopt($orderCurl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($orderCurl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($orderCurl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($orderCurl, CURLOPT_HTTPHEADER, $order_header);
+        curl_setopt($orderCurl, CURLOPT_POSTFIELDS, $order_data);
+
+        $orderResp = curl_exec($orderCurl);
+        curl_close($orderCurl);
+
+        $orderResult = json_decode($orderResp);
+        return $orderResult;
     }
 
     public function order_on_way(Request $request){

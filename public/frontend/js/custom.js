@@ -285,3 +285,7 @@ $('.cancel-responsive-search').click(function(){
 	$('.navbar').show();
 	$('.responive-search-cancle-btn').hide();
 });
+
+$('#desktop-dropdown-btn').click(() => {
+	$('#desktop-dropdown-list').toggle();
+});

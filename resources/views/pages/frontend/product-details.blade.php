@@ -266,7 +266,7 @@
                                                 <li>
                                                     <div class="product-review-image-text-total-section">
                                                         <div class="product-review-image">
-                                                            <img src="assets/images/product-review.jpg" alt="">
+                                                            <img src="{{$review->user_details->profile_image_link}}" alt="">
                                                         </div>
                                                         <div class="review-text">
                                                             <div class="review-head-name-text">
@@ -396,6 +396,7 @@ $(document).on('change', '.size_id', function(e) {
                     if(data.num != '0'){
                         $('.cart_available').val('yes');
                         $('.product_stock').val(data.current_stock);
+                        $('.product_sku').val(data.sku);
 
                         if(data.sell_price!='0.00'){
                             $('.offer-price').html('₹ '+data.sell_price);
@@ -583,7 +584,7 @@ $(document).on('click', '.show_more_review', function(e) {
                 '<li>'+
                     '<div class="product-review-image-text-total-section">'+
                         '<div class="product-review-image">'+
-                            '<img src="assets/images/product-review.jpg" alt="">'+
+                            '<img src="'+single_review.user_details.profile_image_link+'" alt="">'+
                         '</div>'+
                         '<div class="review-text">'+
                             '<div class="review-head-name-text">'+
