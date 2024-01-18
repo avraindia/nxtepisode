@@ -8,6 +8,7 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ProductContent;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\HomepageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,27 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/save-category', [ProductContent::class, 'save_category'])->name('save_category');
     Route::post('/admin/fetch-child-category', [ProductContent::class, 'fetch_child_category'])->name('fetch_child_category');
     Route::get('/admin/category-delete/{id}', [ProductContent::class, 'category_delete'])->name('category_delete');
+
+    /// Homepage Route
+    Route::get('/admin/all-sections', [HomepageController::class, 'all_sections'])->name('all_sections');
+    Route::get('/admin/add-homepage-section', [HomepageController::class, 'add_homepage_section'])->name('add_homepage_section');
+    Route::post('/admin/save-homepage-section', [HomepageController::class, 'save_homepage_section'])->name('save_homepage_section');
+    Route::get('/admin/edit-homepage-section/{id}', [HomepageController::class, 'edit_homepage_section'])->name('edit_homepage_section');
+    Route::get('/admin/add-section-product/{id}', [HomepageController::class, 'add_section_product'])->name('add_section_product');
+    Route::post('/admin/add-homepage-section-product', [HomepageController::class, 'add_homepage_section_product'])->name('add_homepage_section_product');
+    Route::post('/admin/filtering-section-product', [HomepageController::class, 'filtering_section_product'])->name('filtering_section_product');
+    Route::get('/admin/add-collection/{id}', [HomepageController::class, 'add_collection'])->name('add_collection');
+    Route::post('/admin/save-collection-item', [HomepageController::class, 'save_collection_item'])->name('save_collection_item');
+    Route::get('/admin/collection-list/{id}', [HomepageController::class, 'collection_list'])->name('collection_list');
+    Route::get('/admin/collection-product/{id}', [HomepageController::class, 'collection_product'])->name('collection_product');
+    Route::post('/admin/filtering-collection-product', [HomepageController::class, 'filtering_collection_product'])->name('filtering_collection_product');
+    Route::post('/admin/add-homepage-collection-product', [HomepageController::class, 'add_homepage_collection_product'])->name('add_homepage_collection_product');
+    Route::get('/admin/edit-collection/{id}', [HomepageController::class, 'edit_collection'])->name('edit_collection');
+    Route::post('/admin/update-collection-item', [HomepageController::class, 'update_collection_item'])->name('update_collection_item');
+    Route::get('/admin/delete-collection-item/{id}', [HomepageController::class, 'delete_collection_item'])->name('delete_collection_item');
+    Route::get('/admin/add-banner-image/{type}', [HomepageController::class, 'add_banner_image'])->name('add_banner_image');
+    Route::post('/admin/save-banner-image', [HomepageController::class, 'save_banner_image'])->name('save_banner_image');
+    Route::get('/admin/delete-banner-image/{id}', [HomepageController::class, 'delete_banner_image'])->name('delete_banner_image');
 
     //// Product Route
     Route::get('/admin/all-products', [ProductController::class, 'all_products'])->name('all_products');
@@ -104,10 +126,11 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/order-delivered', [AdminController::class, 'order_delivered'])->name('order_delivered');
     Route::post('/admin/cancel-order', [AdminController::class, 'cancel_order'])->name('cancel_order');
     Route::post('/admin/filtering-order-paginate-result', [AdminController::class, 'filtering_order_paginate_result'])->name('filtering_order_paginate_result');
+ 
 });
 
 ////////// route of frontend start ////////////
-Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/', [HomepageController::class, 'home'])->name('home');
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/submit-register-form', [UserController::class, 'submit_register_form'])->name('submit_register_form');
@@ -148,12 +171,29 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/order', [ProductController::class, 'order'])->name('order');
     Route::get('/order-success/{id}', [ProductController::class, 'order_success'])->name('order_success');
     Route::get('/my-order', [ProductController::class, 'my_order'])->name('my_order');
+    Route::post('/filtering-my-order', [ProductController::class, 'filtering_my_order'])->name('filtering_my_order');
     Route::get('/order-details/{id}', [ProductController::class, 'order_details'])->name('order_details');
     Route::post('/submit-product-review', [ProductController::class, 'submit_product_review'])->name('submit_product_review');
     Route::post('/fetch-product-review', [ProductController::class, 'fetch_product_review'])->name('fetch_product_review');
     Route::post('/fetch-if_product-purchased', [ProductController::class, 'fetch_if_product_purchased'])->name('fetch_if_product_purchased');
+    Route::get('/product-exchange/{id}', [ProductController::class, 'product_exchange'])->name('product_exchange');
+    Route::post('/submit-exchange', [ProductController::class, 'submit_exchange'])->name('submit_exchange');
+    Route::post('/fetch-exchange-issue', [ProductController::class, 'fetch_exchange_issue'])->name('fetch_exchange_issue');
+    Route::get('/exchange-product-details/{id}', [ProductController::class, 'exchange_product_details'])->name('exchange_product_details');
+    Route::any('/exchange-checkout', [ProductController::class, 'exchange_checkout'])->name('exchange_checkout');
+    Route::post('/exchange-payment', [ProductController::class, 'exchange_payment'])->name('exchange_payment');
 });
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
+});
+
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return 'Application cache has been cleared';
+});
+
+Route::get('/view-clear', function() {
+    Artisan::call('view:clear');
+    return 'View cache has been cleared';
 });

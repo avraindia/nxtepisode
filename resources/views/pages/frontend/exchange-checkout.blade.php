@@ -86,34 +86,60 @@
                         <div class="billing-details-header-text">
                             <h5>BILLING DETAILS</h5>
                         </div>
+                        <?php
+                        $exchange_price = $exchange_details->exchange_price;
+                        $payable_amount = '0';
+                        $refund_amount = '0';
+                        if($cart_price>$exchange_price){
+                            $payable_amount = $cart_price-$exchange_price;
+                        }else{
+                            $refund_amount = $exchange_price-$cart_price;
+                        }
+                        $btn_text = 'Confirm Order';
+                        ?>
                         <div class="billing-price-section">
                             <ul>
-                                <li>Cart Total <span class="price-text">₹ {{$order_price}}</span></li>
-                                <li>Discount <span class="discount-text">- ₹ {{$discount}}</span></li>
-                                <!-- <li>GST <span class="gst-text">₹ 44.95</span></li> -->
-                                <li>Shipping Charges <span class="shipping-text">₹ </span></li>
-                                <li>Total Amount <span class="price-text final_price_text">₹ {{$final_price}}</span></li>
+                                <li>Total Amount <span class="price-text">₹ {{$cart_price}}</span></li>
+                                <?php
+                                if($payable_amount>0){
+                                    echo '<li>Exchange Amount <span class="price-text">₹ '.number_format($exchange_price,"2").'</span></li><li>Payable Amount <span class="price-text">₹ '.number_format($payable_amount,"2").'</span></li>';
+                                    $btn_text = 'Pay Now';
+                                }else{
+                                    echo '<li>Refund Amount <span class="price-text">₹ '.number_format($refund_amount,"2").'</span></li><li>Payable Amount <span class="price-text">₹ '.number_format($payable_amount,"2").'</span></li>';
+                                }
+                                ?>
                             </ul>
                         </div>
                     </div>
+                    <form id="submitForm" action="{{ route('exchange_payment') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="place-order-btn">
-                        <a href="javascript:void(0);" class="confirm_order">Confirm Order</a>
-                        <form id="submitForm" action="{{ route('payment') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="shipping_fee" class="shipping_fee" value="">
-                            <input type="hidden" name="total_price" class="total_price" value="{{$order_price}}">
-                            <input type="hidden" name="discount" class="discount" value="{{$discount}}">
-                            <input type="hidden" name="promocode_id" class="promocode_id" value="{{$promo_code_id}}">
-                            <input type="hidden" name="final_amount" class="final_amount" value="{{$final_price}}">
-                            <input type="hidden" name="address_id" class="address_id" value="">
-                        </form>
-                        <input type="hidden" name="item_num" class="item_num" value="">
+                        <a href="javascript:void(0);" class="order_submit">{{$btn_text}}</a>
                     </div>
+                    <input type="hidden" name="product_name" class="product_name" value="{{$product_name}}">
+                    <input type="hidden" name="product_id" class="product_id" value="{{$product_id}}">
+                    <input type="hidden" name="variation_id" class="variation_id" value="{{$variation_id}}">
+                    <input type="hidden" name="product_size_id" class="product_size_id" value="{{$product_size_id}}">
+                    <input type="hidden" name="product_stock" class="product_stock" value="{{$product_stock}}">
+                    <input type="hidden" name="product_sku" class="product_sku" value="{{$product_sku}}">
+                    <input type="hidden" name="product_gst" class="product_gst" value="{{$product_gst}}">
+                    <input type="hidden" name="cart_price" class="cart_price" value="{{$cart_price}}">
+                    <input type="hidden" name="current_mrp" class="current_mrp" value="{{$current_mrp}}">
+                    <input type="hidden" name="product_quantity" class="product_quantity" value="{{$product_quantity}}">
+                    <input type="hidden" name="gst_amount" class="gst_amount" value="{{$gst_amount}}">
+                    <input type="hidden" name="amount_after_gst" class="amount_after_gst" value="{{$amount_after_gst}}">
+                    <input type="hidden" name="product_size_id" class="product_size_id" value="{{$product_size_id}}">
+                    <input type="hidden" name="exchange_id" class="exchange_id" value="{{$exchange_id}}">
+                    <input type="hidden" name="payable_amount" class="payable_amount" value="{{$payable_amount}}">
+                    <input type="hidden" name="checkout_adress_id" class="checkout_adress_id" value="{{$checkout_adress_id}}">
+                    <input type="hidden" name="parent_order_id" class="parent_order_id" value="{{$exchange_details->order_id}}">
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 <!-- <----------------- section End--------------->
 
 <!-- add address popup section start-->
@@ -336,25 +362,8 @@ $(document).on('click', '.update_address_btn', function(e) {
 
 $(document).on('change', '.radioshow', function(e) {
 	var val = $(this).attr('data-class');
-	var state_id = $(this).attr('state_id');
-    var shipping_fee_inside_west_bengal = '<?=$shipping_fee_inside_west_bengal?>';
-    var shipping_fee_outside_west_bengal = '<?=$shipping_fee_outside_west_bengal?>';
-    var cart_item_count = $('.item_num').val();
-    if(cart_item_count >= 3){
-        $('.shipping_fee').val(0);
-        $('.shipping-text').html('Free Delivery');
-    }else{
-        if(state_id == '24'){
-            $('.shipping_fee').val(shipping_fee_inside_west_bengal);
-            $('.shipping-text').html('₹ '+shipping_fee_inside_west_bengal);
-        }else{
-            $('.shipping_fee').val(shipping_fee_outside_west_bengal);
-            $('.shipping-text').html('₹ '+shipping_fee_outside_west_bengal);
-        }
-    }
-    calculate_order_amount();
     var address_id = $(this).val();
-    $('.address_id').val(address_id);
+    $('.checkout_adress_id').val(address_id);
 	$('.allshow').hide();
 	$('.' + val).show();
 });
@@ -391,18 +400,7 @@ $(document).on('click', '.remove_address_button', function(e) {
     })
 });
 
-$(document).on('click', '.confirm_order', function(e) {
-    var address_id = $('.address_id').val();
-    if(address_id == ""){
-        Swal.fire({
-            icon: 'error',
-            title: 'Please select delivery address.',
-            showDenyButton: false,
-            showCancelButton: false,
-            confirmButtonText: 'OK',
-        });
-        return false;
-    }
+$(document).on('click', '.order_submit', function(e) {
     const theForm = $('#submitForm');
     theForm.submit();
 });
@@ -524,8 +522,7 @@ function validatePIN (pin) {
 }
 
 function fetch_saved_address(){
-    var shipping_fee_inside_west_bengal = '<?=$shipping_fee_inside_west_bengal?>';
-    var shipping_fee_outside_west_bengal = '<?=$shipping_fee_outside_west_bengal?>';
+    var checkout_adress_id = '<?=$checkout_adress_id?>';
     var _token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url: "{{ route('fetch_saved_address') }}",
@@ -542,27 +539,11 @@ function fetch_saved_address(){
                     var state_id = single_address.state;
                     var is_checked = "";
                     var edit_btn_visible = ' style="display: none;"';
-                    if(single_address.default_address == '1'){
+                    if(single_address.id == checkout_adress_id){
                         is_checked = " checked";
                         edit_btn_visible = '';
-                        $('.address_id').val(single_address.id);
-
-                        if(cart_item_count >= 3){
-                            $('.shipping_fee').val(0);
-                            $('.shipping-text').html('Free Delivery');
-                        }else{
-                            if(state_id == '24'){
-                                $('.shipping_fee').val(shipping_fee_inside_west_bengal);
-                                $('.shipping-text').html('₹ '+shipping_fee_inside_west_bengal);
-                            }else{
-                                $('.shipping_fee').val(shipping_fee_outside_west_bengal);
-                                $('.shipping-text').html('₹ '+shipping_fee_outside_west_bengal);
-                            }
-                        }
-                    }else{
-                        $('.shipping_fee').val(0);
-                        $('.shipping-text').html('₹ 0.00');
                     }
+                    
                     var address_html = 
                     '<div class="col-md-6 address_item_'+single_address.id+'">'+
                         '<div class="checkout-address-details-total-section">'+
@@ -589,23 +570,11 @@ function fetch_saved_address(){
                     '</div>';
                     $('.saved_address').append(address_html);
                 }
-            }else{
-                $('.shipping_fee').val(0);
-                $('.shipping-text').html('₹ 0.00');
             }
             
-            calculate_order_amount();
+            //calculate_order_amount();
         }
     });
-}
-
-function calculate_order_amount(){
-    var final_amount = $('.final_amount').val();
-    var shipping_fee = $('.shipping_fee').val();
-
-    var new_final_price = (parseFloat(final_amount)+parseFloat(shipping_fee)).toFixed(2);
-    $('.final_price_text').html('₹ '+new_final_price);
-    $('.final_amount').val(new_final_price);
 }
 </script>
 @endpush

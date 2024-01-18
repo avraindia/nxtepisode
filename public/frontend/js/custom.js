@@ -3,21 +3,36 @@
 
 $(document).ready(function (e) {
 	// for home slider
-	// $(".main-banner-slider").owlCarousel({
-	// 	nav: false,
-	// 	loop: true,
-	// 	dots: false,
-	// 	// autoplay: true,
-	// 	autoPlaySpeed: 5000,
-	// 	autoplayTimeout: 5000,
-	// 	// smartSpeed: 3000,
-	// 	singleItem: true,
-	// 	items: 1,
-	// 	itemsDesktop: false,
-	// 	itemsDesktopSmall: false,
-	// 	itemsTablet: false,
-	// 	itemsMobile: false,
-	// });
+	$(".main-banner-slider").owlCarousel({
+		loop: true,
+		dots: true,
+		navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+		// autoplay: true,
+		autoPlaySpeed: 5000,
+		autoplayTimeout: 5000,
+		// smartSpeed: 3000,
+		singleItem: true,
+		items: 1,
+		itemsDesktop: false,
+		itemsDesktopSmall: false,
+		itemsTablet: false,
+		itemsMobile: false,
+		responsive: {
+			0: {
+				items: 1,
+				nav: false,
+			},
+			600: {
+				items: 1,
+				nav: false,
+			},
+			1000: {
+				items: 1,
+				nav: true,
+				
+			}
+		}
+	});
 
 	// owl carousel slider 	
 	var owl = $('.product-details-image-slider');
@@ -66,6 +81,127 @@ $(document).ready(function (e) {
 			}
 		}
 	});
+
+	// unmissable-collection-image-slider js
+	var owl = $('.unmissable-collection-image-slider');
+	owl.owlCarousel({
+		navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+		loop: false,
+		// autoplay: true,
+		autoPlaySpeed: 1200,
+		autoplayTimeout: 3700,
+		// smartSpeed: 3000,
+		responsive: {
+			0: {
+				items: 3,
+				nav: false,
+				dots: false,
+				margin: 5,
+			},
+			600: {
+				items: 3,
+				nav: false,
+				dots: false,
+				margin: 10,
+			},
+			1000: {
+				items: 3,
+				nav: false,
+				dots: false,
+				margin: 15,
+			}
+		}
+	});
+	// unmissable-collection-image-slider js end
+	// straight-form-hollywood-image-slider js
+	var owl = $('.straight-form-hollywood-image-slider');
+	owl.owlCarousel({
+		navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+		loop: false,
+		// autoplay: true,
+		autoPlaySpeed: 1200,
+		autoplayTimeout: 3700,
+		// smartSpeed: 3000,
+		responsive: {
+			0: {
+				items: 2,
+				nav: false,
+				dots: false,
+				margin: 8,
+			},
+			600: {
+				items: 3,
+				nav: false,
+				dots: false,
+				margin: 10,
+			},
+			1000: {
+				items: 3,
+				nav: false,
+				dots: false,
+				margin: 15
+			}
+		}
+	});
+	// straight-form-hollywood-image-slider js end
+
+	// trending-near-product-list-slider js
+	var owl = $('.trending-near-product-list-slider');
+	owl.owlCarousel({
+		margin: 15,
+		navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+		loop: false,
+		// autoplay: true,
+		autoPlaySpeed: 1200,
+		autoplayTimeout: 3700,
+		// smartSpeed: 3000,
+		responsive: {
+			0: {
+				items: 2,
+				nav: false,
+				dots: true,
+			},
+			600: {
+				items: 3,
+				nav: false,
+				dots: true,
+			},
+			1000: {
+				items: 4,
+				nav: true,
+				dots: false,
+			}
+		}
+	});
+	// trending-near-product-list-slider js end	
+	// best-of-nxt-episode-image-slider js
+	var owl = $('.best-of-nxt-episode-image-slider');
+	owl.owlCarousel({
+		navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+		loop: true,
+		// autoplay: true,
+		autoPlaySpeed: 1200,
+		autoplayTimeout: 3700,
+		// smartSpeed: 3000,
+		responsive: {
+			0: {
+				items: 1,
+				nav: false,
+				dots: true,
+			},
+			600: {
+				items: 1,
+				nav: false,
+				dots: true,
+			},
+			1000: {
+				items: 1,
+				nav: false,
+				dots: true,
+			}
+		}
+	});
+	// best-of-nxt-episode-image-slider js end
 	//   nav js
 	const navbarMenu = document.getElementById("menu");
 	const burgerMenu = document.getElementById("burger");

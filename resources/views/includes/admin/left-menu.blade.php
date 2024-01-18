@@ -32,6 +32,28 @@
                 <span class="menu-title">Customers</span>
             </a>
         </li>
+        <li>
+            <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <span class="menu-icon">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </span>
+                <span class="menu-title">Homepage</span>
+                <span class="sd-arrow"><img src="{{ asset('backend/images/icon/icon-dropdown.svg') }}" class="img-fluid" alt=""></span>
+            </a>
+            
+            <div class="collapse" id="collapseExample">
+                <ul class="sub-menu">
+                    <li><a href="{{route('add_banner_image','top')}}">Top Slider</a></li>
+                </ul>
+                <ul class="sub-menu">
+                    <li><a href="{{route('add_banner_image','foot')}}">Footer Slider</a></li>
+                </ul>
+                <ul class="sub-menu">
+                    <li><a href="{{route('all_sections')}}">Section</a></li>
+                </ul>
+            </div>
+
+        </li>
         <li @if(in_array($route_name, ['all_categories', 'add_category', 'edit_category', 'category_delete'])) ? class="hovered" : '' @endif>
             <a href="{{route('all_categories')}}">
                 <span class="menu-icon">
@@ -71,6 +93,25 @@
                 </span>
                 <span class="menu-title">Order</span>
             </a>
+        </li>
+        <li>
+            <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <span class="menu-icon">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </span>
+                <span class="menu-title">Settings</span>
+                <span class="sd-arrow"><img src="{{ asset('backend/images/icon/icon-dropdown.svg') }}" class="img-fluid" alt=""></span>
+            </a>
+            
+            <div class="collapse" id="collapseExample">
+                <ul class="sub-menu">
+                    <li><a href="">Change User</a></li>
+                </ul>
+                <ul class="sub-menu">
+                    <li><a href="">Change Password</a></li>
+                </ul>
+            </div>
+
         </li>
     </ul>
 </div>

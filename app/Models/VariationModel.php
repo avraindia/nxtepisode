@@ -20,5 +20,13 @@ class VariationModel extends Model
     public function fitting_name() {
         return $this->belongsTo(TypeModel::class, 'fitting_type', 'id');
     }
+
+    public function parent_product_details() {
+        return $this->belongsTo(ProductModel::class, 'product_id', 'id');
+    }
+
+    public function product_gender() {
+        return $this->belongsTo(GenderModel::class, 'gender', 'id');
+    }
 }
 

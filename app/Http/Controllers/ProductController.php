@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 use Illuminate\Http\Request;
 use App\Models\CategoryModel;
@@ -20,12 +22,16 @@ use App\Models\StateModel;
 use App\Models\CheckoutAddressModel;
 use App\Models\OrderModel;
 use App\Models\OrderItemModel;
-use App\Models\StausCatalogModel;
+use App\Models\StatusCatalogModel;
 use App\Models\OrderStatusModel;
 use App\Models\RatingReviewModel;
 use App\Models\CashfreeModel;
 use App\Models\User;
 use App\Models\UserDetails;
+use App\Models\ExchangeIssueModel;
+use App\Models\ExchangeReasonModel;
+use App\Models\ExchangeItemModel;
+use App\Models\CollectionProductModel;
 
 class ProductController extends Controller
 {
@@ -159,6 +165,12 @@ class ProductController extends Controller
             $product_query->where('products.main_cat_id', '=', request('cid'));
         }
 
+        if(request('col')){
+            $collectoion_item_id = base64_decode( urldecode( request('col') ) );
+            $productIdArr = CollectionProductModel::where("item_id", $collectoion_item_id)->pluck('product_id')->toArray();
+            $product_query->whereIn('product_variation.id', $productIdArr);
+        }
+
         $product_count = $product_query->get()->count();
         $all_products = $product_query->paginate(4);
         //dd($all_products);
@@ -240,6 +252,12 @@ class ProductController extends Controller
             $product_query->where('products.product_mrp', '<=', $to_price);
         }
 
+        if($request->col){
+            $collectoion_item_id = base64_decode( urldecode( request('col') ) );
+            $productIdArr = CollectionProductModel::where("item_id", $collectoion_item_id)->pluck('product_id')->toArray();
+            $product_query->whereIn('product_variation.id', $productIdArr);
+        }
+
         if($request->order_by){
             if($request->order_by == ""){
                 $product_query->orderBy('product_variation.id','desc');
@@ -267,7 +285,7 @@ class ProductController extends Controller
 
         $product_count = $product_query->get()->count();
         $all_products = $product_query->paginate(4);
-        return view('pages.frontend.products-child', ['product_count' => $product_count, 'all_products' => $all_products]);
+        return view('pages.frontend.products-child', ['product_count' => $product_count, 'all_products' => $all_products, 'is_exchange'=>$request->is_exchange, 'exchange_id'=>$request->exchange_id]);
 
         /*return response()->json([
             'query'=> $product_query->toSql()
@@ -736,6 +754,7 @@ class ProductController extends Controller
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
             $resp = curl_exec($curl);
+            //dd($resp);
             return redirect()->to(json_decode($resp)->payment_link);
         }else{
             $this->cart_update_after_order_place($order_id);
@@ -850,9 +869,37 @@ class ProductController extends Controller
         $user_id = Auth::id();
         $user = User::where('id', $user_id)->get()->first();
         $user_details = UserDetails::where('user_id', $user_id)->get()->first();
-        $orders = OrderModel::with('order_items')->where('customer_id', $user_id)->where('payment_status', 1)->orderBy("id", "desc")->get();
+        $all_status = StatusCatalogModel::where('is_active', 1)->orderBy("order", "asc")->get();
+        $order_query = OrderModel::with('order_items')->where('customer_id', $user_id)->where('payment_status', 1)->orderBy("id", "desc");
+        $orders = $order_query->paginate(10);
+
         //dd($orders->all());
-        return view('pages.frontend.my-order', ['orders'=>$orders, 'user'=>$user, 'user_details'=>$user_details]);
+        return view('pages.frontend.my-order', ['orders'=>$orders, 'user'=>$user, 'user_details'=>$user_details, 'all_status'=>$all_status]);
+    }
+
+    public function filtering_my_order(Request $request){
+        $user_id = Auth::id();
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $status_id = $request->status_id;
+
+        $order_query = OrderModel::with('order_items')->where('customer_id', $user_id)->where('payment_status', 1)->orderBy("id", "desc");
+
+        if($from_date!= "" && $to_date!=""){
+            $from_date = date('Y-m-d', strtotime($from_date));
+            $to_date = date('Y-m-d', strtotime($to_date));
+            if($to_date >= $from_date){
+                $order_query->where('order.created_at', '>=', $from_date);
+                $order_query->where('order.created_at', '<=', $to_date);
+            }
+        }
+
+        if($status_id != ""){
+            $order_query->where(DB::raw("(SELECT `status_catalog_id` FROM `order_status` WHERE `order_id`=`order`.`id` order by `id` desc limit 1)"), '=', $status_id );
+        }
+
+        $orders = $order_query->paginate(10);
+        return view('pages.frontend.my-order-child', ['orders'=>$orders]);
     }
 
     public function order_details($id){
@@ -965,6 +1012,277 @@ class ProductController extends Controller
         ]);
     }
 
+    public function product_exchange($id){
+        $exchange_id = base64_decode($id);
+        $exchange_id_obj = explode('_', $exchange_id);
+        $order_id = $exchange_id_obj[0];
+        $order_item_id = $exchange_id_obj[1];
+        $user_id = Auth::id();
+        $user_details = UserDetails::where('user_id', $user_id)->get()->first();
+        
+        $order_details = OrderModel::where('id', $order_id)->where('customer_id', $user_id)->get()->first();
+        $order_item_details = OrderItemModel::where('id', $order_item_id)->get()->first();
+
+        $exchange_reasons = ExchangeReasonModel::where('is_active', 1)->orderBy("id", "asc")->get();
+        
+        return view('pages.frontend.exchange', ['order_details'=>$order_details, 'order_item_details'=>$order_item_details, 'user_details'=>$user_details, 'exchange_reasons'=>$exchange_reasons]);
+    }
+
+    public function fetch_exchange_issue(Request $request){
+        $id_reason = $request->id_reason;
+        $exchange_issues = ExchangeIssueModel::where('reason_id', $id_reason)->where('is_active', 1)->orderBy("id", "asc")->get();
+
+        return response()->json([
+            'exchange_issues'=> $exchange_issues
+        ]);
+    }
+
+    public function submit_exchange(Request $request){
+        $exchangeObject = new ExchangeItemModel();
+        $exchangeObject->order_id = $request->order_id;
+        $exchangeObject->order_item_id = $request->order_item_id;
+        $exchangeObject->product_id = $request->product_id;
+        $exchangeObject->product_quantity = $request->product_quantity;
+        $exchangeObject->exchange_price = $request->exchange_total_price;
+        $exchangeObject->reason_id = $request->reason_id;
+        $exchangeObject->issue_id = $request->issue_id;
+        $exchangeObject->additional_remarks = $request->additional_remarks;
+        $exchangeObject->is_done = 0;
+        $exchangeObject->save();
+
+        $exchange_id = $exchangeObject->id;
+        $exchange_id_encoded = base64_encode($exchange_id);
+
+        return response()->json([
+            'exchange_id'=> $exchange_id_encoded
+        ]);
+    }
+
+    public function exchange_product_details($id){
+        $decoded_str = base64_decode($id);
+        $decoded_str_arr = explode('_', $decoded_str);
+        $variation_id = $decoded_str_arr[0];
+        $exchange_id = $decoded_str_arr[1];
+        
+        $product_query = VariationModel::select([
+            'product_variation.id',
+            'product_variation.product_id',
+            'product_variation.fitting_title',
+            'product_variation.details',
+            'product_variation.description',
+            'category.name as cat_name',
+            'type.type_name',
+            'gender.gender',
+            'products.product_mrp',
+            'products.gst'
+        ]);
+        $product_query
+        ->join('products', 'products.id', '=', 'product_variation.product_id')
+        ->join('type', 'type.id', '=', 'product_variation.fitting_type')
+        ->join('gender', 'gender.id', '=', 'product_variation.gender')
+        ->join('category', 'category.id', '=', 'products.main_cat_id')
+        ->with('gallery_images')
+        ->with('chart_images')
+        ->where('product_variation.id', '=', $variation_id);
+        $product_details = $product_query->get()->first();
+
+        $product_id = $product_details->product_id;
+        $size_ids = InventoryModel::where('product_id', $product_id)->pluck('option_value_id')->toArray();
+        $sizes = OptionValueModel::where('option_id', 2)->get();
+
+        $share_link = route('front_product_details',$id);
+        $product_name = $product_details->product_title;
+        $shareComponent = \Share::page(
+            $share_link,
+            $product_name,
+        )
+        ->facebook()
+        ->twitter()
+        ->linkedin()
+        ->telegram()
+        ->whatsapp()      
+        ->reddit();
+
+        $product_review = RatingReviewModel::with('user_details')->where('product_id', $variation_id)->where('status', 1)->offset(0)->limit(4)->orderByDesc('id')->get();
+        $review_count = RatingReviewModel::with('user_details')->where('product_id', $variation_id)->where('status', 1)->count();
+        $total_rating = RatingReviewModel::where('product_id', $variation_id)->where('status', 1)->sum('rating');
+        if($total_rating == 0){
+            $avearge_rating = 0;
+        }else{
+            $avearge_rating = $total_rating/$review_count;
+            $avearge_rating = number_format($avearge_rating, 1);
+        }
+
+        $user_id = Auth::id();
+        $user_review = array();
+        if($user_id){
+            $user_review = RatingReviewModel::with('user_details')->where('user_id', $user_id)->where('product_id', $variation_id)->get();
+        }
+
+        //$exchange_details = ExchangeItemModel::where('id', $exchange_id)->get()->first();
+        
+        //dd($exchange_details);
+        return view('pages.frontend.exchange-product-details', ["product_details"=>$product_details, "sizes"=>$sizes, "shareComponent"=>$shareComponent, 'size_ids'=>$size_ids, 'review_count'=>$review_count, 'product_review'=>$product_review, 'user_review'=>$user_review, 'avearge_rating'=>$avearge_rating, 'exchange_id'=>$exchange_id]);
+    }
+
+    public function exchange_checkout(Request $request){
+        //dd($request->all());
+        $exchange_details = ExchangeItemModel::where('id', $request->exchange_id)->get()->first();
+        //dd($exchange_details);
+        $order_id = $exchange_details->order_id;
+        $order_details = OrderModel::where('id', $order_id)->get()->first();
+        $checkout_adress_id = $order_details->checkout_adress_id;
+
+        $states = StateModel::orderBy("name", "asc")->get();
+        return view('pages.frontend.exchange-checkout', ['states'=>$states, 'exchange_details'=>$exchange_details, 'checkout_adress_id'=>$checkout_adress_id, 'product_name'=>$request->product_name, 'product_id'=>$request->product_id, 'variation_id'=>$request->variation_id, 'product_stock'=>$request->product_stock, 'product_sku'=>$request->product_sku, 'product_gst'=>$request->product_gst, 'cart_price'=>$request->cart_price, 'current_mrp'=>$request->current_mrp, 'product_quantity'=>$request->product_quantity, 'gst_amount'=>$request->gst_amount, 'amount_after_gst'=>$request->amount_after_gst, 'product_size_id'=>$request->product_size_id, 'exchange_id'=>$request->exchange_id]);
+    }
+
+    public function exchange_payment(Request $request){
+        //dd($request->all());
+        // Exchange order creation start //
+        if($request->payable_amount > 0 ){
+            $payment_status = 0;
+            $payment_type = "Cashfree";
+        }else{
+            $payment_status = 1;
+            $payment_type = "No Payment";
+        }
+
+        $user_id = Auth::id();
+        $orderObject = new OrderModel();
+        $order_number = 'NXTEP'.date('ymdHis').rand(1000,9999);
+        $orderObject->order_number = $order_number;
+        $orderObject->customer_id = $user_id;
+        $orderObject->order_price = $request->cart_price;
+        $orderObject->promo_code_id = 0;
+        $orderObject->checkout_adress_id = $request->checkout_adress_id;
+        $orderObject->discount = 0;
+        $orderObject->shipping_fee = 0;
+        $orderObject->payment_type = $payment_type;
+        $orderObject->final_price = $request->cart_price;
+        $orderObject->payment_status = $payment_status;
+        $orderObject->is_exchange = 'yes';
+        $orderObject->exchange_id = $request->exchange_id;
+        $orderObject->parent_order_id = $request->parent_order_id;
+        $orderObject->save();
+        $order_id = $orderObject->id;
+
+        $orderItemObject = new OrderItemModel();
+        $orderItemObject->order_id = $order_id;
+        $orderItemObject->product_id = $request->variation_id;
+        $orderItemObject->size_id = $request->product_size_id;
+        $orderItemObject->product_name = $request->product_name;
+        $orderItemObject->product_price = $request->current_mrp;
+        $orderItemObject->total_price = $request->cart_price;
+        $orderItemObject->sell_price = $request->amount_after_gst;
+        $orderItemObject->gst = $request->gst_amount * $request->product_quantity;
+        $orderItemObject->quantity = $request->product_quantity;
+        $orderItemObject->sku = $request->product_sku;
+        $orderItemObject->save();
+
+        ExchangeItemModel::where('id', $request->exchange_id)->update([
+            'is_done' => 1
+        ]);
+        // Exchange order creation end //
+
+        // payment process start
+        if($payment_status == 0){
+            $address_details = CheckoutAddressModel::where('id', $request->checkout_adress_id)->get()->first();
+            $user_name = $address_details->first_name.' '.$address_details->last_name;
+            $phone_no = $address_details->phone_no;
+            $amount = $request->payable_amount;
+            $user_email = auth()->user()->email;
+            $customer_id = 'customer_'.$user_id.'_'.rand(111111111,999999999);
+            $url = "https://sandbox.cashfree.com/pg/orders"; // sandbox
+            //$url = "https://api.cashfree.com/pg/orders"; // production
+
+            $headers = array(
+                "Content-Type: application/json",
+                "x-api-version: 2022-01-01",
+                "x-client-id: ".env('CASHFREE_API_KEY'),
+                "x-client-secret: ".env('CASHFREE_API_SECRET')
+            );
+            
+            $data = json_encode([
+                'order_id' =>  $order_number,
+                'order_amount' => $amount,
+                "order_currency" => "INR",
+                "customer_details" => [
+                    "customer_id" => $customer_id,
+                    "customer_name" => $user_name,
+                    "customer_email" => $user_email,
+                    "customer_phone" => $phone_no,
+                ],
+                "order_meta" => [
+                    "return_url" => env('APP_URL').'cashfree/payments/success/?order_id={order_id}'
+                ]
+            ]);
+
+            $curl = curl_init($url);
+
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+            $resp = curl_exec($curl);
+            //dd($resp);
+            return redirect()->to(json_decode($resp)->payment_link);
+        }else{
+            $this->cart_update_after_order_place($order_id);
+            return redirect()->route('order_success', [base64_encode($order_id)]);
+        }
+        // payment process end
+    }
+
+    public static function is_exchange_btn_show($order_item_id){
+        $exchange_btn_show = 'yes';
+        $order_item = OrderItemModel::where('id', $order_item_id)->get()->first();
+        $order_id = $order_item->order_id;
+
+        $order_details = OrderModel::where('id', $order_id)->get()->first();
+        $order_created_at = $order_details->created_at;
+        $is_exchange = $order_details->is_exchange;
+
+        if($is_exchange == 'yes'){
+            $exchange_btn_show = 'no';
+        }
+        
+        $exchange_details_count = ExchangeItemModel::where('order_id', $order_id)->where('order_item_id', $order_item_id)->where('is_done', 1)->get()->count();
+        
+        if($exchange_details_count > 0){
+            $exchange_btn_show = 'no';
+        }
+
+        $now = time(); 
+        $your_date = strtotime($order_created_at);
+        $datediff = $now - $your_date;
+
+        $number_of_days =  round($datediff / (60 * 60 * 24));
+        
+        if($number_of_days > 7){
+            $exchange_btn_show = 'no';
+        }
+
+        $order_status = 
+        OrderStatusModel::select([
+            'status_catalog.status_name'
+        ])
+        ->join('status_catalog', 'status_catalog.id', '=', 'order_status.status_catalog_id')
+        ->where('order_status.order_id', $order_id)
+        ->orderByDesc("order_status.id")
+        ->limit(1)
+        ->first();
+        $status_name = $order_status->status_name;
+
+        if($status_name != 'Delivered'){
+            $exchange_btn_show = 'no';
+        }
+        return $exchange_btn_show;
+    }
     /**
      * Product frontend operarion end
     */

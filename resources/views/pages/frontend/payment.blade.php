@@ -96,7 +96,7 @@
                                     </label>
                                 </div>
                             </li>
-                            <li>                                
+                            <li style="display: none;">                                
                                 <div class="checkout-address-details-total-section">
                                     <label for="cod-payment">
                                         <input class="radioshow" type="radio" id="cod-payment" name="payment"

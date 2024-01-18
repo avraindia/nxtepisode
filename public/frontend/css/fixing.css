@@ -66,6 +66,99 @@
 }
 /*last date 14.12.2023 */
 
+/* date 15.01.2024 */
+.all-section-banner .main-banner-image img{
+    display: none;
+}
+.all-section-banner .main-banner-image{
+    height: 120px;
+}
+.all-section-banner .main-banner-text h1{
+    color: #000;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+.all-section-banner .main-banner-image::after {
+    background: none !important;
+}
+.use-current-location-btn{
+    display: none !important;
+}
+.confirm-order-payment-option-section .billing-price-section ul li:last-child{
+    display: none;
+}
+
+/* custome radio input css start */
+
+
+.checkout-suggest-address label {
+	cursor: pointer;
+	position: relative;
+	margin: 0px 20px;
+	display: block;
+	margin-bottom: 10px;
+}
+.checkout-suggest-address input[type="radio"] {
+    display: block;
+    position: absolute;
+    left: -24px;
+    top: 3px;
+}
+.saved_delivery_address{
+    margin-top: 15px;
+}
+
+/* custome radio input css end*/
+
+.my-order-page-product-filter-total-section .product-size-select select {
+    padding: 9px 15px;
+    border-radius: 5px;
+}
+.exchange-order-badge h5{
+    background: #117a7a;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+}
+.order-exchange-button-section{
+    text-align: right;
+}
+.order-exchange-button-section a{
+    background: #117a7a;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.suggest-delivery-text h5{
+    color: #000;
+    font-size: 15px;
+}
+.suggest-delivery-text p{
+    font-size: 12px;
+}
+.track-location-order-btn a {
+    font-size: 12px;
+    padding: 8px 15px;
+}
+.order-placed-section h5{
+    background: #f3f3f3 !important;
+    color: #000 !important;
+}
+.swal2-title{
+    color: #000 !important;
+    font-size: 20px !important;
+}
+.swal2-styled{
+    padding: 10px 40px;
+}
+/* last date 15.01.2024 */
 
 
 

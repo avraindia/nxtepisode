@@ -53,7 +53,7 @@
                 </div>
                 <div class="size-quantity-section">
                     <div class="row g-2">
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-12 col-12">
                             <div class="size-section">
                                 <div class="filter-section-header-text">
                                     @foreach ($sizes as $size)
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-4 col-12">
                             <div class="size-section">
                                 <div class="filter-section-header-text">
                                     <h5>Quantity</h5>

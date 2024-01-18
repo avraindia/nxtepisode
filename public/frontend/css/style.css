@@ -2999,4 +2999,98 @@ textarea {
 }
 /* profile page css end */
 
+/* product exchange page css start */
+.product-exchange-section .cart-product-image img {
+    height: 140px;
+    object-position: top center;
+}
+.product-exchange-total-section .confirm-order-payment-option-header-text h5 {
+    font-weight: 500;
+}
+.select-replacement-section .material-care-section{
+	margin-bottom: 0px;
+}
+.select-replacement-section .material-care-section h6{
+	margin-bottom: 0px;
+}
+.select-replacement-section{
+	justify-content: inherit;
+}
+.select-replacement-section .product-size-select{
+    width: 14%;
+    margin-left: 15px;
+}
+.product-exchange-total-section .product-size-select select {
+    padding: 10px 15px;
+}
+.select-replacement-section{
+    border-bottom: 1px solid #ddd;
+	padding-bottom: 13px;
+	margin-bottom: 15px;
+}
+.additional-remark-section{
+	margin-top: 15px;
+}
+.additional-remark-textarea textarea{
+	border: 1px solid #ddd;
+	width: 100%;
+	padding: 10px 15px;
+}
+.reason-for-exchange-section .material-care-section {
+    margin-bottom: 7px;
+}
+.reason-for-exchange-section{
+    border-bottom: 1px solid #ddd;
+	padding-bottom: 13px;
+	margin-bottom: 15px;
+}
+.reverse-pickup-drop-title-text h6{
+	text-align: center;
+	font-size: 14px;
+	color: #117a7a;
+    margin-bottom: 6px;
+    font-weight: 700;
+	border-bottom: 2px solid #117a7a;
+	padding-bottom: 13px;
+	margin-bottom: 15px;
+}
+.reverse-pickup-drop-title-list ul{
+	margin-left: 30px;
+}
+.reverse-pickup-drop-title-list ul li{
+	font-size: 14px;
+    color: #282828;
+	list-style-type: disc;
+	margin-bottom: 8px;
+}
+.reverse-pickup-drop-title-list ul li::marker{
+    color: #282828;
+}
+.exchange-address-section{
+	border: 1px solid #ddd;
+    width: 100%;
+    padding: 10px 15px;
+	margin-top: 15px;
+	position: relative;
+}
+.exchange-address-section .address-details-section h5{
+	font-weight: 600;
+	font-size: 16px;
+    color:  #117a7a;
+	margin-bottom: 8px;
+}
+.exchange-check {
+    background: none !important;
+}
+.exchange-price-text h5{
+    font-size: 18px;
+    color: #117a7a;
+    margin-left: 15px;
+}
+
+.exchange-price-total-section{
+	display: flex !important;
+}
+/* product exchange page css end */
+
 

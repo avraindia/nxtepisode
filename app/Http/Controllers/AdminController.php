@@ -409,9 +409,11 @@ class AdminController extends Controller
 
     public function submit_courier(Request $request){
         $orderResp = $this->push_order_to_shiprocket($request->order_id, $request->length, $request->breadth, $request->height, $request->weight);
+        
         if($orderResp->status_code != 1){
             return response()->json([
                 'resp'=> 0,
+                'orderResp'=> $orderResp,
                 'status' => 'Order '.$orderResp->status.' at shipment site.'
             ]);
         }
@@ -539,7 +541,7 @@ class AdminController extends Controller
             "billing_state" => $shipping_address->state_name, 
             "billing_country" => $shipping_address->country, 
             "billing_email" => $user_details->email, 
-            "billing_phone" => $user_details->phone_number, 
+            "billing_phone" => $shipping_address->phone_no, 
             "shipping_is_billing" => true, 
             "shipping_customer_name" => "", 
             "shipping_last_name" => "", 

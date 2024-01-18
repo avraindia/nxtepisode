@@ -7,7 +7,15 @@
         @foreach($all_products as $product)
         <div class="col-xl-3 col-lg-4 col-lg-6 col-6">
             <div class="product-details-section">
-                <a href="{{route('front_product_details',base64_encode($product->id))}}">
+                <?php
+                if($is_exchange == 'yes'){
+                    $concat_str = $product->id.'_'.$exchange_id;
+                    $redirect_url = route('exchange_product_details',base64_encode($concat_str));
+                }else{
+                    $redirect_url = route('front_product_details',base64_encode($product->id));
+                }
+                ?>
+                <a href="{{$redirect_url}}">
                     <div class="product-filter-product-image">
                         @foreach($product->gallery_images as $image)
                             @php

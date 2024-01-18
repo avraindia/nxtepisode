@@ -56,6 +56,10 @@
                     <div class="cart-product-image-text-row-section">
                         <div class="row g-3">
                             @foreach ($order->order_items as $order_item)
+                            <?php
+                            $exchange_id = $order->id.'_'.$order_item->id;
+                            $exchange_id_encoded = base64_encode($exchange_id);
+                            ?>
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 col-sm-3 col-4">
@@ -85,8 +89,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="" class="alert alert-info ">Exchange</a>
                             </div>
+                                @php
+                                    $exchange_btn_show = App\Http\Controllers\ProductController::is_exchange_btn_show($order_item->id);
+                                @endphp
+                                <?php
+                                if($exchange_btn_show == 'yes'){
+                                    ?>
+                                    <div class="order-exchange-button-section">
+                                        <a href="{{route('product_exchange', $exchange_id_encoded)}}" class="alert alert-info">Exchange</a>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                                
+                            
                             @endforeach
                         </div>
                     </div>

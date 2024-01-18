@@ -8,8 +8,6 @@ class OrderModel extends Model
 {
     use HasFactory;
     protected $table = 'order';
-    protected $appends = ['order_status_id'];
-
 
     public function order_items() {
         return $this->hasMany(OrderItemModel::class, 'order_id');

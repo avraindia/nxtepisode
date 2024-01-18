@@ -11,12 +11,26 @@
                 <div class="col-lg-6 col-md-8">
                     <div class="main-banner-text">
                         <h1>Products</h1>
+                        <?php
+                        if(isset($_GET['ex']) && $_GET['ex']!=""){
+                            $is_exchange = 'yes';
+                            $exchange_id = $_GET['ex'];
+                            $exchange_id = base64_decode($exchange_id);
+                            ?>
+                            <h2><span class="badge bg-info text-dark">Choose product for exchange.</span></h2>
+                            <?php
+                        }else{
+                            $is_exchange = 'no';
+                            $exchange_id = '';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 <!-- <-----------------Banner section End--------------->
 <!-- <----------------- section start--------------->
 <section class="product-list-section">
@@ -36,6 +50,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="row">
             @include('pages.frontend.products-filter')  
             <div class="col-lg-9 col-md-8 col-12">
@@ -55,7 +70,7 @@
         </div>
     </div>
 </section>
-
+<input type="hidden" name="collection_id" class="collection_id" value="<?php if(isset($_GET['col']) && $_GET['col']!=""){echo $_GET['col'];}?>">
 <!-- <----------------- section End--------------->
 @stop
 
@@ -142,12 +157,15 @@ function getFilteringBody(page){
     var from_price = $('.from_price').val();
     var to_price = $('.to_price').val();
     var order_by = $('.order_by_desktop').val();
+    var col = $('.collection_id').val();
+    var is_exchange = '<?=$is_exchange?>';
+    var exchange_id = '<?=$exchange_id?>';
 
     var _token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url: "{{ route('filtering_paginate_result') }}",
         method: 'POST',
-        data: {_token: _token, page:page, product_cat_ids:product_cat_ids, option_value_ids:option_value_ids, fitting_type_id:fitting_type_id, product_theme_ids:product_theme_ids, product_gender_id:product_gender_id, product_stock:product_stock, from_price:from_price, to_price:to_price, order_by:order_by},
+        data: {_token: _token, page:page, product_cat_ids:product_cat_ids, option_value_ids:option_value_ids, fitting_type_id:fitting_type_id, product_theme_ids:product_theme_ids, product_gender_id:product_gender_id, product_stock:product_stock, col:col, from_price:from_price, to_price:to_price, order_by:order_by, is_exchange:is_exchange, exchange_id:exchange_id},
         success: function (data) { 
             $('.product_list').html(data);
             $('.pagination li [rel=prev]').html('Prev');

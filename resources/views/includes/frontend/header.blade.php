@@ -27,7 +27,7 @@
                 <div class="col-md-9">
                     <div class="logo-btn-anchor-tag">
                         <div class="logo-btn">
-                            <a href="#"><img class="img-fluid" src="{{ asset('frontend/images/next-logo.png') }}" alt=""></a>
+                            <a href="{{route('home')}}"><img class="img-fluid" src="{{ asset('frontend/images/next-logo.png') }}" alt=""></a>
                         </div>
                         <div class="main-heder-anchor-tag">
                             <ul>

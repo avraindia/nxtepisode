@@ -263,7 +263,7 @@ $(document).on("change",".fitting_type, .fitting_gender",function() {
                             $('.chart_gallery_list').append(img_html);
                         }
 
-                        console.log(result.is_active);
+                        //console.log(result.is_active);
                         if(result.is_active == '1'){
                             $(".is_available").prop('checked', true);
                         }else{
