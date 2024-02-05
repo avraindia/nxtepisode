@@ -182,6 +182,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/exchange-product-details/{id}', [ProductController::class, 'exchange_product_details'])->name('exchange_product_details');
     Route::any('/exchange-checkout', [ProductController::class, 'exchange_checkout'])->name('exchange_checkout');
     Route::post('/exchange-payment', [ProductController::class, 'exchange_payment'])->name('exchange_payment');
+    Route::post('/admin/front-cancel-order', [ProductController::class, 'front_cancel_order'])->name('front_cancel_order');
 });
 
 Route::get('/linkstorage', function () {

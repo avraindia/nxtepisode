@@ -4,35 +4,20 @@
 <div class="body">
     <div class="card">
         <div class="card-body">
-            @if (\Session::has('errmsg'))
-                <div class="alert alert-danger">
-                    <ul>
-                        <li>{!! \Session::get('errmsg') !!}</li>
-                    </ul>
-                </div>
-            @endif
-
-            @if (\Session::has('successmsg'))
-                <div class="alert alert-success">
-                    <ul>
-                        <li>{!! \Session::get('successmsg') !!}</li>
-                    </ul>
-                </div>
-            @endif
             <div class="align-items-center d-md-flex justify-content-between mb-4">
                 <div class="">
-                    <h1 class="card-title m-md-0 mb-3"> Add Slider Image</h1>
+                    <h1 class="card-title m-md-0 mb-3"> Add Images for {{$section_details->section_name}}</h1>
                 </div>
             </div>
-            <form id="submitForm" action="{{route('save_banner_image')}}" method="post" enctype="multipart/form-data">
+            <form id="submitForm" action="{{route('save_section_image')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-12 col-sm-12">
-                    <div class="row align-items-center">
+                    <div class="row">
                         <div class="col-lg-6 col-sm-12">
                             <div class="form-group">
-                                <label class="label">Slider Image</label>
-                                <input type="file" class="form-control banner_image" name="banner_image[]" multiple>
+                                <label class="label">Section Image</label>
+                                <input type="file" class="form-control section_image" name="section_image[]" multiple>
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-12">
@@ -44,21 +29,19 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="banner_type" class="banner_type" value="{{$type}}">
+            <input type="hidden" name="section_id" class="section_id" value="{{$section_details->id}}">
             </form>
         </div>
         <div class="lightbox-gallery">
             <div class="container">
                 <div class="intro">
-                    <h2 class="text-center">Slider Images</h2>
+                    <h2 class="text-center">Image Gallery</h2>
                 </div>
-                <div class="row photos all-admin-banner-slider-image">
-                    @foreach($banner_images as $image)
+                <div class="row photos">
+                    @foreach($image_gallery as $image)
                     <div class="col-sm-6 col-md-4 col-lg-3 item">
-                        <div class="admin-banner-slider-image">
-                            <a href="{{$image->homepage_banner_link}}" data-lightbox="photos"><img class="img-fluid slider-images-section" src="{{$image->homepage_banner_link}}"></a>
-                            <a class="alert alert-danger" onclick="return confirm('Are you sure to delete?')" href="{{route('delete_banner_image', $image->id)}}">X</a>
-                        </div>
+                        <a href="{{$image->section_image_link}}" data-lightbox="photos"><img class="img-fluid" src="{{$image->section_image_link}}"></a>
+                        <button class="alert alert-danger delete_collection_image" image_id="{{$image->id}}">Delete</button>
                     </div>
 
                     @endforeach
@@ -74,10 +57,27 @@
 <script type="text/javascript">
 $(document).on("click",".save_image_btn",function(e) {
     e.preventDefault();
-    var num_of_images = $(".banner_image")[0].files.length;
+    var num_of_images = $(".section_image")[0].files.length;
     if(num_of_images > 0){
         const theForm = $('#submitForm');
         theForm.submit();
+    }
+});
+
+$(document).on("click",".delete_collection_image",function(e) {
+    if (confirm("Do you want to delete the image?") == true) {
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        var image_id = $(this).attr('image_id');
+        $.ajax({
+            url: "{{ route('delete_collection_image') }}",
+            method: 'POST',
+            data: {_token: _token, image_id:image_id},
+            success: function (data) { 
+                if(data.status == true){
+                    location.reload();
+                }
+            }
+        });
     }
 });
 

@@ -228,11 +228,11 @@ img.img-fluid.down-arrow {
     position: absolute;
     width: calc(100% - 265px);
     left: 244px;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     /* background: #F5F7FB; */
     transition: 0.5s;
     overflow-x: hidden;
-    padding-bottom: 120px;
+    /* padding-bottom: 120px; */
 }
 .main.active {
   width: calc(100% - 80px);
@@ -291,6 +291,28 @@ img.img-fluid.down-arrow {
 }
 .menu-icon i{
   font-size: 17px;
+}
+
+/* date 18.01.2024 */
+.navigation .sub-menu li a {
+  background: #fff;
+  color: #1F4173 !important;
+  padding: 7px 0px 7px 21px;
+  border-radius: 11px;
+  display: inline-block;
+  line-height: inherit !important;
+  height: auto !important;
+  border: none !important;
+}
+.sd-arrow {
+  right: 10px !important;
+}
+.sub-menu {
+  margin-top: 5px;
+}
+.navigation {
+  width: 230px;
+  overflow-y: auto;
 }
 /* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {

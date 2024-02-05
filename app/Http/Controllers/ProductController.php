@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use App\Http\Controllers\AdminController;
 
 use Illuminate\Http\Request;
 use App\Models\CategoryModel;
@@ -32,6 +33,7 @@ use App\Models\ExchangeIssueModel;
 use App\Models\ExchangeReasonModel;
 use App\Models\ExchangeItemModel;
 use App\Models\CollectionProductModel;
+use App\Models\RefundModel;
 
 class ProductController extends Controller
 {
@@ -675,7 +677,7 @@ class ProductController extends Controller
 
         $user_id = Auth::id();
         $orderObject = new OrderModel();
-        $order_number = 'NXTEP'.date('ymdHis').rand(1000,9999);
+        $order_number = 'NXTEP'.date('dis').rand(100,999);
         $orderObject->order_number = $order_number;
         $orderObject->customer_id = $user_id;
         $orderObject->order_price = $request->total_price;
@@ -1150,7 +1152,7 @@ class ProductController extends Controller
 
         $user_id = Auth::id();
         $orderObject = new OrderModel();
-        $order_number = 'NXTEP'.date('ymdHis').rand(1000,9999);
+        $order_number = 'NXTEP'.date('dis').rand(100,999);
         $orderObject->order_number = $order_number;
         $orderObject->customer_id = $user_id;
         $orderObject->order_price = $request->cart_price;
@@ -1282,6 +1284,108 @@ class ProductController extends Controller
             $exchange_btn_show = 'no';
         }
         return $exchange_btn_show;
+    }
+
+    public function front_cancel_order(Request $request){
+        $order_refund = $this->order_cashfree_refund($request->order_id);
+        $status = $order_refund['status'];
+        $payment_refund = $order_refund['payment_refund'];
+
+        if($status == true){
+            $adminController = new AdminController;
+            $status_id = $adminController->get_status_id('Cancelled');
+
+            $statusObject = new OrderStatusModel;
+            $statusObject->order_id = $request->order_id;
+            $statusObject->status_catalog_id = $status_id;
+            $statusObject->save();
+
+            if($payment_refund == 'yes'){
+                $msg = 'Order cancelled. Your order amount will be refunded soon.';
+            }else{
+                $msg = 'Order cancelled.';
+            }
+        }else{
+            $msg = 'Order cancellation failed.';    
+        }
+        
+        return response()->json([
+            'resp'=> $status,
+            'msg'=> $msg
+        ]);
+    }
+
+    public static function order_cashfree_refund($order_id){
+        $order_details = OrderModel::with('order_items')->where('id', $order_id)->where('payment_status', 1)->orderBy("id", "desc")->get()->first();
+
+        $order_number = $order_details->order_number;
+        $payment_type = $order_details->payment_type;
+        $final_price = $order_details->final_price;
+        $is_exchange = $order_details->is_exchange;
+
+        $payment_refund = 'yes';
+        $status = true;
+
+        if($is_exchange == 'yes'){
+            if($payment_type == 'No Payment'){
+                $payment_refund = 'no';
+            }
+        }
+
+        if($payment_refund == 'yes'){
+            $url = "https://sandbox.cashfree.com/pg/orders/".$order_number."/refunds"; // sandbox
+            //$url = "https://api.cashfree.com/pg/orders/".$order_number."/refunds"; // production
+
+            $headers = array(
+                "Content-Type: application/json",
+                "x-api-version: 2022-01-01",
+                "x-client-id: ".env('CASHFREE_API_KEY'),
+                "x-client-secret: ".env('CASHFREE_API_SECRET')
+            );
+
+            $data = json_encode([
+                'refund_amount' =>  $final_price,
+                'refund_id' => 'Refund_'.$order_number,
+                'refund_note' => 'Request for refund of order '.$order_number
+            ]);
+            
+            $curl = curl_init($url);
+
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+            $resp = curl_exec($curl);
+
+            $resp_arr = json_decode($resp);
+            
+            if(isset($resp_arr->cf_payment_id)){
+                $refundObj = new RefundModel;
+                $refundObj->cf_payment_id = $resp_arr->cf_payment_id;
+                $refundObj->cf_refund_id = $resp_arr->cf_refund_id;
+                $refundObj->order_id = $order_id;
+                $refundObj->refund_amount = $resp_arr->refund_amount;
+                $refundObj->refund_id = $resp_arr->refund_id;
+                $refundObj->refund_at = date('Y-m-d H:i:s', strtotime($resp_arr->created_at));
+                $refundObj->refund_note = $resp_arr->refund_note;
+                $refundObj->refund_status = $resp_arr->refund_status;
+
+                $refundObj->save();
+                $status = true;
+            }else{
+                $status = false;
+                $payment_refund = 'no';
+            }
+        }
+
+        $result['status'] = $status;
+        $result['payment_refund'] = $payment_refund;
+
+        return $result;
     }
     /**
      * Product frontend operarion end

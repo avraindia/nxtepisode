@@ -1,6 +1,8 @@
 @extends('layouts.front')
 @section('content')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/swanky-purse/jquery-ui.min.css" integrity="sha512-UW0Siwc3bSH7o3YWBdUa07qoAeNRxS8HVlyyISuh2IStOK3+JW7FHKYaCCp114HXd/9PAuZAWQ/IXWh4Egg5Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- <-----------------Banner section start--------------->
 <section class="home-page-main-banner all-section-banner">
     <div class="main-banner-image">
@@ -71,6 +73,7 @@
 
 @push('scripts')
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 <script>
 $('.pagination li [rel=prev]').html('Prev');
 $('.pagination li [rel=next]').html('Next');
@@ -109,12 +112,26 @@ $(document).on('click', '.cancel_order', function(e) {
         if (result.isConfirmed) {
             var _token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: "{{ route('cancel_order') }}",
+                url: "{{ route('front_cancel_order') }}",
                 method: 'POST',
                 data: {_token: _token, order_id:order_id},
                 success: function (data) { 
                     if(data.resp == true){
-                        location.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: data.msg,
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: data.msg
+                        });
                     }
                 }
             });

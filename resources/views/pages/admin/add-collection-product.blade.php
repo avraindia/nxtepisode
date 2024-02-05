@@ -8,42 +8,42 @@
                     <h1 class="card-title m-md-0 mb-3"> Add Products for {{$collection_item->item_name}}</h1>
                 </div>
             </div>
-            <div class="filter_area">
+            <div class="filter_area add-section-product-filter-area">
                 <div class="product_filter">
-                    <label class="label">Categories</label>
+                    <label class="label">Categories :</label>
                     @foreach($categories as $category)
                     <input type="checkbox" class="product_cat" name="product_cat" id="{{$category->name}}" value="{{$category->id}}">
-                    <label for="{{$category->name}}">{{$category->name}}</label>
+                    <label class="product-filter-label" for="{{$category->name}}">{{$category->name}}</label>
                     @endforeach
                 </div>
                 <div class="product_filter">
-                    <label class="label">Themes</label>
+                    <label class="label">Themes :</label>
                     @foreach($all_themes as $theme)
                     <input type="checkbox" class="product_theme" name="product_theme" id="{{$theme->theme_name}}" value="{{$theme->id}}">
-                    <label for="{{$theme->theme_name}}">{{$theme->theme_name}}</label>
+                    <label class="product-filter-label" for="{{$theme->theme_name}}">{{$theme->theme_name}}</label>
                     @endforeach
                 </div>
                 <div class="product_filter">
-                    <label class="label">Fitting type</label>
+                    <label class="label">Fitting type :</label>
                     @foreach($types as $type)
                     <input type="radio" id="{{$type->type_name}}" class="fitting_type" name="fitting_type" value="{{$type->id}}">
-                    <label for="{{$type->type_name}}">{{$type->type_name}}</label>
+                    <label class="product-filter-label" for="{{$type->type_name}}">{{$type->type_name}}</label>
                     @endforeach
                 </div>
                 @foreach($options as $option)
                 <div class="product_filter">
-                    <label class="label">{{$option->option_name}}</label>
+                    <label class="label">{{$option->option_name}} :</label>
                     @foreach($option->option_values as $option_value)
                     <input type="checkbox" class="option_value" name="option_value" id="{{$option_value->id}}" value="{{$option_value->id}}">
-                    <label for="{{$option_value->option_value}}">{{$option_value->option_value}}</label>
+                    <label class="product-filter-label" for="{{$option_value->option_value}}">{{$option_value->option_value}}</label>
                     @endforeach
                 </div>
                 @endforeach
                 <div class="product_filter">
-                    <label class="label">Gender</label>
+                    <label class="label">Gender :</label>
                     @foreach($genders as $gender)
                     <input type="radio" id="{{$gender->gender}}" class="product_gender" name="product_gender" value="{{$gender->id}}">
-                    <label for="{{$gender->gender}}">{{$gender->gender}}</label>
+                    <label class="product-filter-label" for="{{$gender->gender}}">{{$gender->gender}}</label>
                     @endforeach
                 </div>
             </div>
