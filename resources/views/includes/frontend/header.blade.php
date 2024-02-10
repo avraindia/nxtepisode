@@ -54,9 +54,9 @@
                             </a>
                                 <div class="user-logout-dropdown" id="desktop-dropdown-list">
                                     <ul>
-                                        <li><a href="{{route('profile')}}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a></li>
-                                        <li><a href="{{route('my_order')}}">My Order</a></li>
-                                        <li><a href="javascript:void(0);" onclick="javascript:logoutFunction();">Logout</a></li>
+                                        <li><a href="{{route('profile')}}"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;Profile</a></li>
+                                        <li><a href="{{route('my_order')}}"><i class="fa-solid fa-bag-shopping"></i> &nbsp;My Order</a></li>
+                                        <li><a href="javascript:void(0);" onclick="javascript:logoutFunction();"><i class="fa-solid fa-right-from-bracket"></i> &nbsp;Logout</a></li>
                                     </ul>
                                 </div>
                         @else

@@ -169,6 +169,9 @@
     .header-selected-icon a {
         font-size: 18px;
     }
+    .user-logout-dropdown {
+        margin-right: 36px;
+    }
 }
 
 /* X-Large devices (large desktops, less than 1400px) */
