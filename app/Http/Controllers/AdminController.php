@@ -79,7 +79,42 @@ class AdminController extends Controller
     }
 
     public function dashboard(){
-        return view('pages.admin.dashboard');
+        $user_number = 
+        User::select([
+            'roles.name',
+            'users.is_active'
+        ])
+        ->join('roles', 'roles.id', '=', 'users.role_id')
+        ->where('roles.name', 'frontend_user')
+        ->get()
+        ->count();
+            
+        $product_number = VariationModel::where('is_active', 1)->count();
+        $order_number = OrderModel::where('payment_status', 1)->count();
+        
+        return view('pages.admin.dashboard', ["user_number"=>$user_number, "product_number"=>$product_number, "order_number"=>$order_number]);
+    }
+
+    public function chart_data(Request $request){
+        $current_year = date('Y');
+
+        /// Order details start
+        $order_num = OrderModel::where('payment_status', 1)->get()->count();
+        $order_data = 
+        OrderModel::select([
+            DB::raw('count(*) as total_order, DATE_FORMAT(order.created_at, "%m") as order_month')
+        ])
+        ->where('order.payment_status', 1)
+        ->where(DB::raw('DATE_FORMAT(order.created_at, "%Y")'), $current_year)
+        ->groupBy(DB::raw('DATE_FORMAT(order.created_at, "%m-%Y")'))
+        ->get();
+        /// Order details end
+
+        return response()->json([
+            'resp'=> 1, 
+            'order_num' => $order_num,
+            'order_data' => $order_data
+        ]);
     }
 
     public function users(){
