@@ -6217,7 +6217,7 @@ span.parent_cat_title {
 
 /* order date place css end*/
 .order-cancel-btn{
-    margin-top: 35px;
+    margin-top: 95px;
 }
 .input-info {
     color: #775a15;
@@ -6227,5 +6227,21 @@ span.parent_cat_title {
 }
 .dispatched-btn{
     width: auto;
+}
+.status-btn{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 9%);
+}
+.order-dispatched-form{
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+.order-dispatched-form .label {
+    color: #176197;
+}
+.order-dispatched-form .form-control::placeholder{
+    color: #737373;
 }
 /*last date 10.02.2024 */
