@@ -9,19 +9,6 @@
 
     @foreach($status_details as $status)
 
-    @if ($status->status_name == 'Shipped')
-    <div class="ors-list">
-        <div class="align-items-center d-lg-flex justify-content-between">
-            <label class="alert alert-success">Order dispatched at {{$status->order_status_time}} </label>
-            @if (!in_array('On the way', $all_status))
-            @if (!in_array('Cancelled', $all_status))
-            <button type="button" class="btn-blue on_the_way_button">Mark order as Out for delivery</button>
-            @endif
-            @endif
-        </div>
-    </div>
-    @endif
-
     @if ($status->status_name == 'On the way')
     <div class="ors-list">
         <div class="align-items-center d-lg-flex justify-content-between">
@@ -87,10 +74,10 @@
                     <h5 class="font-size-16">Order Packed at</h5>
                 </div>
             </li>
+            @if (!in_array('Shipped', $all_status))
+            @if (!in_array('Cancelled', $all_status))
             <div class="ors-list">
                 <div class="align-items-center d-lg-flex justify-content-between">
-                    @if (!in_array('Shipped', $all_status))
-                    @if (!in_array('Cancelled', $all_status))
                     <form>
                         <div class="row">
                             <div class="col-lg-12 col-sm-12">
@@ -129,12 +116,28 @@
                             </div>
                         </div>
                     </form>
-                    @endif
-                    @endif
                 </div>
             </div>
             @endif
+            @endif
+            @endif
             <!-- ORDER PACKED CHECK END -->
+
+            <!-- ORDER SHIPPED CHECK START -->
+            @if ($status->status_name == 'Shipped')
+            <li class="list-inline-item event-list">
+                <div class="px-4">
+                    <div class="event-date bg-soft-success text-success">{{$status->order_status_time}}</div>
+                    <h5 class="font-size-16">Order Dispatched at</h5>
+                </div>
+                @if (!in_array('On the way', $all_status))
+                @if (!in_array('Cancelled', $all_status))
+                <button type="button" class="btn-blue order_pack">Mark order as Out for delivery</button>
+                @endif
+                @endif
+            </li>
+            @endif
+            <!-- ORDER SHIPPED CHECK END -->
         @endforeach
         @if (!in_array('Cancelled', $all_status))
         @if (!in_array('Delivered', $all_status))
