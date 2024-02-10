@@ -133,7 +133,9 @@
         @endforeach
         @if (!in_array('Cancelled', $all_status))
         @if (!in_array('Delivered', $all_status))
-        <button type="button" class="btn-blue cancel_order">Cancel Order</button>
+        <div class="order-cancel-btn">
+            <button type="button" class="btn-blue cancel_order">Cancel Order</button>
+        </div>
         @endif
         @endif
 
