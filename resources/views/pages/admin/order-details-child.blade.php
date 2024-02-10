@@ -123,7 +123,7 @@
                                             <label class="input-info"><img src="{{ asset('backend/images/icon/icon-eye.svg') }}" alt=""> The weight of the item in kgs. Must be more than 0.</label>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn-blue dispatched_button">Order Mark as Dispatched</button>
+                                    <button type="button" class="btn-blue dispatched_button dispatched-btn">Order Mark as Dispatched</button>
                                     <div class="alert ship_resp"></div>
                                 </div>
                             </div>

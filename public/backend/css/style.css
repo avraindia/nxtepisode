@@ -6219,4 +6219,13 @@ span.parent_cat_title {
 .order-cancel-btn{
     margin-top: 35px;
 }
+.input-info {
+    color: #775a15;
+    background: rgb(248 9 9 / 10%);
+    font-size: 13px;
+    font-weight: 600;
+}
+.dispatched-btn{
+    width: auto;
+}
 /*last date 10.02.2024 */
