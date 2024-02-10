@@ -231,7 +231,7 @@ img.img-fluid.down-arrow {
     /* min-height: 100vh; */
     /* background: #F5F7FB; */
     transition: 0.5s;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     /* padding-bottom: 120px; */
 }
 .main.active {
