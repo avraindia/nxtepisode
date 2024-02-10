@@ -1,11 +1,12 @@
 <table class="display coustom-table nowrap w-100 Queries">
     <thead>
         <tr>
-            <th><a href="javascript:void(0);" class="sort_item" item="users.name">Name</a></th>
-            <th><a href="javascript:void(0);" class="sort_item" item="users.email">Email</a></th>
-            <th><a href="javascript:void(0);" class="sort_item" item="users.email">Phone</a></th>
-            <th><a href="javascript:void(0);" class="sort_item" item="users.email">Gender</a></th>
-            <th><a href="javascript:void(0);" class="sort_item" item="users.created_at">Registration Date</a></th>
+            <th><a href="javascript:void(0);" item="users.name">Name</a></th>
+            <th><a href="javascript:void(0);" item="users.email">Email</a></th>
+            <th><a href="javascript:void(0);" item="users.email">Phone</a></th>
+            <th><a href="javascript:void(0);" item="users.email">Gender</a></th>
+            <th><a href="javascript:void(0);" item="users.email">Status</a></th>
+            <th><a href="javascript:void(0);" item="users.created_at">Registration Date</a></th>
             <th class="text-center">action</th>
         </tr>
     </thead>
@@ -35,6 +36,11 @@
                         Female
                     @endif
                 </span>
+            </td>
+            <td>
+                <div class="switch_box">
+                    <input type="checkbox" class="switch is_active" user_id="{{$user->id}}" name="is_active" @if($user->is_active == 1) checked  @endif>
+                </div>
             </td>
             <td>
                 <span class="pr-title">

@@ -160,6 +160,19 @@
 }
 /* last date 15.01.2024 */
 
+/* date 05.02.2024 */
+.cart-product-image img {
+    object-position: top center;
+}
+.my-order-product-right-side-three-btn{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.product-right-side-three-btn {
+    margin-left: 8px;
+}
+/*last date 05.02.2024 */
 
 
 

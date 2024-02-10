@@ -397,6 +397,14 @@
     .men-women-select-section-btn{
         display:  block;
      }
+     .my-order-product-right-side-three-btn {
+        justify-content: start;
+        margin-top: 10px;
+    }
+    .product-right-side-three-btn {
+        margin-right: 8px;
+        margin-left: 0px;
+    }
 }
 
 
@@ -574,6 +582,9 @@
     .trending-categories-image img {
         height: 309px;
     }
+    .my-order-page-product-filter-total-section{
+        margin-bottom: 15px;
+    }
 }
 
 /* Small devices (landscape phones, less than 768px) */
@@ -619,6 +630,7 @@
     }
     .responsive-clear-option-btn{
         display: block;
+        margin-top: -7%;
     }
     .filterration-show-hide-section{
         display: block;
@@ -634,6 +646,7 @@
     }
     .product-select-responsive{
         display: block;
+        margin-top: 50px;
     }
     .cart-product-image{
         margin-bottom: 22px;
@@ -834,12 +847,12 @@
     .responsive-account-btn ul li a {
         font-size: 14px;
     }
-    .exchange-order-badge{
+    /* .exchange-order-badge{
         margin-top: 10px;
-    }
-    .order-placed-section{
+    } */
+    /* .order-placed-section{
         margin-bottom: 10px;
-    }
+    } */
     .suggest-delivery-text h5 {
         font-size: 13px;
     }
@@ -1183,5 +1196,22 @@
     /* product exchange responsive css end*/
     .order-id-order-placed-text {
         display: block;
+    }
+    .my-order-product-right-side-three-btn {
+        margin-top: 0px;
+    }
+    .track-location-order-btn a {
+        font-size: 9px;
+        padding: 5px 12px;
+    }
+    .exchange-order-badge h5 {
+        font-size: 9px;
+        padding: 9px 15px;
+    }
+    .responsive-clear-option-btn {
+        margin-top: -13%;
+    }
+    .product-list-section {
+        margin: 0px 0px 20px 0px;
     }
 }

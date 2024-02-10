@@ -124,6 +124,25 @@ function get_filtering_body(page){
 
     }); 
 }
+
+$(document).on('change', '.is_active', function(e) {
+    if ($(this).prop('checked')==true){ 
+        var is_active = 1;
+    }else{
+        var is_active = 0;
+    }
+    var user_id = $(this).attr('user_id');
+    var _token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        url: "{{ route('change_customer_status') }}",
+        method: 'POST',
+        data: {_token: _token, user_id:user_id, is_active:is_active},
+        success: function (data) { 
+            
+        }
+    }); 
+});
     
 </script>
 

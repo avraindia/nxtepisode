@@ -86,7 +86,7 @@
                         <textarea class="form-control option_description" name="option_description" rows="3" placeholder="Description goes here"></textarea>
                     </div>
                     <div class="d-flex">
-                        <button class="outline-btn me-3 hide_modal">Cancel</button>
+                        <button class="outline-btn me-3 hide_modal back_btn">Cancel</button>
                         <button type="button" class="secondary-btn primary-btn submit_option_item">Submit</button>
                         <input type="hidden" name="option_id" class="option_id">
                 </form>

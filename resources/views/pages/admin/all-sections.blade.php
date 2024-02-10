@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div id="all-orders" class="table-responsive-sm position-relative withdra-tab-content active">
-                <table class="display responsive nowrap w-100 Queries">
+                <table class="display coustom-table nowrap w-100 Queries">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -48,7 +48,7 @@
                     </thead>
                     <tbody>
                         @foreach($sections as $section)
-                        <tr>
+                        <tr class="table-body-tr">
                             <td>
                                 <span class="pr-title">
                                     {{$section->section_name}}

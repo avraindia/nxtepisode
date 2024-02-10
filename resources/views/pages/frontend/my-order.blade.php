@@ -32,7 +32,7 @@
                 </div>
                 <div class="my-order-page-product-filter-section">
                     <div class="row justify-content-md-end">
-                        <div class="col-md-6">
+                        <div class="col-xl-6 col-lg-12 col-md-12">
                             <div class="my-order-page-product-filter-total-section">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">

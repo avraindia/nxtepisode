@@ -559,12 +559,29 @@ class ProductContent extends Controller
                 $extension = $gallery_image->getClientOriginalExtension();
                 // Filename To store
                 $fileNameToStore = $filename. '_'. time().'.'.$extension;
-                $thumbnail_path = storage_path('app/public/uploads/product_thumbnails/')  . $fileNameToStore;
-                $details_path = storage_path('app/public/uploads/product_details/')  . $fileNameToStore;
+                
+                
 
-                // Upload Image
-                Image::make($gallery_image->getRealPath())->resize(192, 283)->save($thumbnail_path);
-                Image::make($gallery_image->getRealPath())->resize(635, 590)->save($details_path);
+                // Upload thumbnail Image
+                $thumbnail_path = storage_path('app/public/uploads/product_thumbnails/')  . $fileNameToStore;
+                $thumb_width = 250; // your max width
+                $thumb_height = 250; // your max height
+                $thumbImg = Image::make($gallery_image->getRealPath());
+                $thumbImg->height() > $thumbImg->width() ? $thumb_width=null : $thumb_height=null;
+                $thumbImg->resize($thumb_width, $thumb_height, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($thumbnail_path);
+
+                // Upload details Image
+                $details_path = storage_path('app/public/uploads/product_details/')  . $fileNameToStore;
+                $details_width = 600; // your max width
+                $details_height = 600; // your max height
+                $detailsImg = Image::make($gallery_image->getRealPath());
+                $detailsImg->height() > $detailsImg->width() ? $details_width=null : $details_height=null;
+                $detailsImg->resize($details_width, $details_height, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($details_path);
+                
                 $productGalleryObject->product_image = $fileNameToStore;
                 $productGalleryObject->save();
             }
@@ -582,10 +599,17 @@ class ProductContent extends Controller
                 $extension = $size_image->getClientOriginalExtension();
                 // Filename To store
                 $fileNameToStore = $filename. '_'. time().'.'.$extension;
-                $store_path = storage_path('app/public/uploads/size_chart/')  . $fileNameToStore;
 
-                // Upload Image
-                Image::make($size_image->getRealPath())->resize(635, 590)->save($store_path);
+                // Upload details Image
+                $store_path = storage_path('app/public/uploads/size_chart/')  . $fileNameToStore;
+                $size_width = 600; // your max width
+                $size_height = 600; // your max height
+                $sizeImg = Image::make($size_image->getRealPath());
+                $sizeImg->height() > $sizeImg->width() ? $size_width=null : $size_height=null;
+                $sizeImg->resize($size_width, $size_height, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($store_path);
+
                 $sizeGalleryObject->size_image = $fileNameToStore;
                 $sizeGalleryObject->save();
             }

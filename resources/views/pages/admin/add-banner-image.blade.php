@@ -67,7 +67,11 @@
         </div>
     </div>
 </div>
-
+<div class="bottom">
+    <div class="d-flex justify-content-end">
+        <button class="btn-theme-blue me-3 back_btn">Cancel</button>
+    </div>
+</div>
 @stop
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>

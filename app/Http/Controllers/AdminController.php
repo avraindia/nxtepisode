@@ -112,6 +112,7 @@ class AdminController extends Controller
             'users.id',
             'users.name',
             'users.email',
+            'users.is_active',
             'users.created_at',
             'user_details.phone_number',
             'user_details.gender',
@@ -124,6 +125,12 @@ class AdminController extends Controller
         $users = $user_query->paginate(10);
 
         return view('pages.admin.customers', ["users"=>$users]);
+    }
+
+    public function change_customer_status(Request $request){
+        User::where('id', $request->user_id)->update([
+            'is_active' => $request->is_active
+        ]);
     }
 
     public function add_user(){

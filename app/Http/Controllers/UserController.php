@@ -69,7 +69,8 @@ class UserController extends Controller
     public function submit_login_form(Request $request){
         $role_obj = 
         User::select([
-            'roles.name'
+            'roles.name',
+            'users.is_active'
         ])
         ->join('roles', 'roles.id', '=', 'users.role_id')
         ->where('users.email', $request->user_email)
@@ -77,12 +78,21 @@ class UserController extends Controller
         ->limit(1)
         ->first();
 
+        if($role_obj->is_active == 0){
+            return response()->json([
+                'resp'=> 0, 
+                'msg'=> 'Your account has been blocked. Contact Support.'
+            ]);
+        }
+
         if(!$role_obj){
             return response()->json([
                 'resp'=> 0, 
                 'msg' => 'Invalid Credentials',
             ]);
         }
+
+
         
         if(auth()->attempt(array('email' => $request->user_email, 'password' => $request->psw)))
         {

@@ -7,7 +7,7 @@
             </div>
             <div class="billing-price-section order-list-section">
                 <ul>
-                    <li><a class="track-order-btn" href="{{route('my_order')}}">Orders <span class="track-order-text">(Track your order here)</span></a></li>
+                    <li><a class="track-order-btn" href="{{route('my_order')}}">Orders <!--<span class="track-order-text">(Track your order here)</span>--> </a></li>
                 </ul>
             </div>
             <div class="billing-price-section">
