@@ -5,6 +5,11 @@
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.min.css" rel="stylesheet">
 
 <script type="text/javascript">
+performance.navigation.type
+if(performance.navigation.type == 2){
+   location.reload(true);
+}
+
 $(document).on("click",".loginbtn",function() {
     if(validate_login_form() == true){
         var _token = $('meta[name="csrf-token"]').attr('content');

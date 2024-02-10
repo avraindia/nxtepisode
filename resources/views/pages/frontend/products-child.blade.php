@@ -32,7 +32,18 @@
                         <h6>{{$product->type_name}} for {{$product->gender}}</h6>
                     </div>
                     <div class="product-image-price-section">
-                        <span class="offer-price">₹ {{$product->product_mrp}}</span>
+                        <?php
+                        $product_gst = $product->gst;
+                        if($product_gst == 0){
+                            $product_gst = $global_gst;
+                        }
+                        $product_mrp = $product->product_mrp;
+                        $gst_amount = ($product_mrp*$product_gst)/100;
+                        $gst_amount = round($gst_amount);
+                        $amount_after_gst = $product_mrp+$gst_amount;
+                        $amount_after_gst = $amount_after_gst.'.00';
+                        ?>
+                        <span class="offer-price">₹ {{$amount_after_gst}}</span>
                     </div>
                 </a>
             </div>
