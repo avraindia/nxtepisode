@@ -81,9 +81,14 @@
 
             <!-- ORDER PACKED CHECK START -->
             @if ($status->status_name == 'Packed')
+            <li class="list-inline-item event-list">
+                <div class="px-4">
+                    <div class="event-date bg-soft-success text-success">{{$status->order_status_time}}</div>
+                    <h5 class="font-size-16">Order Packed at</h5>
+                </div>
+            </li>
             <div class="ors-list">
                 <div class="align-items-center d-lg-flex justify-content-between">
-                    <label class="alert alert-success">Order Packed at {{$status->order_status_time}} </label>
                     @if (!in_array('Shipped', $all_status))
                     @if (!in_array('Cancelled', $all_status))
                     <form>
