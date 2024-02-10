@@ -38,7 +38,7 @@
 </div>
 <div class="bottom">
     <div class="d-flex justify-content-end">
-        <button class="btn-theme-blue me-3">Cancel</button>
+        <button class="btn-theme-blue me-3 back_btn">Cancel</button>
         <button type="button" class="btn-theme-blue save_user_btn">Save</button>
     </div>
 </div> 

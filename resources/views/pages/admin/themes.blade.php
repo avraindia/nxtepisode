@@ -85,7 +85,7 @@
                         <textarea class="form-control theme_description" name="theme_description" rows="3" placeholder="Description goes here"></textarea>
                     </div>
                     <div class="d-flex">
-                        <button class="outline-btn me-3 hide_modal">Cancel</button>
+                        <button class="outline-btn me-3 hide_modal back_btn">Cancel</button>
                         <button type="button" class="secondary-btn primary-btn submit_theme_item">Submit</button>
                         <input type="hidden" name="theme_id" class="theme_id">
                 </form>

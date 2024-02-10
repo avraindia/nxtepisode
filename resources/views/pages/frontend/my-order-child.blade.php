@@ -3,7 +3,7 @@
     <div class="cart-image-text-total-section order-product-image-text-section">
         <div class="order-id-order-placed-track-order-section">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-xl-6 col-lg-12 col-md-12">
                     <div class="order-id-order-placed-text">
                         <div class="order-id-text-section">
                             <a href="{{route('order_details',base64_encode($order->id))}}">Order   <span class="order-id-number">#{{$order->order_number}}</span></a>
@@ -18,21 +18,19 @@
                     $status_name = $order_status->status_name;
                     $check_status_arr = ['Cancelled','Delivered']
                 @endphp
-                <div class="col-md-2">
-                    <div class="exchange-order-badge">
-                        @if ($order->is_exchange == 'yes')
-                        <h5>Exchange Order</h5>
-                        @endif
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="exchange-order-badge order-placed-section">
-                        <h5>{{$status_name}}</h5>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="track-location-order-btn">
-                        <a href="javascript:void(0);"><i class="fa-solid fa-location-crosshairs"></i> &nbsp;Track Order</a>
+                <div class="col-xl-6 col-lg-12 col-md-12">
+                    <div class="my-order-product-right-side-three-btn">
+                        <div class="exchange-order-badge product-right-side-three-btn">
+                            @if ($order->is_exchange == 'yes')
+                            <h5>Exchange Order</h5>
+                            @endif
+                        </div>
+                        <div class="exchange-order-badge order-placed-section product-right-side-three-btn">
+                            <h5>{{$status_name}}</h5>
+                        </div>
+                        <div class="track-location-order-btn product-right-side-three-btn">
+                            <a href="javascript:void(0);"><i class="fa-solid fa-location-crosshairs"></i> &nbsp;Track Order</a>
+                        </div>
                     </div>
                 </div>
             </div>

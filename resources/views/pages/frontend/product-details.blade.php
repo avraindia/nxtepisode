@@ -368,6 +368,7 @@
 $(document).on('change', '.size_id', function(e) {
     $('.cart_available').val('no');
     $('.product_stock').val('0');
+    $('.product-qty').val('1');
 
     var default_mrp = $('.default_mrp').val();
     var default_gst = $('.default_gst').val();
@@ -466,12 +467,34 @@ $(document).on('click', '.add_to_cart', function(e) {
 });
 
 $(document).on('click', '.qty-count', function(e) {
+    var size_id = $('input[name="size_id"]:checked').val();
+
+    if (typeof size_id === "undefined") {
+        $('.size_resp').addClass('alert-danger').html('Please select a size.');
+        $('.size_resp').show();
+        return false;
+    }else{
+        $('.size_resp').removeClass('alert-danger').html('');
+        $('.size_resp').hide();
+    }
+
     var action = $(this).attr('data-action');
     var product_quantity = $('.product-qty').val();
+    var product_stock = $('.product_stock').val();
 
     if(action == 'add'){
         $('.qty-count--minus').attr("disabled", false);
         var new_quantity = parseInt(product_quantity)+1;
+        if(new_quantity > product_stock){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops! You have exceeding product stock.',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'OK',
+            });
+            return false;
+        }
     }
 
     if(action == 'minus'){

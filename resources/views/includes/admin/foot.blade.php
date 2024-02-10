@@ -26,4 +26,8 @@
 $('.report_bell_icon').on('click', function() {
     $('.notify-section li').toggle();    
 });
+
+$(".back_btn").click(function (){
+  window.history.back();
+});
 </script>

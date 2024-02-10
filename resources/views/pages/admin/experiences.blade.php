@@ -85,7 +85,7 @@
                         <input type="text" class="form-control report_limit" placeholder="Ex: 50" value="{{$report_limit}}" name="report_limit">
                     </div>
                     <div class="d-flex">
-                        <button class="outline-btn me-3 hide_modal">Cancel</button>
+                        <button class="outline-btn me-3 hide_modal back_btn">Cancel</button>
                         <button type="button" class="secondary-btn primary-btn submit_report_limit">Submit</button>
                     </div>
                 </form>

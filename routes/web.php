@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     /// Customer Route
     Route::get('/admin/customers', [AdminController::class, 'customers'])->name('customers');
     Route::get('/admin/customer-details/{id}', [AdminController::class, 'customer_details'])->name('customer_details');
+    Route::post('/admin/change-customer-status', [AdminController::class, 'change_customer_status'])->name('change_customer_status');
 
     /// Category Route
     Route::get('/admin/all-categories', [ProductContent::class, 'view_categories'])->name('all_categories');
