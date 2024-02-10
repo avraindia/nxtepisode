@@ -59,7 +59,7 @@
                 </div>
                 @if (!in_array('Packed', $all_status))
                 @if (!in_array('Cancelled', $all_status))
-                <button type="button" class="btn-blue order_pack">Pack Order</button>
+                <button type="button" class="btn-blue order_pack status-btn">Pack Order</button>
                 @endif
                 @endif
             </li>
@@ -78,7 +78,7 @@
             @if (!in_array('Cancelled', $all_status))
             <div class="ors-list">
                 <div class="align-items-center d-lg-flex justify-content-between">
-                    <form>
+                    <form class="order-dispatched-form">
                         <div class="row">
                             <div class="col-lg-12 col-sm-12">
                                 <div class="row">
@@ -110,8 +110,10 @@
                                             <label class="input-info"><img src="{{ asset('backend/images/icon/icon-eye.svg') }}" alt=""> The weight of the item in kgs. Must be more than 0.</label>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn-blue dispatched_button dispatched-btn">Order Mark as Dispatched</button>
-                                    <div class="alert ship_resp"></div>
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn-blue dispatched_button dispatched-btn">Order Mark as Dispatched</button>
+                                        <div class="alert ship_resp"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +134,7 @@
                 </div>
                 @if (!in_array('On the way', $all_status))
                 @if (!in_array('Cancelled', $all_status))
-                <button type="button" class="btn-blue order_pack">Mark order as Out for delivery</button>
+                <button type="button" class="btn-blue order_pack status-btn">Mark order as Out for delivery</button>
                 @endif
                 @endif
             </li>
@@ -142,7 +144,7 @@
         @if (!in_array('Cancelled', $all_status))
         @if (!in_array('Delivered', $all_status))
         <div class="order-cancel-btn">
-            <button type="button" class="btn-blue cancel_order">Cancel Order</button>
+            <button type="button" class="btn-blue cancel_order bg-soft-danger">Cancel Order</button>
         </div>
         @endif
         @endif
