@@ -31,6 +31,8 @@ Route::get('/forget-password', [AdminController::class, 'forget_password'])->nam
 Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::post('/admin/chart-data', [AdminController::class, 'chart_data'])->name('chart_data');
+    Route::get('/admin/site-settings', [AdminController::class, 'site_settings'])->name('site_settings');
+    Route::post('/admin/save-settings', [AdminController::class, 'save_settings'])->name('save_settings');
 
     /// User Route
     Route::get('/admin/users', [AdminController::class, 'users'])->name('users');

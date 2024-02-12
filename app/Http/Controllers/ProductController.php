@@ -464,14 +464,21 @@ class ProductController extends Controller
     {
         $inventory_details = InventoryModel::where('product_id', $request->product_id)->where('option_value_id', $request->size_id)->get()->first();
         $variation_details = VariationModel::where('id', $request->variation_id)->get()->first();
-        $product_details = ProductModel::where('id', $request->variation_id)->get()->first();
-
+        $product_details = ProductModel::where('id', $request->product_id)->get()->first();
+        
         $product_price = $inventory_details->inventory_price;
         if($product_price == '0.00'){
             $product_price = $product_details->product_mrp;
         }
+        $product_gst = $product_details->gst;
+        if($product_gst == 0){
+            $product_gst = $request->global_gst;
+        }
+        $gst_amount = ($product_price*$product_gst)/100;
+        $gst_amount = round($gst_amount);
+        $amount_after_gst = $product_price+$gst_amount;
 
-        $final_price = $product_price*$request->quantity;
+        $final_price = $amount_after_gst*$request->quantity;
 
         $current_stock = $inventory_details->current_stock;
         if($current_stock >= $request->quantity){

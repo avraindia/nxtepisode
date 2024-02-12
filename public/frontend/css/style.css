@@ -701,6 +701,17 @@ textarea {
 	font-size: 16px;
 }
 
+.remove-from-wishlist-btn a {
+	display: inline-block;
+	width: 100%;
+	background: transparent;
+	text-align: center;
+	padding: 10px 15px;
+	border: 1px solid #e11b23;
+	color: #e11b23;
+	font-size: 16px;
+}
+
 .add-to-wishlist-btn a:hover {
 	background: #282828;
 	border: 1px solid transparent;

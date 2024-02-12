@@ -141,10 +141,25 @@
                                 @endif
                                 </div>
                             </div>
+                            <?php
+                            $wishlist_arr = array();
+                            if(isset($_COOKIE['nextProductWishCollection'])){
+                                $wishlist = $_COOKIE['nextProductWishCollection'];
+                                $wishlist_arr = explode(',', $wishlist);
+                            }
+                            ?>
                             <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
-                                <div class="add-to-wishlist-btn">
-                                    <a href="javascript:void(0);" class="add_to_wishlist"><i class="fa-sharp fa-light fa-heart"></i> &nbsp;Add to Wishlist</a>
-                                </div>
+                                <?php
+                                if(in_array($product_details->id, $wishlist_arr)){
+                                    ?>
+                                    <div class="remove-from-wishlist-btn"><a href="javascript:void(0);" class="remove_from_wishlist"><i class="fa-sharp fa-light fa-heart"></i> &nbsp;Remove From Wishlist</a></div>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <div class="add-to-wishlist-btn"><a href="javascript:void(0);" class="add_to_wishlist"><i class="fa-sharp fa-light fa-heart"></i> &nbsp;Add to Wishlist</a></div>
+                                    <?php
+                                }
+                                ?>
                             </div>
                             
                             <input type="hidden" name="product_name" class="product_name" value="{{$product_details->fitting_title}}">
@@ -628,6 +643,38 @@ $(document).on('click', '.show_more_review', function(e) {
     });
 });
 
+$(document).on('click', '.add_to_wishlist', function(e) {
+    var variation_id = $('.variation_id').val();
+    var wish_cookie = getCookie("nextProductWishCollection"); 
+
+    if (wish_cookie != "") {
+        var wishlist_arr = wish_cookie.split(',');
+        if(jQuery.inArray(variation_id, wishlist_arr) !== '-1'){
+            wishlist_arr.push(variation_id);
+            var new_wishlist = wishlist_arr.join(',');
+            setCookie('nextProductWishCollection', new_wishlist, 365);
+        }
+    }else{
+        setCookie('nextProductWishCollection', variation_id, 365);
+    }
+
+    location.reload();
+});
+
+$(document).on('click', '.remove_from_wishlist', function(e) {
+    var variation_id = $('.variation_id').val();
+    var wish_cookie = getCookie("nextProductWishCollection"); 
+    var wishlist_arr = wish_cookie.split(',');
+    var index = wishlist_arr.indexOf(variation_id);
+    if (index > -1) {
+        wishlist_arr.splice(index, 1);
+    }
+    var new_wishlist = wishlist_arr.join(',');
+    setCookie('nextProductWishCollection', new_wishlist, 365);
+
+    location.reload();
+});
+
 function calculate_cart_price(){
     var product_quantity = $('.product-qty').val();
     var amount_after_gst = $('.amount_after_gst').val();
@@ -637,7 +684,5 @@ function calculate_cart_price(){
     //$('.offer-price').html('₹ '+total_price);
     $('.cart_price').val(total_price);
 }
-
-
 </script>
 @endpush
