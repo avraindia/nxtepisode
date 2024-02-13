@@ -62,7 +62,7 @@
                         @else
                             <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-regular fa-user"></i></a>
                         @endif
-                        <a href="javascript:void(0);"><i class="fa-regular fa-heart"></i></a>
+                        <a href="{{route('wishlist')}}"><i class="fa-regular fa-heart"></i></a>
                         @if (auth()->check())
                             <a href="{{route('cart')}}" class="cart-btn">
                                 <div class="product-cart-number">
@@ -103,7 +103,7 @@
                             @else
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-regular fa-user"></i></a>
                             @endif
-                            <a href="javascript:void(0);"><i class="fa-regular fa-heart"></i></a>
+                            <a href="{{route('wishlist')}}"><i class="fa-regular fa-heart"></i></a>
                             @if (auth()->check())
                                 <a href="{{route('cart')}}" class="cart-btn">
                                     <div class="product-cart-number">
