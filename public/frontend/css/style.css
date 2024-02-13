@@ -3104,4 +3104,50 @@ textarea {
 }
 /* product exchange page css end */
 
+/* product wishlist page css start */
+.product-wishlist-section .product-details-section{
+	border: 1px solid #dedede;
+	position: relative;
+}
+.product-wishlist-remove-wishlist-btn{
+	position: absolute;
+	top: 9px;
+	right: 9px;
+}
+.product-wishlist-remove-wishlist-btn a{
+	border: 1px solid hsla(0,0%,100%,.6);
+    background-color: hsla(0,0%,100%,.5);
+	width: 20px;
+    height: 20px;
+	border-radius: 50%;
+	color: #000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+}
+.product-wishlist-section .product-filter-product-image-name-text h5 {
+    padding: 8px;
+}
+.product-wishlist-section .product-filter-product-image-details-text{
+    padding: 8px;
+}
+.product-wishlist-section .product-image-price-section{
+    padding: 8px;
+	margin: 0px;
+}
+.product-wishlist-move-cart-btn a{
+	display: inline-block;
+	width: 100%;
+	padding: 10px 0px;
+	text-align: center;
+	border-top: 1px solid #dedede;
+	color: #117a7a;
+	font-weight: 600;
+}
+.product-wishlist-move-cart-btn a:hover{
+	background: #117a7a;
+	color: #fff;
+}
+/* product wishlist page css end*/
 
