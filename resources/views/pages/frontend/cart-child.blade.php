@@ -87,13 +87,13 @@
                 </div>
                 <div class="remove-wishlist-btn desktop-remove-wishlist-btn">
                     <a class="remove-btn remove_from_cart" href="javascript:void(0);" pr_id="{{$item->id}}">Remove</a>
-                    <a class="move-to-wishlist-btn" href="#">MOVE TO WISHLIST</a>
+                    <a class="move-to-wishlist-btn" href="javascript:void(0);" pr_id="{{$item->id}}">MOVE TO WISHLIST</a>
                 </div>
             </div>
         </div>
         <div class="remove-wishlist-btn for-responsive-remove-wishlist-btn">
             <a class="remove-btn remove_from_cart" href="javascript:void(0);" pr_id="{{$item->id}}">Remove</a>
-            <a class="move-to-wishlist-btn" href="#">MOVE TO WISHLIST</a>
+            <a class="move-to-wishlist-btn" href="javascript:void(0);" pr_id="{{$item->id}}">MOVE TO WISHLIST</a>
         </div>
     </div>
     @endforeach

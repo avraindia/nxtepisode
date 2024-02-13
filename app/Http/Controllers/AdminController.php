@@ -15,6 +15,7 @@ use App\Models\OrderItemModel;
 use App\Models\OrderStatusModel;
 use App\Models\StatusCatalogModel;
 use App\Models\OrderDispatchModel;
+use App\Models\SettingsModel;
 
 use App\Mail\ForgetPasswordEmail;
 use App\Models\InventoryModel;
@@ -668,6 +669,37 @@ class AdminController extends Controller
         $status_obj = StatusCatalogModel::where('status_name', $status_name)->get()->first();
         $status_id = $status_obj->id;
         return $status_id;
+    }
+
+    public function site_settings(){
+        $shipping_fee_inside_west_bengal = SettingsModel::where('meta_title','shipping_fee_inside_west_bengal')->first()->meta_value;
+        $shipping_fee_outside_west_bengal = SettingsModel::where('meta_title','shipping_fee_outside_west_bengal')->first()->meta_value;
+        $global_gst = SettingsModel::where('meta_title','global_gst')->first()->meta_value;
+
+        return view('pages.admin.site-settings',
+            [
+                'shipping_fee_inside_west_bengal'=>$shipping_fee_inside_west_bengal,
+                'shipping_fee_outside_west_bengal'=>$shipping_fee_outside_west_bengal,
+                'global_gst'=>$global_gst,
+            ]
+        );
+    }
+
+    public function save_settings(Request $request){
+        SettingsModel::where('meta_title', 'shipping_fee_inside_west_bengal')->update([
+            'meta_value' => $request->shipping_fee_inside_west_bengal
+        ]);
+
+        SettingsModel::where('meta_title', 'shipping_fee_outside_west_bengal')->update([
+            'meta_value' => $request->shipping_fee_outside_west_bengal
+        ]);
+
+        SettingsModel::where('meta_title', 'global_gst')->update([
+            'meta_value' => $request->global_gst
+        ]);
+
+        return redirect()->route('site_settings')->with(['successmsg' => 'Settings updated successfully.']);
+
     }
 
 }
