@@ -152,6 +152,8 @@ Route::get('/product-details/{id}', [ProductController::class, 'front_product_de
 Route::post('/check-variation-exists', [ProductController::class, 'check_variation_exists'])->name('check_variation_exists');
 Route::post('/add-to-cart', [ProductController::class, 'add_to_cart'])->name('add_to_cart');
 Route::post('/fetch-show-more-product-review', [ProductController::class, 'fetch_show_more_product_review'])->name('fetch_show_more_product_review');
+Route::get('/wishlist', [ProductController::class, 'wishlist'])->name('wishlist');
+Route::post('/filtering-wishlist-result', [ProductController::class, 'filtering_wishlist_result'])->name('filtering_wishlist_result');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');

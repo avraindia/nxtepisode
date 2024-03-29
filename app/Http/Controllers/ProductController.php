@@ -1394,6 +1394,72 @@ class ProductController extends Controller
 
         return $result;
     }
+
+    public function wishlist(){
+        $wishlist_product_id = 0;
+        if(isset($_COOKIE['nextProductWishCollection'])){
+            $wishlist_product_id = $_COOKIE['nextProductWishCollection'];
+        }
+        $wishlist_id_arr = explode(',', $wishlist_product_id);
+
+        $product_query = VariationModel::select([
+            'product_variation.id',
+            'product_variation.fitting_title',
+            'category.name as cat_name',
+            'type.type_name',
+            'gender.gender',
+            'products.product_mrp'
+        ]);
+        $product_query
+        ->join('products', 'products.id', '=', 'product_variation.product_id')
+        ->join('type', 'type.id', '=', 'product_variation.fitting_type')
+        ->join('gender', 'gender.id', '=', 'product_variation.gender')
+        ->join('category', 'category.id', '=', 'products.main_cat_id')
+        ->with('gallery_images')
+        ->where('product_variation.is_active', '=', 1)
+        ->where('products.status', '=', 1)
+        ->where('products.deleted', '=', 0)
+        ->whereIn('product_variation.id', $wishlist_id_arr)
+        ->orderBy('product_variation.id' ,'desc');
+
+        $product_count = $product_query->get()->count();
+        $all_products = $product_query->paginate(4);
+        //dd($all_products);
+
+        return view('pages.frontend.wishlist', ["product_count"=>$product_count, "all_products"=>$all_products]);
+    }
+
+    public function filtering_wishlist_result(Request $request){
+        $wishlist_product_id = 0;
+        if(isset($_COOKIE['nextProductWishCollection'])){
+            $wishlist_product_id = $_COOKIE['nextProductWishCollection'];
+        }
+        $wishlist_id_arr = explode(',', $wishlist_product_id);
+
+        $product_query = VariationModel::select([
+            'product_variation.id',
+            'product_variation.fitting_title',
+            'category.name as cat_name',
+            'type.type_name',
+            'gender.gender',
+            'products.product_mrp'
+        ]);
+        $product_query
+        ->join('products', 'products.id', '=', 'product_variation.product_id')
+        ->join('type', 'type.id', '=', 'product_variation.fitting_type')
+        ->join('gender', 'gender.id', '=', 'product_variation.gender')
+        ->join('category', 'category.id', '=', 'products.main_cat_id')
+        ->with('gallery_images')
+        ->where('product_variation.is_active', '=', 1)
+        ->where('products.status', '=', 1)
+        ->where('products.deleted', '=', 0)
+        ->whereIn('product_variation.id', $wishlist_id_arr)
+        ->orderBy('product_variation.id' ,'desc');
+
+        $product_count = $product_query->get()->count();
+        $all_products = $product_query->paginate(4);
+        return view('pages.frontend.wishlist-child', ['product_count' => $product_count, 'all_products' => $all_products]);
+    }
     /**
      * Product frontend operarion end
     */
