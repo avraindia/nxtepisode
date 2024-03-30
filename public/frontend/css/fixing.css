@@ -209,7 +209,11 @@
     border: none;
 }
 /*last date 10.02.2024 */
-
+/* date 30.03.2024 */
+.product-filter-product-image img {
+    object-position: top center;
+}
+/*last date 30.03.2024 */
 
 
 
