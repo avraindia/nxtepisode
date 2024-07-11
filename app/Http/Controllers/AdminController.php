@@ -21,6 +21,8 @@ use App\Mail\ForgetPasswordEmail;
 use App\Models\InventoryModel;
 use App\Models\VariationModel;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderStatusChangeMail;
+use App\Mail\OrderCancelAdminMail;
 use Validator;
 
 class AdminController extends Controller
@@ -139,7 +141,45 @@ class AdminController extends Controller
     }
 
     public function filtering_user_paginate_result(Request $request){
+        $user_query = 
+        User::select([
+            'users.id',
+            'users.name',
+            'users.email',
+            'users.created_at',
+            'user_details.phone_number',
+            'user_details.gender',
+        ])
+        ->join('roles', 'roles.id', '=', 'users.role_id')
+        ->join('user_details', 'user_details.user_id', '=', 'users.id')
+        ->where('roles.name', 'custom_user')
+        ->orderByDesc('users.id');
+        
+        if(request('search_key')){
+            $search_key = request('search_key');
+            $user_query->where(function($user_query) use($search_key) {
+                $user_query->orWhere('users.name', 'like', "%$search_key%");
+            });
+        }
 
+        if(request('gender')){
+            $gender = request('gender');
+            $user_query->where(function($user_query) use($gender) {
+                $user_query->orWhere('user_details.gender', $gender);
+            });
+        }
+
+        if(request('from_date') && request('to_date')){
+            $from_date = date('Y-m-d H:i:s', strtotime(request('from_date')));
+            $to_date = date('Y-m-d H:i:s', strtotime(request('to_date')));
+
+            $user_query->where('users.created_at', '>=', $from_date);
+            $user_query->where('users.created_at', '<=', $to_date);
+        }
+
+        $users = $user_query->paginate(10);
+
+        return view('pages.admin.users-child', ["users"=>$users]);
     }
 
     public function customers(){
@@ -167,6 +207,49 @@ class AdminController extends Controller
         User::where('id', $request->user_id)->update([
             'is_active' => $request->is_active
         ]);
+    }
+
+    public function filtering_customer_paginate_result(Request $request){
+        $user_query = 
+        User::select([
+            'users.id',
+            'users.name',
+            'users.email',
+            'users.is_active',
+            'users.created_at',
+            'user_details.phone_number',
+            'user_details.gender',
+        ])
+        ->join('roles', 'roles.id', '=', 'users.role_id')
+        ->join('user_details', 'user_details.user_id', '=', 'users.id')
+        ->where('roles.name', 'frontend_user')
+        ->orderByDesc('users.id');
+        
+        if(request('search_key')){
+            $search_key = request('search_key');
+            $user_query->where(function($user_query) use($search_key) {
+                $user_query->orWhere('users.name', 'like', "%$search_key%");
+            });
+        }
+
+        if(request('gender')){
+            $gender = request('gender');
+            $user_query->where(function($user_query) use($gender) {
+                $user_query->orWhere('user_details.gender', $gender);
+            });
+        }
+
+        if(request('from_date') && request('to_date')){
+            $from_date = date('Y-m-d H:i:s', strtotime(request('from_date')));
+            $to_date = date('Y-m-d H:i:s', strtotime(request('to_date')));
+
+            $user_query->where('users.created_at', '>=', $from_date);
+            $user_query->where('users.created_at', '<=', $to_date);
+        }
+
+        $users = $user_query->paginate(10);
+
+        return view('pages.admin.customers-child', ["users"=>$users]);
     }
 
     public function add_user(){
@@ -445,6 +528,9 @@ class AdminController extends Controller
         $statusObject->status_catalog_id = $status_id;
         $statusObject->save();
 
+        $status = 'Your item is Packed';
+        $this->order_status_mail($request->order_id, $status);
+
         return response()->json([
             'resp'=> 1
         ]);
@@ -477,6 +563,9 @@ class AdminController extends Controller
         $statusObject->order_id = $request->order_id;
         $statusObject->status_catalog_id = $status_id;
         $statusObject->save();
+
+        $status = 'Your order is dispatched and waiting for shipment';
+        $this->order_status_mail($request->order_id, $status);
 
         return response()->json([
             'resp'=> 1
@@ -634,6 +723,9 @@ class AdminController extends Controller
         $statusObject->status_catalog_id = $status_id;
         $statusObject->save();
 
+        $status = 'Your order is shipped and on the way towards your address';
+        $this->order_status_mail($request->order_id, $status);
+
         return response()->json([
             'resp'=> 1
         ]);
@@ -647,18 +739,24 @@ class AdminController extends Controller
         $statusObject->status_catalog_id = $status_id;
         $statusObject->save();
 
+        $status = 'Your order is delivered.';
+        $this->order_status_mail($request->order_id, $status);
+
         return response()->json([
             'resp'=> 1
         ]);
     }
 
     public function cancel_order(Request $request){
+
         $status_id = $this->get_status_id('Cancelled');
 
         $statusObject = new OrderStatusModel;
         $statusObject->order_id = $request->order_id;
         $statusObject->status_catalog_id = $status_id;
         $statusObject->save();
+
+        $this->order_cancel_mail($request->order_id);
 
         return response()->json([
             'resp'=> 1
@@ -700,6 +798,82 @@ class AdminController extends Controller
 
         return redirect()->route('site_settings')->with(['successmsg' => 'Settings updated successfully.']);
 
+    }
+
+    public function change_user(){
+        return view('pages.admin.change-user');
+    }
+
+    public function update_admin(Request $request){
+        $email = $request->new_email;
+        $user_num = User::where('email', $email)->get()->count();
+        if($user_num > 0){
+            return back()->with("error", "Oops! Email already registered.");
+        }else{
+            $user = Auth::user();
+            $userId = $user->id;
+            
+            User::where('id', $userId)->update([
+                'email' => $email
+            ]);
+
+            return back()->with("status", "Admin email changed successfully!");
+        }
+    }
+
+    public function change_password(){
+        return view('pages.admin.change-password');
+    }
+
+    public function update_password(Request $request){
+        # Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+
+        #Match The Old Password
+        if(!Hash::check($request->old_password, auth()->user()->password)){
+            return back()->with("error", "Old Password Doesn't match!");
+        }
+
+
+        #Update the new Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with("status", "Password changed successfully!");
+    }
+
+    public function order_status_mail($order_id, $status){
+        $order_details = OrderModel::with('user_details')->with('shipping_address')->where('id', $order_id)->get()->first();
+
+        $user_email = $order_details->user_details->email;
+        //$user_email = 'samiran.webqueue@gmail.com';
+
+        $data = [
+            'order_details' => $order_details,
+            'status' => $status
+        ];
+
+        $mailresponse = Mail::to($user_email)->send(new OrderStatusChangeMail($data));
+        return $mailresponse;
+    }
+
+    public function order_cancel_mail($order_id){
+        $order_details = OrderModel::with('user_details')->where('id', $order_id)->get()->first();
+
+        $user_email = $order_details->user_details->email;
+        //$user_email = 'samiran.webqueue@gmail.com';
+
+        $data = [
+            'order_details' => $order_details
+        ];
+
+        $mailresponse = Mail::to($user_email)->send(new OrderCancelAdminMail($data));
+        return $order_details;
     }
 
 }

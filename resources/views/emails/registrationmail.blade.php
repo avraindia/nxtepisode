@@ -6,32 +6,31 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Registration Successfull</title>
+<title>registration-mail-template</title>
 </head>
 
 <body>
-<div style="width:808px; margin:auto;">
-    <table style="width:100%;">
+<div style="width:800px; margin:auto; background: #f0f0f0; padding: 15px;">
+    <table style="width:100%; background: #fff; padding: 15px;">
         <tr>
             <td>
-                <p style="font-size:14px; color:#000; line-height: 20px;">
-                   <b>To, {{$data['user_name']}}</b><br><br>
-                   Subject : Registration Successfull<br>
-                </p>
+                <h5 style="font-size:25px; color:#000; text-align:center; padding-top: 20px; margin: 0px;">Welcome</h5>
             </td>
         </tr>
         <tr>
-            <td style="width: 100%;">
-                <p style="color: #000; line-height: 30px; font-size: 16px;">Thank you for choosing Citybot! We're thrilled to have you join our community of urban explorers and adventure seekers. Get ready to embark on exciting journeys and discover the hidden gems of your city like never before.</p>
-                <p style="color: #000; line-height: 30px; font-size: 16px;">Thank you once again for choosing Citybot. Let's uncover the city's hidden treasures together!</p>
-                <p style="color: #000; line-height: 30px; font-size: 16px;">Happy exploring!</p>
+            <td colspan="2" style="text-align: center; padding: 35px 0px;">
+                <img src="https://unifiedvariables.in/dev/samiran/next-episode/frontend/images/next-logo.jpg" style="width:120px;">
             </td>
         </tr>
-        <tr>
-            <td style="width: 100%;">
-                <p>Thank You,</p>
-                <b>Team Citybot</b><br><br>
-                <img style="width: 100px; height: auto;" src="https://app.citybot.cloud/backend/images/logo.png" alt="">
+        <tr colspan="2">
+            <td>
+                <h5 style="font-size:20px; color:#000; margin-bottom: 15px;">Hello {{$data['user_name']}},</h5>
+                <p style="color: #32353a; font-size: 16px; line-height: 27px;">Thanks for joining. We're really excited to have you on board. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi necessitatibus debitis repudiandae quibusdam omnis nisi impedit quaerat? Suscipit nulla aliquam vitae sed! In saepe, nulla enim illum voluptatum est sunt.</p>
+            </td>
+        </tr>
+        <tr colspan="2" style="text-align: center;">
+            <td>
+                <a style="display: inline-block; margin-top: 20px; background: #117a7a; color: #fff; padding: 10px 15px;     text-transform: uppercase; font-weight: 600; text-decoration: none;" href="{{env('APP_URL')}}">LOGIN TO YOUR ACCOUNT</a>
             </td>
         </tr>
     </table>

@@ -6,7 +6,7 @@
         <div class="card-body">
             <div class="align-items-center d-md-flex justify-content-between mb-4">
                 <div class="">
-                    <h1 class="card-title m-md-0 mb-3"> Change User</h1>
+                    <h1 class="card-title m-md-0 mb-3"> Change Admin User</h1>
                 </div>
             </div>
             @if (session('status'))
@@ -18,7 +18,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <form method="post" id="submitForm" action="{{ route('update_user') }}" enctype="multipart/form-data">
+            <form method="post" id="submitForm" action="{{ route('update_admin') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-lg-7 col-sm-12">

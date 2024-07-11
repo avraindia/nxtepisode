@@ -39,7 +39,7 @@
                     <div class="col-lg-2">
                         <div class="form-group">
                             <label>Category</label>
-                            <select class="form-control search_status">
+                            <select class="form-control cat_id">
                                 <option value="">All</option>
                                 @foreach($parent_categories as $parent_category)
                                 <option value="{{$parent_category->id}}">{{$parent_category->name}}</option>
@@ -56,19 +56,53 @@
                     </div>
                 </div>
             </div>
-            <div id="all-orders" class="table-responsive-sm position-relative withdra-tab-content active">
+            <div id="all-orders" class="table-responsive-sm position-relative withdra-tab-content active product_list">
                 @include('pages.admin.products-child')
             </div>
         </div>
     </div>
 </div>
 @stop
-
-
-
 @push('scripts')
 
 <script>
+$('.pagination li [rel=prev]').html('Prev');
+$('.pagination li [rel=next]').html('Next');
+
+$(document).on('click', '.apply_filter', function(){
+    get_filtering_body(1);
+});
+
+$(document).on('click', '.clear_filter', function(){
+    location.reload();
+});
+
+$(document).on('click', '.page-link', function(e) {
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+    if(page!=""){
+        get_filtering_body(page);
+    }
+});
+
+function get_filtering_body(page){
+    var cat_id = $('.cat_id').val();
+    var search_key = $('.search_key').val();
+
+    var _token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        url: "{{ route('filtering_product_paginate_result') }}",
+        method: 'POST',
+        data: {_token: _token, page:page, search_key:search_key, cat_id:cat_id},
+        success: function (data) { 
+            $('.product_list').html(data);
+            $('.pagination li [rel=prev]').html('Prev');
+            $('.pagination li [rel=next]').html('Next');
+        }
+
+    }); 
+}
 </script>
 
 @endpush

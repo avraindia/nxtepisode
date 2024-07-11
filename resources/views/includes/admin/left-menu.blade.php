@@ -94,7 +94,7 @@
                 <span class="menu-title">Order</span>
             </a>
         </li>
-        <li>
+        <li @if(in_array($route_name, ['change_user', 'site_settings'])) ? class="hovered" : '' @endif>
             <a data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <span class="menu-icon">
                     <i class="fa fa-cog" aria-hidden="true"></i>
@@ -105,10 +105,10 @@
             
             <div class="collapse" id="collapseExample2">
                 <ul class="sub-menu">
-                    <li><a href="">Change User</a></li>
+                    <li><a href="{{route('change_user')}}">Change Admin User</a></li>
                 </ul>
                 <ul class="sub-menu">
-                    <li><a href="">Change Password</a></li>
+                    <li><a href="{{route('change_password')}}">Change Admin Password</a></li>
                 </ul>
                 <ul class="sub-menu">
                     <li><a href="{{route('site_settings')}}">Settings Value</a></li>

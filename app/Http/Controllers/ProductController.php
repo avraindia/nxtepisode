@@ -34,6 +34,10 @@ use App\Models\ExchangeReasonModel;
 use App\Models\ExchangeItemModel;
 use App\Models\CollectionProductModel;
 use App\Models\RefundModel;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderPlaceMail;
+use App\Mail\OrderCancelFrontMail;
+use App\Mail\ExchangeOrderMail;
 
 class ProductController extends Controller
 {
@@ -56,6 +60,36 @@ class ProductController extends Controller
         $products = $product_query->paginate(10);
         
         return view('pages.admin.all-products', ['parent_categories'=>$parent_categories, 'products'=>$products]);
+    }
+
+    public function filtering_product_paginate_result(Request $request){
+        $product_query = ProductModel::select([
+            'products.id',
+            'products.product_title',
+            'products.product_mrp',
+            'products.status',
+            'products.deleted',
+            'category.name as category_name',
+        ])
+        ->join('category', 'category.id', '=', 'products.main_cat_id');
+
+        if(request('search_key')){
+            $search_key = request('search_key');
+            $product_query->where(function($product_query) use($search_key) {
+                $product_query->orWhere('products.product_title', 'like', "%$search_key%");
+                $product_query->orWhere('category.name', 'like', "%$search_key%");
+            });
+        }
+
+        if(request('cat_id')){
+            $cat_id = request('cat_id');
+            $product_query->where(function($product_query) use($cat_id) {
+                $product_query->orWhere('category.id',  $cat_id);
+            });
+        }
+
+        $products = $product_query->paginate(10);
+        return view('pages.admin.products-child', ["products"=>$products]);
     }
 
     public function add_product(){
@@ -174,7 +208,7 @@ class ProductController extends Controller
         }
 
         $product_count = $product_query->get()->count();
-        $all_products = $product_query->paginate(4);
+        $all_products = $product_query->paginate(8);
         //dd($all_products);
         return view('pages.frontend.products', ["categories"=>$categories, "types"=>$types, "options"=>$options, "genders"=>$genders, "all_themes"=>$all_themes, "product_count"=>$product_count, "all_products"=>$all_products]);
     }
@@ -286,7 +320,7 @@ class ProductController extends Controller
         }
 
         $product_count = $product_query->get()->count();
-        $all_products = $product_query->paginate(4);
+        $all_products = $product_query->paginate(8);
         return view('pages.frontend.products-child', ['product_count' => $product_count, 'all_products' => $all_products, 'is_exchange'=>$request->is_exchange, 'exchange_id'=>$request->exchange_id]);
 
         /*return response()->json([
@@ -418,6 +452,18 @@ class ProductController extends Controller
         ]);
     }
 
+    public function order_place_mail($order_id){
+        $order_details = OrderModel::with('user_details')->with('order_items')->with('shipping_address')->where('id', $order_id)->get()->first(); 
+
+        $user_email = $order_details->user_details->email;
+        //$user_email = 'samiran.webqueue@gmail.com';
+        $data = [
+            'order_details' => $order_details
+        ];
+        $mailresponse = Mail::to($user_email)->send(new OrderPlaceMail($data));
+        return $order_details;
+    }
+
     public function cart(){
         $cartItems = \Cart::getContent();
         $cartItems = $cartItems->sort();
@@ -460,8 +506,7 @@ class ProductController extends Controller
         return view('pages.frontend.cart', ['sizes'=>$sizes, 'cartItems'=>$cartItems, 'similar_products'=>$similar_products]);
     }
 
-    public function updateCart(Request $request)
-    {
+    public function updateCart(Request $request){
         $inventory_details = InventoryModel::where('product_id', $request->product_id)->where('option_value_id', $request->size_id)->get()->first();
         $variation_details = VariationModel::where('id', $request->variation_id)->get()->first();
         $product_details = ProductModel::where('id', $request->product_id)->get()->first();
@@ -778,6 +823,7 @@ class ProductController extends Controller
         $order_id = $request->order_id;
         $order_details = OrderModel::where('order_number', $order_id)->get()->first(); 
         $orderId = $order_details->id;
+        $is_exchange = $order_details->is_exchange;
 
         $url = "https://sandbox.cashfree.com/pg/orders/".$order_id."/settlements"; // sandbox
         //$url = "https://api.cashfree.com/pg/orders/".$order_id."/settlements"; // production
@@ -833,6 +879,15 @@ class ProductController extends Controller
         $paymentObject->save();
 
         $this->cart_update_after_order_place($orderId);
+
+        if($is_exchange == 'no'){
+            $this->order_place_mail($orderId);
+        }
+
+        if($is_exchange == 'yes'){
+            $this->order_exchange_mail($orderId);
+        }
+
         return redirect()->route('order_success', [base64_encode($orderId)]);
 
     }
@@ -1241,6 +1296,7 @@ class ProductController extends Controller
             //dd($resp);
             return redirect()->to(json_decode($resp)->payment_link);
         }else{
+            $this->order_place_mail($order_id);
             $this->cart_update_after_order_place($order_id);
             return redirect()->route('order_success', [base64_encode($order_id)]);
         }
@@ -1297,7 +1353,7 @@ class ProductController extends Controller
         $order_refund = $this->order_cashfree_refund($request->order_id);
         $status = $order_refund['status'];
         $payment_refund = $order_refund['payment_refund'];
-
+        
         if($status == true){
             $adminController = new AdminController;
             $status_id = $adminController->get_status_id('Cancelled');
@@ -1312,6 +1368,8 @@ class ProductController extends Controller
             }else{
                 $msg = 'Order cancelled.';
             }
+
+            $this->order_cancel_mail($request->order_id, $payment_refund);
         }else{
             $msg = 'Order cancellation failed.';    
         }
@@ -1459,6 +1517,36 @@ class ProductController extends Controller
         $product_count = $product_query->get()->count();
         $all_products = $product_query->paginate(4);
         return view('pages.frontend.wishlist-child', ['product_count' => $product_count, 'all_products' => $all_products]);
+    }
+
+    public function order_cancel_mail($order_id, $payment_refund){
+        $order_details = OrderModel::with('user_details')->where('id', $order_id)->get()->first();
+
+        $user_email = $order_details->user_details->email;
+        //$user_email = 'samiran.webqueue@gmail.com';
+
+        $data = [
+            'order_details' => $order_details,
+            'payment_refund' => $payment_refund
+        ];
+
+        $mailresponse = Mail::to($user_email)->send(new OrderCancelFrontMail($data));
+        return $data;
+    }
+
+    public function order_exchange_mail($order_id){
+        $order_details = OrderModel::with('user_details')->with('order_items')->with('shipping_address')->where('id', $order_id)->get()->first(); 
+        $parent_order_id = $order_details->parent_order_id;
+        $parent_order_details = OrderModel::where('id', $parent_order_id)->get()->first(); 
+
+        $user_email = $order_details->user_details->email;
+        //$user_email = 'samiran.webqueue@gmail.com';
+        $data = [
+            'order_details' => $order_details,
+            'parent_order_details' => $parent_order_details
+        ];
+        $mailresponse = Mail::to($user_email)->send(new ExchangeOrderMail($data));
+        return $order_details;
     }
     /**
      * Product frontend operarion end

@@ -37,8 +37,8 @@
                             <label>Gender</label>
                             <select class="form-control filter_by_gender">
                                 <option value="">All</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="m">Male</option>
+                                <option value="f">Female</option>
                             </select>
                         </div>
                     </div>

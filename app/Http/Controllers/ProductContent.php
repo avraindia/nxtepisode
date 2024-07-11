@@ -456,6 +456,7 @@ class ProductContent extends Controller
     public function filtering_fitting_paginate_result(Request $request){
         $product_fitting_query = 
         VariationModel::select([
+            'product_variation.id',
             'product_variation.fitting_title',
             'product_variation.fitting_type',
             'product_variation.gender AS gender_id',
