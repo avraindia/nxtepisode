@@ -42,6 +42,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Type</th>
+                            <th>Active</th>
                             <th>Order</th>
                             <th>action</th>
                         </tr>
@@ -57,6 +58,17 @@
                             <td>
                                 <span class="pr-title">
                                     {{$section->section_type}}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="pr-title">
+                                    <?php
+                                    if($section->is_active == 1){
+                                        echo "Yes";
+                                    }else{
+                                        echo "No";
+                                    }
+                                    ?>
                                 </span>
                             </td>
                             <td>

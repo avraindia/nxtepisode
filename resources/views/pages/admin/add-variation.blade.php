@@ -5,6 +5,13 @@
 <div class="body">
     <div class="card">
         <div class="card-body">
+            @if (\Session::has('successmsg'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{!! \Session::get('successmsg') !!}</li>
+                </ul>
+            </div>
+            @endif
             <div class="align-items-center d-md-flex justify-content-between mb-4">
                 <div class="">
                     <h1 class="card-title m-md-0 mb-3"> Add Product Fitting</h1>
@@ -130,6 +137,7 @@
 
 @stop
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
 <script type="text/javascript">
 $(function() {
     $('#demo').multiselect({
@@ -217,6 +225,44 @@ $(document).on("click",".save_variation_btn",function() {
 });
 
 $(document).on("change",".fitting_type, .fitting_gender",function() {
+    load_body();
+});
+
+$(document).on("click",".delete_product_image",function() {
+    if (confirm("Are you sure to delete?") == true) {
+        var id = $(this).attr('id');
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "{{ route('delete_product_gallery') }}",
+            method: 'POST',
+            data: {_token: _token, id:id},
+            success: function (data) { 
+                if(data.resp == true){
+                    load_body();
+                }
+            }
+        });
+    }
+});
+
+$(document).on("click",".delete_size_image",function() {
+    if (confirm("Are you sure to delete?") == true) {
+        var id = $(this).attr('id');
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "{{ route('delete_size_gallery') }}",
+            method: 'POST',
+            data: {_token: _token, id:id},
+            success: function (data) { 
+                if(data.resp == true){
+                    load_body();
+                }
+            }
+        });
+    }
+});
+
+function load_body(){
     var fitting_type = $('.fitting_type').find(":selected").val();
     var fitting_gender = $('.fitting_gender').find(":selected").val();
     var product_id = $('.product_id').val();
@@ -244,8 +290,9 @@ $(document).on("change",".fitting_type, .fitting_gender",function() {
                             var single_img = gallery_images[i];
                             var img_html = 
                             '<div class="col-lg-3">'+
-                                '<div class="variation-gal-img-container">'+
-                                    '<img src="'+single_img.product_thumbnail_image_link+'" alt="Snow">'+
+                                '<div class="variation-gal-img-container admin-banner-slider-image">'+
+                                    '<a href="'+single_img.product_thumbnail_image_link+'" data-lightbox="photos"><img class="img-fluid slider-images-section" src="'+single_img.product_thumbnail_image_link+'"></a>'+
+                                    '<a href="javascript:void(0);" class="alert alert-danger delete_product_image" id="'+single_img.id+'">X</a>'+
                                 '</div>'+
                             '</div>';
                             $('.product_gallery_list').append(img_html);
@@ -256,8 +303,9 @@ $(document).on("change",".fitting_type, .fitting_gender",function() {
                             var single_img = chart_images[i];
                             var img_html = 
                             '<div class="col-lg-3">'+
-                                '<div class="variation-gal-img-container">'+
-                                    '<img src="'+single_img.size_gallery_image_link+'" alt="Snow">'+
+                                '<div class="variation-gal-img-container admin-banner-slider-image">'+
+                                    '<a href="'+single_img.size_gallery_image_link+'" data-lightbox="photos"><img class="img-fluid slider-images-section" src="'+single_img.size_gallery_image_link+'"></a>'+
+                                    '<a href="javascript:void(0);" class="alert alert-danger delete_size_image" id="'+single_img.id+'">X</a>'+
                                 '</div>'+
                             '</div>';
                             $('.chart_gallery_list').append(img_html);
@@ -288,7 +336,7 @@ $(document).on("change",".fitting_type, .fitting_gender",function() {
         $('#description').summernote('reset');
         $(".is_available").prop('checked', true);
     }
-});
+}
 </script>
 
 @endpush

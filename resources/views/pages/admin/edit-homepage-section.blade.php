@@ -23,30 +23,37 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="label">Section type</label>
-                                    <select class="form-select section_type" name="section_type" disabled>
+                                    <label class="label">Slider Type</label>
+                                    <select class="form-select section_type" disabled>
                                         <option value="">Section section type</option>
                                         <option value="collection" <?php if($section_details->section_type == 'collection'){echo 'selected="selected"';}?>>Collection</option>
                                         <option value="product" <?php if($section_details->section_type == 'product'){echo 'selected="selected"';}?>>Product</option>
                                     </select>
+                                    <input type="hidden" name="section_type" value="{{$section_details->section_type}}">
                                     <label class="input-error section_type_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
                                 </div>
                             </div>
-                            <!--
-                                Ratio A => UNMISSABLE COLLECTION
-                                Ratio B => SHOP BY THEMES
-                                Ratio C => STRAIGHT FORM HOLLYWOOD
-                                Ratio D => TRENDING CATEGORIES
-                            -->
                             <div class="col-lg-6">
-                                <div class="form-group image_ratio_area" <?php if($section_details->section_type != 'collection'){echo 'style="display:none;"';}?>>
+                                <div class="form-group image_ratio_area">
                                     <label class="label">Image Ratio</label>
-                                    <select class="form-select select image_ratio" name="image_ratio">
-                                        <option value="">Select Image Ratio</option>
-                                        <option value="A" <?php if($section_details->image_ratio == 'A'){echo 'selected="selected"';}?>>Ratio A</option>
-                                        <option value="B" <?php if($section_details->image_ratio == 'B'){echo 'selected="selected"';}?>>Ratio B</option>
-                                        <option value="C" <?php if($section_details->image_ratio == 'C'){echo 'selected="selected"';}?>>Ratio C</option>
-                                        <option value="D" <?php if($section_details->image_ratio == 'D'){echo 'selected="selected"';}?>>Ratio D</option>
+                                    <select class="form-select select collection_slider_type" name="collection_slider_type" <?php if($section_details->section_type == 'product'){echo 'style="display:none;"';}?>>
+                                        <option value="">Select Slider Type</option>
+                                        <option value="A" <?php if($section_details->image_ratio == 'A'){echo 'selected="selected"';}?>>Slider with 1 image (Page Top Slider)</option>
+                                        <option value="L" <?php if($section_details->image_ratio == 'L'){echo 'selected="selected"';}?>>Slider with 1 image (Page Middle Slider)</option>
+                                        <option value="B" <?php if($section_details->image_ratio == 'B'){echo 'selected="selected"';}?>>Slider with 3 square images</option>
+                                        <option value="C" <?php if($section_details->image_ratio == 'C'){echo 'selected="selected"';}?>>Slider with 4 horizontally rectangle images</option>
+                                        <option value="K" <?php if($section_details->image_ratio == 'K'){echo 'selected="selected"';}?>>Slider with 4 vertically rectangle images</option>
+                                        <option value="D" <?php if($section_details->image_ratio == 'D'){echo 'selected="selected"';}?>>Slider with 4 rectangle images with ordering number(e.g. Top 5 or Top 10)</option>
+                                        <option value="E" <?php if($section_details->image_ratio == 'E'){echo 'selected="selected"';}?>>Slider with 4 square images without title</option>
+                                        <option value="J" <?php if($section_details->image_ratio == 'J'){echo 'selected="selected"';}?>>Slider with 4 square images with title</option>
+                                        <option value="F" <?php if($section_details->image_ratio == 'F'){echo 'selected="selected"';}?>>Slider with 4 circle images</option>
+                                    </select>
+
+                                    <select class="form-select select product_slider_type" name="product_slider_type" <?php if($section_details->section_type == 'collection'){echo 'style="display:none;"';}?>>
+                                        <option value="">Select Slider Type</option>
+                                        <option value="G" <?php if($section_details->image_ratio == 'G'){echo 'selected="selected"';}?>>Slider with 1 image</option>
+                                        <option value="H" <?php if($section_details->image_ratio == 'H'){echo 'selected="selected"';}?>>Slider with 5 rectangle images</option>
+                                        <option value="I" <?php if($section_details->image_ratio == 'I'){echo 'selected="selected"';}?>>Slider with 5 rectangle images of flash sale</option>
                                     </select>
                                     <label class="input-error image_ratio_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
                                 </div>
@@ -57,6 +64,15 @@
                                     <input type="text" class="form-control section_order" value="{{$section_details->section_order}}" name="section_order" required>
                                     <label class="input-error section_order_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
                                     <input type="hidden" name="section_id" value="{{$section_details->id}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="label"></label>
+                                    <div class="switch_box">
+                                        <label>Publish this section</label>
+                                        <input type="checkbox" class="switch is_active" name="is_active" <?php if($section_details->is_active == '1'){echo 'checked="checked"';}?>>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +101,8 @@ $(function() {
         $('.input-error').hide();
         var section_name = $('.section_name').val();
         var section_type = $('.section_type').val();
-        var image_ratio = $('.image_ratio').val();
+        var collection_slider_type = $('.collection_slider_type').val();
+        var product_slider_type = $('.product_slider_type').val();
         var section_order = $('.section_order').val();
         
         if(section_name == ""){
@@ -103,7 +120,16 @@ $(function() {
         }
 
         if(section_type == "collection"){
-            if(image_ratio == ""){
+            if(collection_slider_type == ""){
+                valid = false;
+                $('.image_ratio_err').show();
+            }else{
+                $('.image_ratio_err').hide();
+            }
+        }
+
+        if(section_type == "product"){
+            if(product_slider_type == ""){
                 valid = false;
                 $('.image_ratio_err').show();
             }else{

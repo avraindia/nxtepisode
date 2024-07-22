@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\UserController;
 
 class GoogleAuthController extends Controller
 {
@@ -42,6 +43,9 @@ class GoogleAuthController extends Controller
                 $userDetailsObject->phone_number = '';
                 $userDetailsObject->gender = 'm';
                 $userDetailsObject->save();
+
+                $userController = new UserController();
+                $userController->register_email($user_id);
 
                 Auth::login($new_user);
 

@@ -42,11 +42,16 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/update-user', [AdminController::class, 'update_user'])->name('update_user');
     Route::post('/admin/change-user-permission', [AdminController::class, 'change_user_permission'])->name('change_user_permission');
     Route::get('/admin/user-details/{id}', [AdminController::class, 'user_details'])->name('user_details');
+    Route::get('/admin/change-user', [AdminController::class, 'change_user'])->name('change_user');
+    Route::post('/admin/update-admin', [AdminController::class, 'update_admin'])->name('update_admin');
+    Route::get('/admin/change-password', [AdminController::class, 'change_password'])->name('change_password');
+    Route::post('/admin/update-password', [AdminController::class, 'update_password'])->name('update_password');
 
     /// Customer Route
     Route::get('/admin/customers', [AdminController::class, 'customers'])->name('customers');
     Route::get('/admin/customer-details/{id}', [AdminController::class, 'customer_details'])->name('customer_details');
     Route::post('/admin/change-customer-status', [AdminController::class, 'change_customer_status'])->name('change_customer_status');
+    Route::post('/admin/filtering-customer-paginate-result', [AdminController::class, 'filtering_customer_paginate_result'])->name('filtering_customer_paginate_result');
 
     /// Category Route
     Route::get('/admin/all-categories', [ProductContent::class, 'view_categories'])->name('all_categories');
@@ -78,6 +83,12 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/save-banner-image', [HomepageController::class, 'save_banner_image'])->name('save_banner_image');
     Route::get('/admin/delete-banner-image/{id}', [HomepageController::class, 'delete_banner_image'])->name('delete_banner_image');
 
+    Route::get('/admin/opinion-list', [HomepageController::class, 'opinion_list'])->name('opinion_list');
+    Route::get('/admin/add-opinion', [HomepageController::class, 'add_opinion'])->name('add_opinion');
+    Route::get('/admin/edit-opinion/{id}', [HomepageController::class, 'edit_opinion'])->name('edit_opinion');
+    Route::get('/admin/delete-opinion/{id}', [HomepageController::class, 'delete_opinion'])->name('delete_opinion');
+    Route::post('/admin/save-public-opinion', [HomepageController::class, 'save_public_opinion'])->name('save_public_opinion');
+
     //// Product Route
     Route::get('/admin/all-products', [ProductController::class, 'all_products'])->name('all_products');
     Route::get('/admin/add-product', [ProductController::class, 'add_product'])->name('add_product');
@@ -85,6 +96,7 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::get('/admin/product-details/{id}', [ProductController::class, 'product_details'])->name('product_details');
     Route::post('/admin/update-product', [ProductController::class, 'update_product'])->name('update_product');
     Route::post('/admin/delete-product-image', [ProductController::class, 'delete_product_image'])->name('delete_product_image');
+    Route::post('/admin/filtering-product-paginate-result', [ProductController::class, 'filtering_product_paginate_result'])->name('filtering_product_paginate_result');
 
     //// Options Route
     Route::get('/admin/options', [ProductContent::class, 'options'])->name('options');
@@ -119,6 +131,8 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/filtering-fitting-paginate-result', [ProductContent::class, 'filtering_fitting_paginate_result'])->name('filtering_fitting_paginate_result');
     Route::get('/admin/review/{id}', [ProductContent::class, 'fetch_review'])->name('fetch_review');
     Route::post('/admin/change-review-status', [ProductContent::class, 'change_review_status'])->name('change_review_status');
+    Route::post('/admin/delete-product-gallery', [ProductContent::class, 'delete_product_gallery'])->name('delete_product_gallery');
+    Route::post('/admin/delete-size-gallery', [ProductContent::class, 'delete_size_gallery'])->name('delete_size_gallery');
 
     /// Order details Route
     Route::get('/admin/all-order', [AdminController::class, 'orders'])->name('all_order');
@@ -135,6 +149,7 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
 
 ////////// route of frontend start ////////////
 Route::get('/', [HomepageController::class, 'home'])->name('home');
+Route::get('/home-old', [HomepageController::class, 'home_old'])->name('home_old');
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/submit-register-form', [UserController::class, 'submit_register_form'])->name('submit_register_form');

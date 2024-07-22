@@ -113,7 +113,7 @@ function get_filtering_body(page){
     var _token = $('meta[name="csrf-token"]').attr('content');
 
     $.ajax({
-        url: "{{ route('filtering_user_paginate_result') }}",
+        url: "{{ route('filtering_customer_paginate_result') }}",
         method: 'POST',
         data: {_token: _token, page:page, from_date:from_date, to_date:to_date, search_key:search_key, gender:filter_by_gender, column:column, order_by:order_by},
         success: function (data) { 

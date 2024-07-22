@@ -1218,3 +1218,887 @@
         margin: 0px 0px 20px 0px;
     }
 }
+
+/* New Homepage Responsive css */
+@media(max-width:1660.98px) {
+    .crew-member-image {
+        width: 332px;
+        height: 332px;
+    }
+}
+
+/* X-Large devices (large desktops, less than 1500px) */
+@media (max-width: 1440.98px) {
+
+    /* for mobile menu responsive section responsive css start */
+    .header .menu-link {
+        font-size: 14px;
+    }
+
+    .header-phone-number-section a {
+        font-size: 14px;
+    }
+
+    .header-get-call-section a {
+        font-size: 14px;
+    }
+
+    .header-phone-number-section {
+        margin: 0px 20px;
+    }
+
+    /* for mobile menu responsive section responsive css end */
+    .main-heder-anchor-tag ul li a {
+        font-size: 16px;
+    }
+    .man-women-btn ul li a {
+        padding: 13px 13px;
+        font-size: 22px;
+    }
+    .logo-btn img {
+        width: 68px;
+    }
+    .top-header-logo-description p {
+        font-size: 16px;
+    }
+    .top-header-logo img {
+        width: 95px;
+    }
+    .top-header-image-section {
+        width: 100%;
+        padding: 15px 0px 9px 0px;
+    }
+    .header-selected-icon a {
+        font-size: 18px;
+        margin: 0px 7px;
+    }
+    .discount-section-text p {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    .discount-section-text h5 {
+        font-size: 25px;
+    }
+    .unmissable-collection-header-text h4 {
+        font-size: 15px;
+    }
+    .category-more-btn a {
+        font-size: 18px;
+    }
+    .unmissable-collection-image img {
+        height: 354px;
+    }
+    .trending-near-you-product-slider-image img {
+        height: 326px;
+    }
+    .top-ten-this-week-image img {
+        height: 540px;
+    }
+    .top-ten-number-text {
+        width: 264px;
+        height: 264px;
+    }
+    .top-ten-number-text h3 {
+        font-size: 110px;
+    }
+    .trending-categories-image img {
+        height: 285px;
+    }
+    .trending-categories-image-text h5 {
+        font-size: 25px;
+    }
+    .flash-sale-section .unmissable-collection-header-text h4 {
+        font-size: 30px;
+    }
+    .product-name-text h5 {
+        font-size: 20px;
+    }
+    .product-name-text h6 {
+        font-size: 18px;
+    }
+    .price-text .price-cancel-text {
+        font-size: 15px;
+    }
+    .price-text .price-number-text {
+        font-size: 15px;
+    }
+    .price-text .offer-price-text {
+        font-size: 15px;
+    }
+    .next-episode-x-ray-banner-image img {
+        height: 60px;
+    }
+    .next-episode-x-ray-section-product-details-text h4 {
+        font-size: 30px;
+    }
+    .next-episode-x-ray-section-product-details-text h5 {
+        font-size: 22px;
+        margin-bottom: 16px;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        font-size: 16px;
+        line-height: 26px;
+        margin-bottom: 22px;
+    }
+    .next-episode-x-ray-section-order-now-btn a {
+        font-size: 20px;
+    }
+    .next-episode-x-ray-section-product-image img {
+        height: 394px;
+    }
+    .popular-categories-image-section img {
+        height: 254px;
+    }
+    .ad-space-section-image img {
+        height: 460px;
+    }
+    .recently-added-product-image img {
+        height: 340px;
+    }
+    .the-boys-club-slider-image img {
+        height: 340px;
+    }
+    .shop-by-theme-image img {
+        height: 300px;
+    }
+    .review-text p {
+        font-size: 14px;
+        line-height: 19px;
+    }
+    .review-image img {
+        height: 97px;
+    }
+    .happy-customers-section-text h5 {
+        font-size: 26px;
+    }
+    .footer-quick-link-title-text h4 {
+        font-size: 25px;
+    }
+    .footer-quick-link-ul ul li a {
+        font-size: 18px;
+    }
+    .connect-with-us-inner-section h5 {
+        font-size: 18px;
+    }
+    .customer-social-icon ul li a {
+        font-size: 18px;
+    }
+    .faq-tab li p {
+        font-size: 16px;
+        line-height: 25px;
+    }
+    .policy-section-text h5 {
+        font-size: 20px;
+    }
+    .crew-member-image {
+        width: 270px;
+        height: 270px;
+    }
+    .unmissable-collection-image img {
+        height: 300px;
+    }
+    .top-ten-this-week-image img {
+        height: 450px;
+    }
+}
+
+/* X-Large devices (large desktops, less than 1400px) */
+@media (max-width: 1399.98px) {
+    .header .menu-item {
+        margin: 0px 4px;
+    }
+}
+
+/* Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+
+    /* for mobile menu responsive section responsive css start */
+    .header .menu-link {
+        padding: 0px 4px;
+    }
+
+    .header .menu-item {
+        margin: 0px 0px;
+    }
+
+    .header .menu-item {
+        display: block;
+    }
+
+    .menu-section {
+        display: block;
+    }
+
+    .header .menu-link {
+        display: block;
+        padding: 9px 15px;
+        font-size: 18px;
+    }
+
+    .header .menu-item {
+        margin: 0px 0px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .header-get-call-section {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .header-phone-number-section a {
+        display: none;
+    }
+
+    .responsive-phone-icon {
+        display: block;
+        margin-right: 15px;
+        position: relative;
+        width: 45px;
+        height: 45px;
+        border-radius: 50px;
+        background: #32CD32;
+        color: #fff;
+        font-size: 25px;
+    }
+
+    .responsive-phone-icon:hover {
+        color: #fff;
+    }
+
+    .responsive-phone-icon i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .burger-phone-icon-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .header .menu-block {
+        margin: 0px auto;
+    }
+
+    /* for mobile menu responsive section responsive css end */
+    .responsive-header {
+        display: block;
+    }
+
+    .responsive-dropdown-content {
+        display: block !important;
+    }
+
+    .desktop-header {
+        display: none;
+    }
+
+    .down-angle-btn {
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+    .main-banner-image img {
+        height: 390px;
+    }
+    .top-banner-slider .owl-dots .owl-dot.active span {
+        background: #000000;
+        width: 50px !important;
+    }
+    .top-banner-slider .owl-dot span {
+        width: 22px !important;
+        height: 6px !important;
+    }
+    .discount-section-text h5 {
+        font-size: 20px;
+    }
+    .discount-section-text p {
+        font-size: 16px;
+        margin-bottom: 7px;
+    }
+    .unmissable-collection-image img {
+        height: 254px;
+    }
+    .unmissable-collection-image-slider .owl-next {
+        right: -2%;
+    }
+    .unmissable-collection-image-slider .owl-prev {
+        left: 3%;
+    }
+    .trending-near-you-product-slider-image img {
+        height: 264px;
+    }
+    .product-name-text h5 {
+        font-size: 18px;
+    }
+    .product-name-text h6 {
+        font-size: 16px;
+        margin-bottom: 7px;
+    }
+    .product-name-price-text-total-section {
+        padding: 10px;
+    }
+    .trending-near-product-list-slider .owl-next {
+        right: -2%;
+        top: 34%;
+    }
+    .trending-near-product-list-slider .owl-prev  {
+        left: 3%;
+        top: 34%;
+    }
+    .top-ten-this-week-image img {
+        height: 370px;
+    }
+    .top-ten-number-text {
+        width: 237px;
+        height: 237px;
+        left: -61px;
+    }
+    .top-ten-number-text h3 {
+        font-size: 96px;
+    }
+    .trending-categories-image img {
+        height: 278px;
+    }
+    .trending-categories-image-text h5 {
+        font-size: 20px;
+    }
+    .next-episode-x-ray-banner-image img {
+        height: 60px;
+    }
+    .next-episode-x-ray-section-product-details-text h4 {
+        font-size: 25px;
+    }
+    .next-episode-x-ray-section-product-details-text h5 {
+        font-size: 19px;
+        margin-bottom: 11px;
+    }
+    .next-episode-x-ray-section-product-image img {
+        height: 418px;
+    }
+    .popular-categories-image-section img {
+        height: 210px;
+    }
+    .ad-space-section-image img {
+        height: 290px;
+    }
+    .recently-added-product-image img {
+        height: 275px;
+    }
+    .the-boys-club-slider-image img {
+        height: 330px;
+    }
+    .shop-by-theme-image img {
+        height: 232px;
+    }
+    .review-text p {
+        font-size: 14px;
+        line-height: 18px;
+    }
+    .review-image img {
+        height: 108px;
+    }
+    .happy-customers-section-text h5 {
+        font-size: 22px;
+    }
+    .footer-quick-link-title-text h4 {
+        font-size: 22px;
+    }
+    .brand img {
+        width: 53px;
+    }
+    .man-woman-btn-section{
+        display: block;
+    }
+    .crew-member-image {
+        width: 260px;
+        height: 260px;
+    }
+}
+
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+    .main-banner-image img {
+        height: 333px;
+    }
+    .unmissable-collection-header-text h4 {
+        font-size: 16px;
+    }
+    .unmissable-collection-image img {
+        height: 207px;
+    }
+    .category-more-btn a {
+        font-size: 16px;
+    }
+    .next-episode-x-ray-banner-image img {
+        height: 102px;
+    }
+    .next-episode-x-ray-section-product-details-text h4 {
+        font-size: 22px;
+    }
+    .next-episode-x-ray-section-product-details-text h5 {
+        font-size: 17px;
+        margin-bottom: 11px;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        font-size: 15px;
+        line-height: 23px;
+        margin-bottom: 7px;
+    }
+    .next-episode-x-ray-section-order-now-btn {
+        margin-top: 32px;
+    }
+    .next-episode-x-ray-section-product-image img {
+        height: 386px;
+    }
+    .next-episode-x-ray-section-order-now-btn a {
+        font-size: 17px;
+    }
+    .popular-categories-image-section img {
+        height: 195px;
+    }
+    .ad-space-section-image img {
+        height: 325px;
+    }
+    .the-boys-club-slider-image img {
+        height: 366px;
+    }
+    .review-text p {
+        font-size: 14px;
+        line-height: 21px;
+    }
+    .shop-by-theme-image img {
+        height: 163px;
+    }
+    .trending-categories-image {
+        margin: 0px 1px;
+    }
+}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+    .top-header-logo-description p {
+        font-size: 13px;
+        line-height: 24px;
+        margin-bottom: 0px;
+    }
+    .top-header-logo img {
+        width: 80px;
+    }
+    .man-woman-btn-section {
+        margin: 20px 0px;
+    }
+    .man-woman-filter-btn a {
+        font-size: 20px;
+        padding: 11px 22px;
+    }
+    .main-banner-image img {
+        height: 260px;
+    }
+    .discount-section {
+        padding: 9px 0px;
+    }
+    .unmissable-collection-image img {
+        height: 157px;
+    }
+    .trending-near-you-product-slider-image img {
+        height: 215px;
+    }
+    .top-ten-this-week-image img {
+        height: 330px;
+    }
+    .top-ten-number-text {
+        width: 182px;
+        height: 182px;
+        left: -40px;
+    }
+    .top-ten-number-text h3 {
+        font-size: 75px;
+    }
+    .trending-categories-image img {
+        height: 298px;
+    }
+    .trending-categories-image-text h5 {
+        font-size: 17px;
+    }
+    .flash-sale-section .unmissable-collection-header-text h4 {
+        font-size: 25px;
+    }
+    .next-episode-x-ray-banner-image img {
+        height: 83px;
+    }
+    .next-episode-x-ray-section-product-details-text h4 {
+        font-size: 19px;
+        line-height: 30px;
+    }
+    .next-episode-x-ray-section-product-details-text h5 {
+        font-size: 15px;
+        margin-bottom: 1px;
+        line-height: 30px;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        font-size: 13px;
+        line-height: 20px;
+        margin-bottom: 7px;
+    }
+    .popular-categories-image-section img {
+        height: 130px;
+    }
+    .ad-space-section-image img {
+        height: 214px;
+    }
+    .recently-added-product-image img {
+        height: 240px;
+    }
+    .the-boys-club-slider-image img {
+        height: 265px;
+    }
+    .shop-by-theme-image img {
+        height: 126px;
+    }
+    .review-text p {
+        font-size: 12px;
+        line-height: 18px;
+    }
+    .review-image img {
+        height: 76px;
+    }
+    .discount-section-text h5 {
+        font-size: 16px;
+    }
+    .happy-customers-section-text h5 {
+        font-size: 18px;
+    }
+    .happy-customers-section-text {
+        margin-top: 16px;
+    }
+    .footer-quick-link-title-text h4 {
+        font-size: 18px;
+    }
+    .footer-quick-link-ul ul li a {
+        font-size: 16px;
+    }
+    .footer-quick-link-section{
+        margin-bottom: 22px;
+    }
+    .connect-with-us-inner-section h5 {
+        font-size: 16px;
+    }
+    .faq-blocks {
+        margin-top: 6px;
+    }
+    .faq-tab li a {
+        padding: 15px 15px;
+        font-size: 16px;
+    }
+    .customer-service-contact-btn ul li a {
+        font-size: 14px;
+        padding: 3px !important;
+    }
+    .kids-men-women-footer-title h5 {
+        margin-bottom: 6px;
+        font-size: 16px;
+    }
+    .faq-tab li p {
+        font-size: 14px;
+        line-height: 21px;
+    }
+    .policy-section-text h5 {
+        font-size: 17px;
+        margin-bottom: 5px;
+    }
+    .footer-copyright-text p {
+        font-size: 16px;
+    }
+    .for-desktop{
+        display: none;
+    }
+    .for-responsive{
+        display: block;
+    }
+    .crew-member-image {
+        width: 193px;
+        height: 193px;
+    }
+    .resposive-footer-content-section{
+        display: block;
+    }
+    .desktop-footer-content-section{
+        display: none;
+    }
+}
+
+/* X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .main-banner-image img {
+        height: 385px;
+    }
+    .top-header-logo-description p {
+        font-size: 12px;
+        line-height: 20px;
+        margin-bottom: 0px;
+    }
+    .top-header-logo-description br{
+        display: none;
+    }
+    .top-header-logo img {
+        width: 72px;
+    }
+    .man-woman-filter-btn a {
+        font-size: 15px;
+        padding: 7px 15px;
+        margin: 0px 3px;
+        width: 47%;
+    }
+    .man-woman-btn-section {
+        margin: 5px 0px;
+    }
+    .unmissable-collection-image img {
+        height: 130px;
+    }
+    .trending-near-you-product-slider-image img {
+        height: 160px;
+    }
+    .product-name-text h5 {
+        font-size: 12px;
+    }
+    .product-name-text h6 {
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+    .price-text .price-cancel-text {
+        font-size: 10px;
+    }
+    .price-text .price-number-text {
+        font-size: 10px;
+    }
+    .price-text .offer-price-text {
+        font-size: 10px;
+    }
+    .unmissable-collection-header-text h4 {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+    .category-more-btn a {
+        font-size: 14px;
+    }
+    .top-ten-this-week-image img {
+        height: 235px;
+    }
+    .top-ten-number-text {
+        width: 113px;
+        height: 108px;
+        left: -31px;
+        bottom: -23px;
+    }
+    .top-ten-number-text h3 {
+        font-size: 60px;
+    }
+    .trending-categories-image img {
+        height: 140px;
+        border-radius: 10px;
+    }
+    .trending-categories-image-text h5 {
+        font-size: 12px;
+    }
+    .trending-categories-image a {
+        border-radius: 10px;
+        margin-bottom: -8px;
+    }
+    .trending-categories-image a::after {
+        border-radius: 10px;
+    }
+    .flash-sale-section .unmissable-collection-header-text h4 {
+        font-size: 22px;
+    }
+    .next-episode-x-ray-banner-image img {
+        height: 105px;
+    }
+    .discount-section-text p {
+        font-size: 11px;
+        margin-bottom: 0px;
+    }
+    .discount-section {
+        padding: 2px 0px;
+    }
+    .next-episode-x-ray-section-product-details-text h4 {
+        font-size: 14px;
+        line-height: 22px;
+    }
+    .next-episode-x-ray-section-product-details-text h5 {
+        font-size: 12px;
+        line-height: 16px;
+        margin-bottom: 12px;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        font-size: 10px;
+        line-height: 15px;
+    }
+    .next-episode-x-ray-section-product-image img {
+        height: 284px;
+        border-radius: 10px;
+    }
+    .next-episode-x-ray-section-order-now-btn a {
+        font-size: 16px;
+    }
+    .product-explore-btn a {
+        font-size: 15px;
+    }
+    .popular-categories-image-section{
+        border-radius: 5px;
+    }
+    .popular-categories-image-section img {
+        height: 100px;
+        border-radius: 5px;
+    }
+    .ad-space-section-image img {
+        height: 124px;
+        border-radius: 10px;
+    }
+    .recently-added-product-image{
+        border-radius: 10px;
+    }
+    .recently-added-product-image img {
+        height: 150px;
+        border-radius: 10px;
+
+    }
+    .the-boys-club-slider-image img {
+        height: 123px;
+        border-radius: 10px;
+    }
+    .shop-by-theme-image{
+        border-radius: 11px;
+    }
+    .shop-by-theme-image img {
+        height: 100px;
+        border-radius: 11px;
+    }
+    .footer {
+        margin-top: 20px;
+        background: #181818;
+        padding: 18px 0px;
+    }
+    .footer-quick-link-title-text h4 {
+        font-size: 16px;
+    }
+    .footer-quick-link-ul ul li a {
+        font-size: 14px !important;
+    }
+    .connect-with-us-inner-section h5 {
+        font-size: 14px;
+    }
+    .customer-social-icon ul li a {
+        font-size: 15px;
+        margin-right: 6px;
+    }
+    .faq-tab li a {
+        padding: 11px 15px;
+        font-size: 15px;
+    }
+    .customer-service-contact-btn ul li a {
+        font-size: 12px;
+        padding: 2px !important;
+    }
+    .faq-tab li p {
+        font-size: 12px;
+        line-height: 17px;
+    }
+    .policy-section-text h5 {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+    .footer-copyright-text p {
+        font-size: 14px;
+    }
+    .header .menu-link {
+        padding: 6px 15px;
+        font-size: 14px;
+    }
+    .responsive-account-btn ul li a {
+        padding: 6px 15px;
+        font-size: 14px;
+    }
+    .review-text p {
+        font-size: 10px;
+        line-height: 15px;
+    }
+    .brand img {
+        width: 60px;
+        margin-left: 40%;
+    }
+    .top-header-image-section {
+        padding: 45px 0px 9px 0px;
+    }
+    .top-banner-slider .owl-dots .owl-dot.active span {
+        width: 35px !important;
+    }
+    .top-banner-slider .owl-dot span {
+        width: 12px !important;
+        height: 4px !important;
+    }
+    .discount-section-text h5 {
+        font-size: 12px;
+    }
+    .unmissable-collection {
+        margin: 10px 0px;
+    }
+    .trending-section {
+        margin: 10px 0px;
+    }
+    .top-ten-this-week-section {
+        margin: 10px 0px;
+    }
+    .trending-categories-section {
+        margin: 10px 0px;
+    }
+    .flash-sale-section {
+        margin: 10px 0px;
+    }
+    .flash-sale-title-section {
+        margin-bottom: 10px;
+    }
+    .next-episode-x-ray-section {
+        margin: 10px 0px;
+    }
+    .next-episode-x-ray-section-product {
+        padding: 16px;
+    }
+    .popular-categories-section {
+        margin: 10px 0px;
+    }
+    .ad-space-section {
+        margin: 10px 0px;
+    }
+    .recently-added-section {
+        margin: 10px 0px;
+    }
+    .the-boys-club-section {
+        margin: 10px 0px;
+    }
+    .the-boys-club-image-slider .owl-dots .owl-dot span {
+        margin: 4px;
+        width: 7px;
+        height: 7px;
+    }
+    .shop-by-theme-section {
+        margin: 10px 0px;
+    }
+    .nav {
+        top: 0px;
+    }
+    .crew-member-image {
+        width: 120px;
+        height: 120px;
+    }
+    .trending-categories-image {
+        margin: 0px 0px;
+        margin-bottom: 4px;
+    }
+    .shop-by-theme-image {
+        margin: 0px 0px;
+    }
+}
+/* New Homepage Responsive css end */

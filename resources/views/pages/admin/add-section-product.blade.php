@@ -47,7 +47,7 @@
                     @endforeach
                 </div>
             </div>
-            @include('pages.admin.section-product-list-child') 
+            <div class="product-child">@include('pages.admin.section-product-list-child')</div>
             <input type="hidden" name="section_id" class="section_id" value="{{$section_details->id}}">
         </div>
     </div>
@@ -150,7 +150,7 @@ function get_filtering_body(page){
         method: 'POST',
         data: {_token: _token, page:page, product_cat_ids:product_cat_ids, option_value_ids:option_value_ids, fitting_type_id:fitting_type_id, product_theme_ids:product_theme_ids, product_gender_id:product_gender_id, section_id:section_id},
         success: function (data) { 
-            $('.list-group').html(data);
+            $('.product-child').html(data);
             $('.pagination li [rel=prev]').html('Prev');
             $('.pagination li [rel=next]').html('Next');
         }

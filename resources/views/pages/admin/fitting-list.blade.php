@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div id="all-list" class="table-responsive-sm position-relative withdra-tab-content active">
+            <div id="all-list" class="table-responsive-sm position-relative withdra-tab-content active fitting_list">
                 @include('pages.admin.fitting-child')
             </div>
         </div>
@@ -112,7 +112,7 @@ function get_filtering_body(page){
         method: 'POST',
         data: {_token: _token, page:page, search_key:search_key, gender_id:gender_id, type_id:type_id, product_id:product_id},
         success: function (data) { 
-            $('#all-list').html(data);
+            $('.fitting_list').html(data);
             $('.pagination li [rel=prev]').html('Prev');
             $('.pagination li [rel=next]').html('Next');
         }

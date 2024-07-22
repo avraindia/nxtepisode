@@ -11,6 +11,8 @@ use App\Models\GenderModel;
 use App\Models\ThemeModel;
 use App\Models\VariationModel;
 use App\Models\ProductModel;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterMail;
 
 use Illuminate\Http\Request;
 
@@ -47,6 +49,8 @@ class UserController extends Controller
             $userDetailsObject->phone_number = $request->user_phone;
             $userDetailsObject->gender = $request->user_gender;
             $userDetailsObject->save();
+
+            $this->register_email($user_id);
 
             return response()->json([
                 'resp'=> 1, 
@@ -166,5 +170,19 @@ class UserController extends Controller
         }
 
         return redirect()->route('profile')->with(['successmsg' => 'Profile updated successfully.']);
+    }
+
+    public function register_email($user_id){
+        $user_details = User::where('id', $user_id)->get()->first();
+        
+        $user_name = $user_details->name;
+        $user_email = $user_details->email;
+        //$user_email = 'samiran.webqueue@gmail.com';
+        $data = [
+            'user_name' => $user_name
+        ];
+
+        $mailresponse = Mail::to($user_email)->send(new RegisterMail($data));
+        return $mailresponse;
     }
 }
