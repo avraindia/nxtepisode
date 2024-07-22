@@ -1383,7 +1383,7 @@
     .customer-social-icon ul li a {
         font-size: 18px;
     }
-    .faq-tab li p {
+    .footer .faq-tab li p {
         font-size: 16px;
         line-height: 25px;
     }
@@ -1786,10 +1786,10 @@
     .connect-with-us-inner-section h5 {
         font-size: 16px;
     }
-    .faq-blocks {
+    .footer .faq-blocks {
         margin-top: 6px;
     }
-    .faq-tab li a {
+    .footer .faq-tab li a {
         padding: 15px 15px;
         font-size: 16px;
     }
@@ -1801,7 +1801,7 @@
         margin-bottom: 6px;
         font-size: 16px;
     }
-    .faq-tab li p {
+    .footer .faq-tab li p {
         font-size: 14px;
         line-height: 21px;
     }
@@ -1979,7 +1979,7 @@
     .footer {
         margin-top: 20px;
         background: #181818;
-        padding: 18px 0px;
+        padding: 3px 0px;
     }
     .footer-quick-link-title-text h4 {
         font-size: 16px;
@@ -1994,15 +1994,15 @@
         font-size: 15px;
         margin-right: 6px;
     }
-    .faq-tab li a {
+    .footer .faq-tab li a {
         padding: 11px 15px;
         font-size: 15px;
     }
     .customer-service-contact-btn ul li a {
-        font-size: 12px;
+        font-size: 12px !important;
         padding: 2px !important;
     }
-    .faq-tab li p {
+    .footer .faq-tab li p {
         font-size: 12px;
         line-height: 17px;
     }

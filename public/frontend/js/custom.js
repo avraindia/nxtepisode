@@ -473,10 +473,22 @@ $(document).ready(function (e) {
 	// sticky header section
 	$(window).on('scroll', function () {
 		if ($(window).scrollTop()) {
-			$('.header').addClass('sticky');
+			$('.header, .bottom-header').addClass('sticky');
+			$('.top-header').addClass('top-header-add-class');
+			$('.header-selected-icon').addClass('header-selected-icon-add-class');
+			$('.burger').addClass('burger-add-class');
+			$('.brand').addClass('brand-logo-add-class');
+			
+			$('.brand-img').removeClass('brand-logo-opacity');
 		}
 		else {
-			$('.header').removeClass('sticky');
+			$('.header, .bottom-header').removeClass('sticky');
+			$('.top-header').removeClass('top-header-add-class');
+			$('.header-selected-icon').removeClass('header-selected-icon-add-class');
+			$('.burger').removeClass('burger-add-class');
+			$('.brand').removeClass('brand-logo-add-class');
+			
+			$('.brand-img').addClass('brand-logo-opacity');
 		}
 	});
 

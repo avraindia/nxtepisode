@@ -13,11 +13,11 @@
 <link rel="stylesheet" href="{{ asset('frontend/font-awesome-6/css/all.min.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/owl.carousel.min.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/owl.theme.default.min.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/style.css?v=1.0.2') }}">
+<!-- <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/style.css?v=1.0.2') }}"> -->
 @if ($route_name == "home")
-
+    <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/home-style.css?v=1.0.2') }}">
 @else
-
+    <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/style.css?v=1.0.2') }}">
 @endif
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/menu.css?v=1.0.2') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/fixing.css?v=1.0.2') }}">
