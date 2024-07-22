@@ -184,9 +184,9 @@
 .main-banner-slider .owl-dots button {
     border: 1px solid #000 !important;
 }
-.top-header {
+/* .top-header {
     padding: 8px 0px;
-}
+} */
 .user-logout-dropdown ul li i{
     color: #117a7a !important;
     transition: 0.6s ease all;
@@ -494,7 +494,7 @@
 .price-text .offer-price-text {
     font-size: 15px;
 }
-.faq-tab li a {
+.footer .faq-tab li a {
     background: #272727;
     color: #fff;
 }
