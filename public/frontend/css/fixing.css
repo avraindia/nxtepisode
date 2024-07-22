@@ -211,6 +211,350 @@
 /*last date 10.02.2024 */
 
 
+/* date 16.05.2024 */
+.man-women-btn ul li a {
+    padding: 11px 20px;
+    font-size: 24px;
+}
+.main-header {
+    padding: 5px 0px;
+}
+/* .shipping-procces-image img {
+    height: 148px;
+} */
+.discount-section {
+    padding: 6px 0px;
+}
+.discount-section-text p {
+    margin-bottom: 7px;
+}
+.trending-categories-image img {
+    height: 375px;
+}
+.ad-space-section-image img {
+    height: 375px;
+}
+.the-boys-club-slider-image img {
+    height: 457px;
+}
+.india-brand-section .discount-section-text {
+    padding: 5px 0px;
+}
+.review-text p {
+    font-size: 18px;
+    line-height: 26px;
+}
+.review-image img {
+    height: 133px;
+}
+.review-image-text-slider .owl-prev {
+    top: 30%;
+}
+.review-image-text-slider .owl-next {
+    top: 30%;
+}
+.footer {
+    margin-top: 8px;
+    padding: 30px 0px 10px 0px;
+}
+.policy-section {
+    margin-top: 6px;
+}
+.shipping-partenrs-image {
+    margin-top: 10px;
+}
+.footer-copyright-text {
+    margin-top: 10px;
+}
+.faq-blocks {
+    margin-top: 26px;
+}
+/*last date 16.05.2024 */
+
+/* date 14.06.2024 */
+.timer-image {
+    margin-bottom: 16px;
+}
+.main-heder-anchor-tag ul li a {
+    font-size: 16px;
+    padding: 17px 0px;
+}
+.desktop-header-selected-icon a {
+    font-size: 18px;
+}
+.main-header {
+    padding: 5px 0px;
+}
+.logo-btn img {
+    width: 50px;
+}
+
+.top-banner-slider .owl-dots .owl-dot.active span {
+    width: 30px !important;
+}
+.top-banner-slider .owl-dot span {
+    width: 13px !important;
+    height: 4px !important;
+}
+.discount-section-text p {
+    font-size: 16px;
+}
+.discount-section {
+    padding: 3px 0px;
+}
+.trending-section {
+    margin: 0px 0px 15px 0px;
+}
+.unmissable-collection {
+    margin: 30px 0px 15px 0px;
+}
+.top-ten-this-week-section {
+    margin: 0px 0px 15px 0px;
+}
+.trending-categories-section {
+    margin: 0px 0px 15px 0px;
+}
+.flash-sale-section {
+    margin: 15px 0px 15px 0px;
+}
+.flash-sale-title-section {
+    background: #e4dfdf;
+    margin-bottom: 0px;
+}
+.next-episode-x-ray-section {
+    margin: 0px 0px 15px 0px;
+}
+.popular-categories-section {
+    margin: 0px 0px 15px 0px;
+}
+.ad-space-section {
+    margin: 0px 0px 15px 0px;
+}
+.recently-added-section {
+    margin: 0px 0px 15px 0px;
+}
+.the-boys-club-section {
+    margin: 0px 0px 15px 0px;
+}
+.shop-by-theme-section {
+    margin: 0px 0px 15px 0px;
+}
+.review-section {
+    margin: 0px 0px 15px 0px;
+}
+.next-episode-x-ray-banner-image img {
+    height: 98px;
+}
+.recently-added-product-image img {
+    height: 390px;
+}
+.happy-customers-section-text {
+    margin-top: 2px;
+}
+.discount-section-text h5 {
+    font-size: 16px;
+}
+.happy-customers-section-text h5 {
+    font-size: 25px;
+}
+.trending-categories-image{
+    margin: 0px -2px;
+}
+.shop-by-theme-image{
+    margin: 0px -2px;
+}
+.unmissable-collection-header-text h4 {
+    margin-bottom: 5px;
+}
+.review-image-text-section {
+    margin-top: 8px;
+}
+.review-card-section {
+    padding: 12px;
+}
+.sticky {
+    box-shadow: none !important;
+}
+.footer-quick-link-title-text h4 {
+    color: #e11b23;
+}
+.footer-quick-link-ul ul li a:hover {
+    color: #e11b23;
+}
+/*last date 14.06.2024 */
+/* date 15.06.2024 */
+.shipping-procces-image img {
+    height: 80px;
+    object-fit: cover;
+}
+.next-episode-x-ray-section-product-image img {
+    height: 450px;
+}
+.next-episode-x-ray-section-product-details-text h5 {
+    margin-bottom: 9px;
+}
+/*last date 15.06.2024 */
+/* date 06.07.2024 */
+.unmissable-collection-header-text h4 {
+    font-size: 16px;
+}
+.unmissable-collection-image img {
+    height: 334px;
+}
+.unmissable-collection {
+    margin: 15px 0px 3px 0px;
+}
+.trending-near-you-product-slider-image img {
+    height: 400px;
+}
+.trending-section {
+    margin: 0px 0px 3px 0px;
+}
+.top-ten-this-week-image img {
+    height: 480px;
+}
+.top-ten-this-week-section {
+    margin: 0px 0px 3px 0px;
+}
+.trending-categories-image img {
+    height: 347px;
+}
+.next-episode-x-ray-banner-image img {
+    height: 68px;
+}
+.next-episode-x-ray-section {
+    margin: 0px 0px 3px 0px;
+}
+.popular-categories-image-section img {
+    height: 275px;
+}
+.popular-categories-section {
+    margin: 0px 0px 3px 0px;
+}
+.ad-space-section-image img {
+    height: 300px;
+}
+.the-boys-club-slider-image img {
+    height: 376px;
+}
+.recently-added-section {
+    margin: 0px 0px 3px 0px;
+}
+.shop-by-theme-round-section .category-name-more-btn-section {
+    justify-content: center;
+}
+.shop-by-theme-section {
+    margin: 0px 0px 3px 0px;
+}
+.review-text p {
+    font-size: 16px;
+    line-height: 26px;
+}
+.happy-customers-section-text h5 {
+    font-size: 20px;
+}
+.footer-quick-link-title-text h4 {
+    font-size: 22px;
+}
+.footer-quick-link-ul ul li a {
+    font-size: 16px;
+}
+.connect-with-us-inner-section h5 {
+    font-size: 16px;
+}
+.customer-social-icon ul li a {
+    font-size: 18px;
+}
+.faq-tab li a {
+    padding: 14px 15px;
+    font-size: 16px;
+}
+.policy-section-text h5 {
+    font-size: 18px;
+}
+.main-heder-anchor-tag ul li a {
+    font-size: 15px;
+}
+.product-name-text h5 {
+    font-size: 19px;
+}
+.product-name-text h6 {
+    font-size: 16px;
+}
+.price-text .price-number-text {
+    font-size: 15px;
+}
+.price-text .price-cancel-text {
+    font-size: 15px;
+}
+.price-text .offer-price-text {
+    font-size: 15px;
+}
+.faq-tab li a {
+    background: #272727;
+    color: #fff;
+}
+.customer-service-contact-btn ul li a {
+    color: #737373 !important;
+    background: transparent !important;
+}    
+.customer-service-contact-btn ul li a:hover{
+    color: #e11b23 !important;
+}
+.unmissable-collection-header-text h5 {
+    font-size: 15px;
+}
+.trending-categories-image-text h5 {
+    font-size: 21px;
+}
+.review-section {
+    margin: 0px 0px 3px 0px;
+}
+.happy-customers-section-text {
+    margin-top: 3px !important;
+}
+.footer {
+    margin-top: 3px !important;
+}
+.policy-section-text i{
+    float: inherit !important;
+    color: #fff !important;
+}
+.footer-quick-link-ul ul li a {
+    display: inline-block !important;
+    font-size: 16px !important;
+    color: #fff !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0px !important;
+}
+.connect-with-us-inner-section i{
+    float: inherit !important;
+    color: #fff !important;
+}
+.customer-social-icon ul li a {
+    display: inline-block !important;
+    font-size: 18px !important;
+    color: #fff !important;
+    margin-right: 18px !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0px !important;
+}
+.customer-social-icon i{
+    float: inherit !important;
+    color: #fff !important;
+}
+.no-more-about-us-faq-section{
+    background: #181818 !important;
+}    
+.faq-tab li p {
+    font-size: 15px;
+    line-height: 25px;
+}
+/*last date 06.07.2024 */
+
+
 
 
 

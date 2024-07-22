@@ -36,6 +36,13 @@
                                     <label class="input-error product_category_error"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> Please select category</label>
                                 </div>
                             </div>
+                            <div class="col-lg-3" style="display:none;">
+                                <div class="form-group">
+                                    <label class="label">Market Price</label>
+                                    <input type="text" class="form-control market_price" placeholder="Ex: 100.00" value="{{$product_details->market_price}}" name="market_price" required>
+                                    <label class="input-error market_price_err"><img src="{{ asset('backend/images/icon/icon-error.svg') }}" alt=""> This field cannot be empty</label>
+                                </div>
+                            </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="label">Product MRP.</label>
@@ -140,6 +147,7 @@ $(function() {
 
 $(document).on("click",".save_product_btn",function() {
     var valid = true;
+    //var market_price = $('.market_price').val();
     var product_name = $('.product_name').val();
     var product_main_catergory = $('.product_main_catergory').find(":selected").val();
     var product_mrp = $('.product_mrp').val();
@@ -157,6 +165,13 @@ $(document).on("click",".save_product_btn",function() {
     }else{
         $('.product_category_error').hide();
     }
+
+    // if(market_price == ""){
+    //     valid = false;
+    //     $('.market_price_err').show();
+    // }else{
+    //     $('.market_price_err').hide();
+    // }
 
     if(product_mrp == ""){
         valid = false;

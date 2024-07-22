@@ -15,6 +15,7 @@ use App\Models\GenderModel;
 use App\Models\ThemeModel;
 use App\Models\CollectionProductModel;
 use App\Models\HomepageBannerModel;
+use App\Models\OpinionModel;
 
 class HomepageController extends Controller
 {
@@ -24,11 +25,24 @@ class HomepageController extends Controller
     }
 
     public function save_homepage_section(Request $request){
+        if($request->is_active == 'on'){
+            $is_active = 1;
+        }else{
+            $is_active = 0;
+        }
+
         if($request->section_id){
+            if($request->section_type == 'collection'){
+                $image_ratio = $request->collection_slider_type;
+            }
+            if($request->section_type == 'product'){
+                $image_ratio = $request->product_slider_type;
+            }
             HomepageSectionModel::where('id', $request->section_id)->update([
                 'section_name' => $request->section_name,
-                'image_ratio' => $request->image_ratio,
-                'section_order' => $request->section_order
+                'image_ratio' => $image_ratio,
+                'section_order' => $request->section_order,
+                'is_active' => $is_active
             ]);
 
             return redirect()->route('all_sections')->with(['successmsg' => 'Section updated successfully.']);
@@ -36,8 +50,14 @@ class HomepageController extends Controller
             $sectionObject = new HomepageSectionModel();
             $sectionObject->section_name = $request->section_name;
             $sectionObject->section_type = $request->section_type;
-            $sectionObject->image_ratio = $request->image_ratio;
+            if($request->section_type == 'collection'){
+                $sectionObject->image_ratio = $request->collection_slider_type;
+            }
+            if($request->section_type == 'product'){
+                $sectionObject->image_ratio = $request->product_slider_type;
+            }
             $sectionObject->section_order = $request->section_order;
+            $sectionObject->is_active = $is_active;
             $sectionObject->save();
 
             return redirect()->route('all_sections')->with(['successmsg' => 'Section added successfully.']);
@@ -173,14 +193,24 @@ class HomepageController extends Controller
         return view('pages.admin.collection-list', ['section_details'=>$section_details, 'collection_items'=>$collection_items]);
     }
 
-    public function home()
+    public function home_old()
     {
         $top_banner_images = HomepageBannerModel::where("type", "top")->get();
         $foot_banner_images = HomepageBannerModel::where("type", "foot")->get();
         
         $sections = HomepageSectionModel::with('section_products')->with('section_collection')->orderBy("section_order", "asc")->get();
         
-        return view('pages.frontend.home', ['sections'=>$sections, 'top_banner_images'=>$top_banner_images, 'foot_banner_images'=>$foot_banner_images]);
+        return view('pages.frontend.home-old', ['sections'=>$sections, 'top_banner_images'=>$top_banner_images, 'foot_banner_images'=>$foot_banner_images]);
+    }
+
+    public function home()
+    {
+        $sections = HomepageSectionModel::with('section_products')->with('section_collection')->where("is_active", "1")->orderBy("section_order", "asc")->get();
+
+        $opinions = OpinionModel::orderBy("opinion_order", "asc")->get();
+
+        return view('pages.frontend.home', ['sections'=>$sections, 'opinions'=>$opinions
+    ]);
     }
 
     public function add_collection($id){
@@ -359,6 +389,71 @@ class HomepageController extends Controller
         $item->delete();
 
         return redirect()->back()->with(['successmsg' => 'Collection deleted successfully.']);
+    }
+
+    public function opinion_list(){
+        $opinions = OpinionModel::orderBy("opinion_order", "asc")->get();
+        return view('pages.admin.opinion-list', ['opinions'=>$opinions]);
+    }
+
+    public function add_opinion(){
+        return view('pages.admin.add-opinion');
+    }
+
+    public function edit_opinion($id){
+        $opinion_item = OpinionModel::where("id", $id)->get()->first();
+        return view('pages.admin.edit-opinion', ['opinion_item'=>$opinion_item]);
+    }
+
+    public function save_public_opinion(Request $request){
+        if($request->opinion_id){
+            OpinionModel::where('id', $request->opinion_id)->update([
+                'public_opinion' => $request->public_opinion,
+                'opinion_order' => $request->opinion_order
+            ]);
+            if($request->hasFile('public_image')){
+                $public_image = $request->file('public_image');
+                $filenameWithExt = $public_image->getClientOriginalName ();
+                // Get Filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just Extension
+                $extension = $public_image->getClientOriginalExtension();
+                // Filename To store
+                $fileNameToStore = $filename. '_'. time().'.'.$extension;
+                $public_image->storeAs('public/uploads/public_opinion', $fileNameToStore);
+    
+                OpinionModel::where('id', $request->opinion_id)->update([
+                    'public_image' => $fileNameToStore
+                ]);
+            }
+            return redirect()->route('opinion_list')->with(['successmsg' => 'Public opinion updated successfully.']);
+        }else{
+            $opinionObject = new OpinionModel();
+            $opinionObject->public_opinion = $request->public_opinion;
+            $opinionObject->opinion_order = $request->opinion_order;
+            if($request->hasFile('public_image')){
+                $public_image = $request->file('public_image');
+                $filenameWithExt = $public_image->getClientOriginalName ();
+                // Get Filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just Extension
+                $extension = $public_image->getClientOriginalExtension();
+                // Filename To store
+                $fileNameToStore = $filename. '_'. time().'.'.$extension;
+                $public_image->storeAs('public/uploads/public_opinion', $fileNameToStore);
+    
+                $opinionObject->public_image = $fileNameToStore;
+            }
+            $opinionObject->save();
+            return redirect()->route('opinion_list')->with(['successmsg' => 'Public opinion added successfully.']);
+        }
+    }
+    
+    public function delete_opinion($id){
+        $option=OpinionModel::find($id);
+        $option->delete();
+
+        return redirect()->back()->with(['successmsg' => 'Opinion deleted successfully.']);
     }
 
     public function add_banner_image($type){

@@ -94,11 +94,19 @@
                 <div class="filter-section-header-text">
                     <h5>GENDER</h5>
                 </div>
+                
                 <div class="product-radio-input-section">
-                    @foreach($genders as $gender)
-                    <input type="radio" id="{{$gender->gender}}" class="product_gender" name="product_gender" value="{{$gender->id}}">
-                    <label for="{{$gender->gender}}">{{$gender->gender}}</label>
-                    @endforeach
+                    @if (isset($_GET['gid']))
+                        @foreach($genders as $gender)
+                        <input type="radio" id="{{$gender->gender}}" class="product_gender" name="product_gender" value="{{$gender->id}}" @if($gender->id == $_GET['gid']) checked  @endif>
+                        <label for="{{$gender->gender}}">{{$gender->gender}}</label>
+                        @endforeach
+                    @else
+                        @foreach($genders as $gender)
+                        <input type="radio" id="{{$gender->gender}}" class="product_gender" name="product_gender" value="{{$gender->id}}">
+                        <label for="{{$gender->gender}}">{{$gender->gender}}</label>
+                        @endforeach
+                    @endif
                 </div>
             </div>
 

@@ -83,6 +83,12 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/save-banner-image', [HomepageController::class, 'save_banner_image'])->name('save_banner_image');
     Route::get('/admin/delete-banner-image/{id}', [HomepageController::class, 'delete_banner_image'])->name('delete_banner_image');
 
+    Route::get('/admin/opinion-list', [HomepageController::class, 'opinion_list'])->name('opinion_list');
+    Route::get('/admin/add-opinion', [HomepageController::class, 'add_opinion'])->name('add_opinion');
+    Route::get('/admin/edit-opinion/{id}', [HomepageController::class, 'edit_opinion'])->name('edit_opinion');
+    Route::get('/admin/delete-opinion/{id}', [HomepageController::class, 'delete_opinion'])->name('delete_opinion');
+    Route::post('/admin/save-public-opinion', [HomepageController::class, 'save_public_opinion'])->name('save_public_opinion');
+
     //// Product Route
     Route::get('/admin/all-products', [ProductController::class, 'all_products'])->name('all_products');
     Route::get('/admin/add-product', [ProductController::class, 'add_product'])->name('add_product');
@@ -125,6 +131,8 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
     Route::post('/admin/filtering-fitting-paginate-result', [ProductContent::class, 'filtering_fitting_paginate_result'])->name('filtering_fitting_paginate_result');
     Route::get('/admin/review/{id}', [ProductContent::class, 'fetch_review'])->name('fetch_review');
     Route::post('/admin/change-review-status', [ProductContent::class, 'change_review_status'])->name('change_review_status');
+    Route::post('/admin/delete-product-gallery', [ProductContent::class, 'delete_product_gallery'])->name('delete_product_gallery');
+    Route::post('/admin/delete-size-gallery', [ProductContent::class, 'delete_size_gallery'])->name('delete_size_gallery');
 
     /// Order details Route
     Route::get('/admin/all-order', [AdminController::class, 'orders'])->name('all_order');
@@ -141,6 +149,7 @@ Route::group(['middleware' => 'auth:webadmin'], function () {
 
 ////////// route of frontend start ////////////
 Route::get('/', [HomepageController::class, 'home'])->name('home');
+Route::get('/home-old', [HomepageController::class, 'home_old'])->name('home_old');
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/submit-register-form', [UserController::class, 'submit_register_form'])->name('submit_register_form');

@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="offset-lg-9 col-lg-3 col-sm-12">
-                <a href="{{ route('add_homepage_section') }}" class="primary-btn"><i class="bx bxs-plus-circle"></i> Add Section </a>
+                <a href="{{ route('add_opinion') }}" class="primary-btn"><i class="bx bxs-plus-circle"></i> Add Public Opinion </a>
             </div>
         </div>
     </div>
@@ -33,47 +33,30 @@
             @endif
             <div class="align-items-center d-md-flex justify-content-between mb-4">
                 <div class="">
-                    <h1 class="card-title m-md-0 mb-3"> All Sections</h1>
+                    <h1 class="card-title m-md-0 mb-3"> All Public Opinions</h1>
                 </div>
             </div>
             <div id="all-orders" class="table-responsive-sm position-relative withdra-tab-content active">
                 <table class="display coustom-table nowrap w-100 Queries">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Active</th>
+                            <th style="width: 650px;">Opinon</th>
                             <th>Order</th>
                             <th>action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($sections as $section)
+                        @foreach($opinions as $opinion)
                         <tr class="table-body-tr">
                             <td>
                                 <span class="pr-title">
-                                    {{$section->section_name}}
+                                    {{$opinion->public_opinion}}
                                 </span>
                             </td>
+                            
                             <td>
                                 <span class="pr-title">
-                                    {{$section->section_type}}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="pr-title">
-                                    <?php
-                                    if($section->is_active == 1){
-                                        echo "Yes";
-                                    }else{
-                                        echo "No";
-                                    }
-                                    ?>
-                                </span>
-                            </td>
-                            <td>
-                                <span class="pr-title">
-                                    {{$section->section_order}}
+                                    {{$opinion->opinion_order}}
                                 </span>
                             </td>
                             <td class="">
@@ -82,20 +65,8 @@
                                         <i class='bx bx-dots-vertical-rounded'></i>
                                     </button>
                                     <ul class="dropdown-menu svg-icon">
-                                        <li> <a href="{{route('edit_homepage_section', $section->id)}}">Edit  </a> </li>
-                                        <?php 
-                                        if($section->section_type == 'collection'){
-                                        ?>
-                                        <li> <a href="{{route('collection_list', $section->id)}}">Collection Item </a> </li>
-                                        <?php
-                                        }
-                                        if($section->section_type == 'product'){
-                                        ?>
-                                        <li> <a href="{{route('add_section_product', $section->id)}}">Add Product  </a> </li>
-                                        <?php
-                                        }
-                                        ?>
-                                        <li> <a onclick="return confirm('Are you sure to delete?')" href="">Delete</a> </li>
+                                        <li> <a href="{{route('edit_opinion', $opinion->id)}}">Edit  </a> </li>
+                                        <li> <a onclick="return confirm('Are you sure to delete?')" href="{{route('delete_opinion', $opinion->id)}}">Delete</a> </li>
                                     </ul>
                                 </div>
                             </td>

@@ -648,6 +648,22 @@ class ProductContent extends Controller
             'data' => $product_fitting_record
         ]);
     }
+    
+    public function delete_product_gallery(Request $request){
+        $img=ProductgalleryModel::find($request->id);
+        $img->delete();
+        return response()->json([
+            'resp'=> true
+        ]);
+    }
+
+    public function delete_size_gallery(Request $request){
+        $img=SizegalleryModel::find($request->id);
+        $img->delete();
+        return response()->json([
+            'resp'=> true
+        ]);
+    }
 
     /**
      * Product variation operarion End

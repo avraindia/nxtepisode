@@ -113,6 +113,7 @@ class ProductController extends Controller
         $productObject = new ProductModel();
         $productObject->product_title = $request->product_name;
         $productObject->main_cat_id = $request->product_main_catergory;
+        $productObject->market_price = $request->market_price;
         $productObject->product_mrp = $request->product_mrp;
         $productObject->gst = $request->product_gst;
         $productObject->theme_ids = $theme_ids;
@@ -147,6 +148,7 @@ class ProductController extends Controller
         ProductModel::where('id', $product_id)->update([
             'product_title' => $request->product_name,
             'main_cat_id' => $request->product_main_catergory,
+            'market_price' => $request->market_price,
             'product_mrp' => $request->product_mrp,
             'gst' => $request->product_gst,
             'theme_ids' => $theme_ids,
@@ -199,6 +201,10 @@ class ProductController extends Controller
 
         if(request('cid')){
             $product_query->where('products.main_cat_id', '=', request('cid'));
+        }
+
+        if(request('gid')){
+            $product_query->where('product_variation.gender', '=', request('gid'));
         }
 
         if(request('col')){

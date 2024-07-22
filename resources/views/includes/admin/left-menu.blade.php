@@ -42,15 +42,18 @@
             </a>
             
             <div class="collapse" id="collapseExample1">
-                <ul class="sub-menu">
+                <!--<ul class="sub-menu">
                     <li><a href="{{route('add_banner_image','top')}}">Top Slider</a></li>
                 </ul>
                 <ul class="sub-menu">
                     <li><a href="{{route('add_banner_image','foot')}}">Footer Slider</a></li>
-                </ul>
+                </ul>-->
                 <ul class="sub-menu">
                     <li><a href="{{route('all_sections')}}">Section</a></li>
                 </ul>
+                <!-- <ul class="sub-menu">
+                    <li><a href="{{route('opinion_list')}}">Public Opinion</a></li>
+                </ul> -->
             </div>
 
         </li>
