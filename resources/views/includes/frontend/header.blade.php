@@ -130,7 +130,7 @@
                     <div class="man-women-btn">
                         <ul>
                             @foreach($global_genders as $gender)
-                            <li><a href="{{route('products',['gid' => $gender->id])}}" <?php if($is_get_gender==$gender->id){echo 'class="active-man-women-btn active-man-women-desktop"';}?>>{{strtoupper($gender->gender)}}</a></li>
+                            <li><a href="{{route('products',['gid' => $gender->id])}}" <?php if($is_get_gender!=$gender->id){echo 'class="active-man-women-btn active-man-women-desktop"';}?>>{{strtoupper($gender->gender)}}</a></li>
                             @endforeach
                             <!-- <li><a href="#" class="active-man-women-btn active-man-women-desktop">MEN</a></li>
                             <li><a href="#">WOMEN</a></li> -->
@@ -217,3 +217,20 @@
     </div>
 </section>
 <!-- <-----------------header section End--------------->  
+ <!-- <----------------- section start--------------->
+ <section class="man-woman-btn-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="man-woman-filter-btn">
+                    @foreach($global_genders as $gender)    
+                    <a <?php if($is_get_gender==$gender->id){echo 'class="active-color-men-women-filter-btn"';}?> href="{{route('products',['gid' => $gender->id])}}">
+                        {{strtoupper($gender->gender)}}
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <----------------- section End--------------->

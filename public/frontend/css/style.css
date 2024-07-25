@@ -3312,3 +3312,40 @@ textarea {
 /* product wishlist page css end*/
 
 
+.active-man-women-desktop{
+	background: #212121 !important;
+	color: #fff !important;
+}
+
+/* man woman filter button css start */
+.man-woman-filter-btn a {
+    background: #fff;
+    border: 1px solid #212121;
+    border-radius: 0px;
+    display: inline-block;
+    align-items: center;
+    font-weight: bold;
+    color: #000;
+	font-size: 25px;
+    padding: 15px 25px;
+    text-align: center;
+    margin: 0px 6px;
+}
+.man-woman-btn-section {
+	margin: 30px 0px 20px 0px;
+}
+.active-color-men-women-filter-btn {
+	background: #e11b23 !important;
+	color: #fff !important;
+}
+.man-woman-filter-btn {
+    text-align: center;
+}
+.man-woman-btn-section{
+	display: none;
+}
+.active-man-women-desktop{
+	background: #212121 !important;
+	color: #fff !important;
+}
+/* man woman filter button css end*/
