@@ -514,7 +514,10 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                                 
                                                 <div class="product-name-price-text-total-section">
                                                     <div class="product-name-text">
-                                                        <h5>{{$product_details->fitting_title}}</h5>
+                                                        @php 
+                                                        $truncated_title = Str::of($product_details->fitting_title)->limit(20);
+                                                        @endphp
+                                                        <h5>{{$truncated_title}}</h5>
                                                         <h6>{{$product_details->fitting_name->type_name}} for {{$product_details->product_gender->gender}}</h6>
                                                     </div>
                                                     <div class="price-text">
@@ -595,7 +598,10 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                                     </div>
                                                     <div class="product-name-price-text-total-section">
                                                         <div class="product-name-text">
-                                                            <h5>{{$product_details->fitting_title}}</h5>
+                                                            @php 
+                                                            $truncated_title = Str::of($product_details->fitting_title)->limit(20);
+                                                            @endphp
+                                                            <h5>{{$truncated_title}}</h5>
                                                             <h6>{{$product_details->fitting_name->type_name}} for {{$product_details->product_gender->gender}}</h6>
                                                         </div>
                                                         <div class="price-text">
