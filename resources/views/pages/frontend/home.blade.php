@@ -202,7 +202,7 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                     }
                                     $collection_id = base64_encode($collection->id);
                                     ?>
-                                    <div class="col-xl-3 col-lg-4 col-md-4 col-6">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-6 shop-by-theme-product-image-col-section">
                                         <div class="shop-by-theme-image">
                                             <a href="{{route('products',['col' => $collection_id])}}">
                                                 <img src="{{$collection->section_image_link}}"
@@ -256,6 +256,9 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                             <a href="{{route('products',['col' => $collection_id])}}">
                                                 <div class="crew-member-image">
                                                     <img src="{{$collection->section_image_link}}" alt="">
+                                                </div>
+                                                <div class="shop-by-theme-round-image-category-name">
+                                                    <h5>Category 1</h5>
                                                 </div>
                                             </a>
                                         </div>

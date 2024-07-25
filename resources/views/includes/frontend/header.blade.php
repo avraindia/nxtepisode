@@ -30,7 +30,7 @@
                             <span class="burger-line"></span>
                         </button>
                     </div>
-                    <a href="{{route('home')}}" class="brand brand-img"><img class="img-fluid" src="{{ asset('frontend/images/next-logo.png') }}"
+                    <a href="{{route('home')}}" class="brand brand-img" style="opacity: 0;"><img class="img-fluid" src="{{ asset('frontend/images/next-logo.png') }}"
                             alt=""></a>
                     <div class="header-selected-icon">
                         <a class="responsive-search-icon" href="javascript:void(0);">
@@ -153,7 +153,8 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-2">
-                        <div class="logo-btn">
+                        <div class="logo-btn desktop-header-logo">
+                            <img src="{{ asset('frontend/images/logo.png') }}" alt="">
                         </div>
                     </div>
                     <div class="col-md-10">
