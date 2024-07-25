@@ -511,16 +511,16 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                                 <div class="trending-near-you-product-slider-image">
                                                     <img src="{{$product_thumbnail_image_link}}" alt="">
                                                 </div>
+                                                
                                                 <div class="product-name-price-text-total-section">
-                                                    <div class="product-filter-product-image-name-text">
+                                                    <div class="product-name-text">
                                                         <h5>{{$product_details->fitting_title}}</h5>
-                                                    </div>
-                                                    <div class="product-filter-product-image-details-text">
                                                         <h6>{{$product_details->fitting_name->type_name}} for {{$product_details->product_gender->gender}}</h6>
                                                     </div>
-                                                    <div class="product-image-price-section">
-                                                        <span class="offer-price">₹ {{$amount_after_gst}}</span>
-                                                        <!-- <span class="offer-price-text">₹ {{$amount_after_market_price_gst}}</span> -->
+                                                    <div class="price-text">
+                                                        <span class="price-number-text">₹{{$amount_after_gst}}</span>
+                                                        <!-- <span class="price-cancel-text">₹899</span>
+                                                        <span class="offer-price-text">10%OFF</span> -->
                                                     </div>
                                                 </div>
                                             </a>
@@ -594,15 +594,14 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                                         <img src="{{$product_thumbnail_image_link}}" alt="">
                                                     </div>
                                                     <div class="product-name-price-text-total-section">
-                                                        <div class="product-filter-product-image-name-text">
+                                                        <div class="product-name-text">
                                                             <h5>{{$product_details->fitting_title}}</h5>
-                                                        </div>
-                                                        <div class="product-filter-product-image-details-text">
                                                             <h6>{{$product_details->fitting_name->type_name}} for {{$product_details->product_gender->gender}}</h6>
                                                         </div>
-                                                        <div class="product-image-price-section">
-                                                            <span class="offer-price">₹ {{$amount_after_gst}}</span>
-                                                            <!-- <span class="offer-price-text">₹ {{$amount_after_market_price_gst}}</span> -->
+                                                        <div class="price-text">
+                                                            <span class="price-number-text">₹{{$amount_after_gst}}</span>
+                                                            <!-- <span class="price-cancel-text">₹899</span>
+                                                            <span class="offer-price-text">10%OFF</span> -->
                                                         </div>
                                                     </div>
                                                 </a>
