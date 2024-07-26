@@ -258,7 +258,7 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                                     <img src="{{$collection->section_image_link}}" alt="">
                                                 </div>
                                                 <div class="shop-by-theme-round-image-category-name">
-                                                    <h5>Category 1</h5>
+                                                    <h5>{{$collection->item_name}}</h5>
                                                 </div>
                                             </a>
                                         </div>
@@ -518,7 +518,7 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                                 <div class="product-name-price-text-total-section">
                                                     <div class="product-name-text">
                                                         @php 
-                                                        $truncated_title = Str::of($product_details->fitting_title)->limit(20);
+                                                        $truncated_title = Str::of($product_details->fitting_title)->limit(15);
                                                         @endphp
                                                         <h5>{{$truncated_title}}</h5>
                                                         <h6>{{$product_details->fitting_name->type_name}} for {{$product_details->product_gender->gender}}</h6>
@@ -602,7 +602,7 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                                     <div class="product-name-price-text-total-section">
                                                         <div class="product-name-text">
                                                             @php 
-                                                            $truncated_title = Str::of($product_details->fitting_title)->limit(20);
+                                                            $truncated_title = Str::of($product_details->fitting_title)->limit(15);
                                                             @endphp
                                                             <h5>{{$truncated_title}}</h5>
                                                             <h6>{{$product_details->fitting_name->type_name}} for {{$product_details->product_gender->gender}}</h6>
