@@ -172,6 +172,17 @@
     .user-logout-dropdown {
         margin-right: 36px;
     }
+    .shop-by-theme-round-image-category-name h5 {
+        font-size: 15px;
+        margin-top: 9px;
+    }
+    .next-episode-x-ray-section-product-details-text {
+        height: 258px;
+        overflow: hidden;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        -webkit-line-clamp: 3;
+    }
 }
 
 /* X-Large devices (large desktops, less than 1400px) */
@@ -408,6 +419,24 @@
         margin-right: 8px;
         margin-left: 0px;
     }
+    .top-header-logo-text-section {
+        margin-left: 58px;
+    }
+    .top-header-logo-description p {
+        font-size: 14px !important;
+        width: 100%;
+        line-height: 22px;
+    }
+    .top-header-logo img {
+        width: 70px !important;
+    }
+    .next-episode-x-ray-section-product-details-text {
+        height: 276px;
+        overflow: hidden;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        -webkit-line-clamp: 4;
+    }
 }
 
 
@@ -588,6 +617,21 @@
     .my-order-page-product-filter-total-section{
         margin-bottom: 15px;
     }
+    .top-header-logo-text-section {
+        margin-left: 58px;
+        width: 70%;
+    }
+    .top-header-logo-description br{
+        display: none;
+    }
+    .unmissable-collection {
+        margin: 8px 0px 7px 0px !important;
+    }
+    .next-episode-x-ray-section-product-details-text {
+        height: 272px;
+        overflow: hidden;
+    }
+
 }
 
 /* Small devices (landscape phones, less than 768px) */
@@ -864,6 +908,27 @@
     }
     .all-section-banner .main-banner-image {
         height: 80px;
+    }
+    .product-name-text h5 {
+        font-size: 12px !important;
+    }
+    .product-name-text h6 {
+        font-size: 12px !important;
+    }
+    .price-text .price-number-text {
+        font-size: 12px !important;
+    }
+    .top-header-logo-description p {
+        font-size: 11px !important;
+        width: 84%;
+        line-height: 16px !important;
+    }
+    .next-episode-x-ray-section-product-details-text {
+        height: 350px;
+        overflow: hidden;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        -webkit-line-clamp: 11;
     }
 }
 
@@ -1217,6 +1282,48 @@
     .product-list-section {
         margin: 0px 0px 20px 0px;
     }
+    .top-header-logo-text-section {
+        margin-left: 0px;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .top-header-logo img {
+        width: 58px !important;
+    }
+    .product-name-price-text-total-section {
+        padding: 6px;
+    }
+    .shop-by-theme-round-image-category-name h5 {
+        font-size: 14px;
+        margin-top: 4px;
+        margin-bottom: 10px;
+    }
+    .product-name-price-text-total-section {
+        padding: 5px;
+    }
+    .product-name-text h5 {
+        font-size: 11px !important;
+    }
+    .product-name-text h6 {
+        font-size: 10px !important;
+    }
+    .shop-by-theme-product-image-col-section {
+        padding: 0px 5px !important;
+    }
+    .shop-by-theme-product-image-col-section:nth-child(3){
+        margin-top: 9px;
+    }
+    .shop-by-theme-product-image-col-section:nth-child(4){
+        margin-top: 9px;
+
+    }
+    .next-episode-x-ray-section-product-details-text {
+        height: 269px;
+        overflow: hidden;
+    }
+    .next-episode-x-ray-section-product-details-text p {
+        -webkit-line-clamp: 10;
+    }
 }
 
 /* New Homepage Responsive css */
@@ -1400,12 +1507,27 @@
     .top-ten-this-week-image img {
         height: 450px;
     }
+    .product-name-text h5 {
+        font-size: 17px;
+    }
+    .product-name-text h6 {
+        font-size: 15px;
+    }
 }
 
 /* X-Large devices (large desktops, less than 1400px) */
 @media (max-width: 1399.98px) {
     .header .menu-item {
         margin: 0px 4px;
+    }
+    .product-name-text h5 {
+        font-size: 15px;
+    }
+    .product-name-text h6 {
+        font-size: 14px;
+    }
+    .product-name-price-text-total-section {
+        padding: 13px;
     }
 }
 
@@ -1530,10 +1652,10 @@
         height: 264px;
     }
     .product-name-text h5 {
-        font-size: 18px;
+        font-size: 15px;
     }
     .product-name-text h6 {
-        font-size: 16px;
+        font-size: 14px;
         margin-bottom: 7px;
     }
     .product-name-price-text-total-section {
@@ -1674,6 +1796,24 @@
     }
     .trending-categories-image {
         margin: 0px 1px;
+    }
+    .trending-section {
+        margin: 0px 0px 7px 0px !important;
+    }
+    .top-ten-this-week-section {
+        margin: 0px 0px 7px 0px !important;
+    }
+    .popular-categories-section {
+        margin: 0px 0px 7px 0px !important;
+    }
+    .recently-added-section {
+        margin: 0px 0px 7px 0px !important;
+    }
+    .shop-by-theme-section {
+        margin: 0px 0px 7px 0px !important;
+    }
+    .unmissable-collection-header-text h4 {
+        font-size: 14px;
     }
 }
 
@@ -1878,7 +2018,7 @@
         font-size: 10px;
     }
     .unmissable-collection-header-text h4 {
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 6px;
     }
     .category-more-btn a {
@@ -2027,7 +2167,7 @@
     }
     .brand img {
         width: 60px;
-        margin-left: 40%;
+        /* margin-left: 40%; */
     }
     .top-header-image-section {
         padding: 45px 0px 9px 0px;

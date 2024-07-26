@@ -341,7 +341,7 @@ $(document).ready(function (e) {
 		itemsMobile: false,
 		responsive: {
 			0: {
-				items: 1.1,
+				items: 1,
 				nav: false,
 				dots: false,
 				margin: 15,
@@ -478,8 +478,9 @@ $(document).ready(function (e) {
 			$('.header-selected-icon').addClass('header-selected-icon-add-class');
 			$('.burger').addClass('burger-add-class');
 			$('.brand').addClass('brand-logo-add-class');
-			
 			$('.brand-img').removeClass('brand-logo-opacity');
+			$('.desktop-header-logo').addClass('desktop-header-logo-add-class');
+
 		}
 		else {
 			$('.header, .bottom-header').removeClass('sticky');
@@ -487,8 +488,8 @@ $(document).ready(function (e) {
 			$('.header-selected-icon').removeClass('header-selected-icon-add-class');
 			$('.burger').removeClass('burger-add-class');
 			$('.brand').removeClass('brand-logo-add-class');
-			
 			$('.brand-img').addClass('brand-logo-opacity');
+			$('.desktop-header-logo').removeClass('desktop-header-logo-add-class');
 		}
 	});
 
