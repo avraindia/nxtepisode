@@ -301,7 +301,7 @@ L => Slider with 1 image (Page Middle Slider) (Type - Collection)
                                 }
                                 $collection_id = base64_encode($collection->id);
                                 ?>
-                                <div class="col-lg-3 col-md-4 col-6">
+                                <div class="col-lg-3 col-md-4 col-6 shop-by-theme-product-image-col-section">
                                     <div class="trending-categories-image">
                                         <a href="{{route('products',['col' => $collection_id])}}">
                                             <div class="trending-categories-image-text">
