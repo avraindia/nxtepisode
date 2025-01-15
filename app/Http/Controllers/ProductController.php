@@ -855,10 +855,19 @@ class ProductController extends Controller
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
 
         $response = curl_exec($curl);
+        
         $err = curl_error($curl);
         curl_close($curl);
-
+    
+        if ($err) {
+            return redirect()->back()->with('error', "cURL Error #: " . $err);
+        }
+        
         $settlement_data = json_decode($response);
+        
+        if (isset($settlement_data->message)) {
+            return redirect()->route('cart')->with('error', $settlement_data->message);
+        }
         $cf_payment_id = $settlement_data->cf_payment_id;
         $cf_settlement_id = $settlement_data->cf_settlement_id;
         $order_amount = $settlement_data->order_amount;

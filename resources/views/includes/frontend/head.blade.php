@@ -14,14 +14,14 @@
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/owl.carousel.min.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/owl.theme.default.min.css') }}">
 <!-- <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/style.css?v=1.0.2') }}"> -->
-<link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/menu.css?v=1.0.3') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/menu.css?v=1.0.4') }}">
 @if ($route_name == "home")
-    <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/home-style.css?v=1.0.3') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/home-style.css?v=1.0.4') }}">
 @else
-    <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/style.css?v=1.0.3') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/style.css?v=1.0.4') }}">
 @endif
 
-<link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/fixing.css?v=1.0.3') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/responsive.css?v=1.0.3') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/fixing.css?v=1.0.4') }}">
+<link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/responsive.css?v=1.0.4') }}">
 <link type="image/ico" rel="icon" href="{{ asset('frontend/images/favicon.png') }}">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.all.min.js"></script>

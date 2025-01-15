@@ -54,6 +54,12 @@
 <section class="product-cart-section">
     <div class="container">
         <div class="row">
+            @if (isset($error))
+                <div class="alert alert-danger">
+                    {{ $error }}
+                </div>
+            @endif
+            
             @if (\Session::has('successmsg'))
             <div class="alert alert-success">
                 {!! \Session::get('successmsg') !!}
